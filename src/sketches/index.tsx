@@ -3,12 +3,15 @@ import React from 'react';
 
 type Props = {};
 
+const links = [{ href: '/sketches/01', label: '01', key: '01' }];
 export default function Shaders({}: Props) {
   return (
     <div className="p-10 font-mono">
-      <Link className="font-bold text-9xl" href="/sketches/01">
-        01
-      </Link>
+      {links.map(({ href, label, key }) => (
+        <Link key={key} className="text-3xl text-[#00F]" href={href}>
+          {label}
+        </Link>
+      ))}
     </div>
   );
 }
