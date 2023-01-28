@@ -66,10 +66,10 @@ export default function Sketch01() {
 
   return (
     <div className="relative">
-      <div className="fixed top-0 left-0 w-screen h-screen ">
-        <canvas className="shadow-md mx-auto" ref={ref} />
+      <div className="fixed top-0 left-0 h-screen w-screen ">
+        <canvas className="mx-auto shadow-md" ref={ref} />
         <motion.div
-          className="absolute top-0 left-0 h-full opacity-0 text-[#FFF] mix-blend-exclusion selection:text-black text-9xl font-bold uppercase flex flex-wrap justify-between overflow-y-scroll"
+          className="absolute top-0 left-0 flex max-h-full flex-wrap items-start justify-between overflow-y-scroll text-5xl font-bold uppercase text-[#FFF] opacity-0 mix-blend-exclusion selection:text-black md:text-9xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
