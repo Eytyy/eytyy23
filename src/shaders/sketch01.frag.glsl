@@ -8,17 +8,12 @@
   #pragma glslify: hsl2rgb = require('glsl-hsl2rgb');
 
   void main () {
-    // vec3 colorA = sin(time) + vec3(1.0, 0.0, 0.0);
-    // vec3 colorB = vec3(0.0, 0.0, 1.0);
 
     vec2 center = vUv - 0.5;
     center.x *= aspect;
-    float dist = length(center);
-    float alpha = smoothstep(0.2555, 0.25, dist);
 
-    // vec3 color = mix(colorA, colorB, vUv.x + vUv.y * sin(time));
-    float n = noise(vec3(vUv.xy * 2.0, time * 0.2));
-    vec3 color = hsl2rgb(1.9 + n * 0.2, 1.0, 0.5);
+    float n = noise(vec3(center * 20.0, time));
+    vec3 color = hsl2rgb(n, 0.8, 0.5);
 
-    gl_FragColor = vec4(color, alpha);
+    gl_FragColor = vec4(color, 1.0);
   }

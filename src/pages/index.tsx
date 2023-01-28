@@ -1,9 +1,10 @@
 import Sketches from '@/sketches';
+import Sketch01 from './sketches/01';
 
 export default function Home() {
   return (
     <main>
-      <Sketches />
+      <Sketch01 />
     </main>
   );
 }
