@@ -53,6 +53,7 @@ export default function Sketch01() {
   const [vis, setVis] = useState(false);
   const ref = useRef(null);
   const rendered = useRef(false);
+
   useEffect(() => {
     if (ref.current) {
       setVis(true);
@@ -64,27 +65,27 @@ export default function Sketch01() {
   }, []);
 
   return (
-    <div className="">
-      <div className="fixed top-0 left-0 w-screen h-screen overflow-y-scroll">
+    <div className="relative">
+      <div className="fixed top-0 left-0 w-screen h-screen ">
         <canvas className="shadow-md mx-auto" ref={ref} />
+        <motion.div
+          className="absolute top-0 left-0 h-full opacity-0 text-[#FFF] mix-blend-exclusion selection:text-black text-9xl font-bold uppercase flex flex-wrap justify-between overflow-y-scroll"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          {text.split('').map((c, index) => (
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1, delay: index * 0.05 }}
+              key={`${c}-${index}`}
+            >
+              {c}
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
-      <motion.div
-        className="opacity-0 text-[#FFF] mix-blend-exclusion selection:text-black text-9xl relative font-bold uppercase flex flex-wrap justify-between"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        {text.split('').map((c, index) => (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1, delay: index * 0.05 }}
-            key={`${c}-${index}`}
-          >
-            {c}
-          </motion.div>
-        ))}
-      </motion.div>
     </div>
   );
 }
