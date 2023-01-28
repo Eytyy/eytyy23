@@ -1,11 +1,14 @@
+import Link from 'next/link';
 import React from 'react';
 
 type Props = {};
 
-export default function Sketches({}: Props) {
+export default function Shaders({}: Props) {
   return (
-    <div>
-      <h1 className="font-sans text-6xl font-bold">Sketches</h1>
+    <div className="p-10 font-mono">
+      <Link className="font-bold text-9xl" href="/sketches/01">
+        01
+      </Link>
     </div>
   );
 }

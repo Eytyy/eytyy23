@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import React, { ReactNode } from 'react';
 
 type Props = {
@@ -6,6 +7,20 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <div className="max-w-screen-2xl mx-auto p-16">{children}</div>
+    <>
+      <Head>
+        <title>Eytyy</title>
+        <meta
+          name="description"
+          content="Eyas Tayyem freelance creative coder, researcher, strategist and consultant."
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className=" bg-gray-100 min-h-screen">{children}</div>;
+    </>
   );
 }

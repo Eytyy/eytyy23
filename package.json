@@ -13,8 +13,14 @@
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "canvas-sketch": "^0.7.6",
+    "canvas-sketch-types": "^1.1.2",
+    "canvas-sketch-util": "^1.10.0",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.6",
+    "glsl-hsl2rgb": "^1.1.0",
+    "glsl-noise": "^0.0.0",
+    "glslify": "^7.1.1",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -22,7 +28,9 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "glslify-loader": "^2.0.0",
     "postcss": "^8.4.21",
+    "raw-loader": "^4.0.2",
     "tailwindcss": "^3.2.4"
   }
 }
