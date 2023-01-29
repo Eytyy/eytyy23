@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import canvasSketch from 'canvas-sketch';
 import * as THREE from 'three';
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // @ts-ignore
 import random from 'canvas-sketch-util/random';
 import palettes from 'nice-color-palettes';
@@ -48,7 +48,7 @@ const sketch = ({ context, width, height }: Props) => {
   renderer.setClearColor('black', 1);
 
   // Setup camera controller
-  // const controls = new OrbitControls(camera, context.canvas);
+  const controls = new OrbitControls(camera, context.canvas);
 
   // Position the perspective camera
   // camera.position.set(2, 2, 4);
@@ -106,7 +106,7 @@ const sketch = ({ context, width, height }: Props) => {
       // camera.aspect = viewportWidth / viewportHeight;
 
       // Isometric Three.js camera
-      const zoom = 1.5;
+      const zoom = 4;
       const aspect = viewportWidth / viewportHeight;
       camera.left = -zoom * aspect;
       camera.right = zoom * aspect;
@@ -127,13 +127,13 @@ const sketch = ({ context, width, height }: Props) => {
         mesh.material.uniforms.playhead.value = time;
         mesh.rotation.z = Bezier(0.67, 0.03, 0.29, 0.99)(t);
       });
-      // controls.update();
+      controls.update();
       renderer.render(scene, camera);
     },
 
     // Dispose of WebGL context (optional)
     unload() {
-      // controls.dispose();
+      controls.dispose();
       renderer.dispose();
     },
   };
