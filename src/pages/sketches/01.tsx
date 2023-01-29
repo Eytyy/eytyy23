@@ -1,8 +1,8 @@
+// Shaders Basics
 import React, { useEffect, useRef, useState } from 'react';
 import canvasSketch from 'canvas-sketch';
 import { motion } from 'framer-motion';
 
-// @ts-ignore
 import frag from '@/shaders/sketch01.frag.glsl';
 // @ts-ignore
 import createShader from 'canvas-sketch-util/shader';
