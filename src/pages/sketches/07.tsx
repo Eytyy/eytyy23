@@ -59,7 +59,7 @@ const sketch = ({ context, width, height }: Props) => {
   const geometry = new THREE.SphereGeometry(1, 32, 64);
 
   const meshes: THREE.Mesh<
-    THREE.BoxGeometry,
+    THREE.SphereGeometry,
     THREE.ShaderMaterial
   >[] = [];
 
