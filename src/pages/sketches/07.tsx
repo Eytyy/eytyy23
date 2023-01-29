@@ -156,9 +156,7 @@ export default React.memo(function Sketch04() {
 
   return (
     <div className="relative">
-      <div className="fixed top-0 left-0 flex h-screen min-h-screen w-screen place-content-center place-items-center ">
-        <canvas className="mx-auto shadow-md" ref={ref} />
-      </div>
+      <canvas className="mx-auto shadow-md" ref={ref} />
     </div>
   );
 });
