@@ -48,6 +48,7 @@ const sketch = ({ context, width, height }: Props) => {
   renderer.setClearColor('black', 1);
 
   // Setup camera controller
+  // @ts-ignore
   const controls = new OrbitControls(camera, context.canvas);
 
   // Position the perspective camera
