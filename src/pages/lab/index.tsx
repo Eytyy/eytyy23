@@ -4,11 +4,6 @@ import { sketchesData } from '@/components/sketches/navigation';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
-// const P5comp = dynamic(() => import('./audio01'), {
-//   loading: () => <div>loading</div>,
-//   ssr: false,
-// });
-
 export default function Sketches() {
   const length = sketchesData.length;
   const [index, setIndex] = useState(1);
