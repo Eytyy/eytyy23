@@ -1,6 +1,7 @@
+import {StructureBuilder} from 'sanity/desk'
 import {IoSettingsSharp, IoEarth} from 'react-icons/io5'
 
-const settings = (S) =>
+const settings = (S: StructureBuilder) =>
   S.listItem()
     .title('Settings')
     .icon(IoSettingsSharp)

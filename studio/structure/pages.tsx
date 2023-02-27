@@ -68,7 +68,7 @@ const currentHome = (S: StructureBuilder, context: StructureResolverContext) => 
           S.view
             .component(Iframe)
             .options({
-              url: (doc) => resolvePreviewUrl(doc),
+              url: (doc: any) => resolvePreviewUrl(doc),
               reload: {button: true},
               attributes: {
                 allow: 'fullscreen',

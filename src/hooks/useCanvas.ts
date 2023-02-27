@@ -33,7 +33,7 @@ export default function useCanvas(
 
   // initialize
   const animateSketch = useCallback(
-    (context) => {
+    (context: any) => {
       sketch({ context });
       raf.current = requestAnimationFrame(() =>
         animateSketch(context)

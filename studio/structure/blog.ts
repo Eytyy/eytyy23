@@ -14,5 +14,5 @@ export const posts = (S: StructureBuilder) =>
         .child((documentId) => S.document().documentId(documentId).schemaType('post'))
     )
 
-export const blog = (S) =>
+export const blog = (S: StructureBuilder) =>
   S.documentListItem().id('blog').icon(MdArticle).title('Blog').schemaType('blog')
