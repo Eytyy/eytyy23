@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { ReactNode } from 'react';
 
 type Props = {
@@ -20,7 +21,7 @@ export default function Layout({ children }: Props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className=" bg-gray-100 min-h-screen">{children}</div>;
+      <div className="min-h-screen bg-gray-100">{children}</div>
     </>
   );
 }

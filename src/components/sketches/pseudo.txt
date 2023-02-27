@@ -1,0 +1,33 @@
+arr = [ 10, 8, 4, 2, 9, 7, 8, 6, 1, 3];
+
+let i = 0;
+let swapped = 0;
+let swapping = false;
+
+swap = (a, b) => {
+  const temp = a;
+  a = b;
+  b = temp;
+  swapping = false;
+}
+
+animateSort = (frame) => {
+  swapped = false;
+  if arr[i] > arr[i + 1] && !swapping {
+    swap(arr[i], arr[i + 1])
+    swapped = true;
+    swapping = true;
+    i++;
+  }
+  if (i == arr.length - 1 && !swapped) {
+    // we are done
+    cancelAnimationFrame(animateSort)
+    return void 0;
+  }
+  if (i == array.length - 1 && swapped) {
+    i = 0;
+  }
+  requestAnimationFrame(animateSort)
+}
+
+requestAnimationFrame(animateSort)
