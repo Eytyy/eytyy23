@@ -38,6 +38,7 @@ const sketch = ({ context }: Props) => {
   camera.lookAt(new THREE.Vector3());
 
   // setup controls
+  // @ts-ignore
   const controls = new OrbitControls(camera, context.canvas);
 
   const scene = new THREE.Scene();
