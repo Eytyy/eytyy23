@@ -1,3 +1,13 @@
+import { BlogPostsModule } from './components/blog/Cards';
+
+import {
+  MegaMenuProps,
+  MenuProps,
+  NavLink,
+  NavPage,
+} from './components/navigation/types';
+import { SketchProps } from './components/Sketch';
+
 type Detailed = {
   format: 'detailed';
   blocks: [];
@@ -18,29 +28,51 @@ export type PageProps = {
   _type: 'page';
 };
 
-export type NavPage = {
+export type ContentBlock = {
+  _type: 'contentModule';
   _key: string;
   title: string;
-  _type: 'navPage';
-  slug: string;
-  page: (ProjectProps | PageProps) & {
-    _id: string;
-    slug: string;
-  };
+  body: any[];
 };
 
-export type NavLink = {
+export type SketchBlock = {
+  _type: 'sketchBlock';
   _key: string;
   title: string;
-  _type: 'navLink';
-  link: string;
+  sketch: SketchProps;
 };
 
-export type NavStatic = {
+export type SketchCollection = {
+  _type: 'sketchCollectionModule';
   _key: string;
   title: string;
-  _type: 'navStatic';
-  slug: string;
+  active?: string;
+  hasInlineNavigation: boolean;
+  sketches: SketchProps[];
 };
 
-export type Nav = NavPage | NavLink | NavStatic;
+export type ProjectsModule = {
+  _type: 'projectsModule';
+  _key: string;
+  showFilters: boolean;
+  content: [];
+};
+
+export type Block =
+  | ContentBlock
+  | SketchBlock
+  | SketchCollection
+  | BlogPostsModule
+  | MegaMenuProps
+  | MenuProps
+  | NavLink
+  | NavPage;
+
+export type ImageProps = {
+  sizes?: string;
+  image: any;
+  background?: boolean;
+  format?: string;
+  alt?: string;
+  objectFit?: 'cover' | 'contain' | 'fill';
+};

@@ -20,7 +20,7 @@ export function getInternalLink(_type: string, slug: string): string {
     case 'post':
       return `/blog/${slug}`;
     case 'project':
-      return `/work/${slug}`;
+      return `/projects/${slug}`;
     default:
       return `/${slug}`;
   }

@@ -3,7 +3,7 @@ import { PreviewSuspense } from 'next-sanity/preview';
 
 import { getClient } from '@/lib/sanity.server';
 import { pageFields, siteQuery } from '@/lib/queries';
-import Page from '@/components/page';
+import PageDisplay from '@/components/PageDisplay';
 
 const Preview = lazy(() => import('@/previews'));
 
@@ -20,7 +20,7 @@ export default function FrontPage({ page, site, preview }: Props) {
         <Preview
           page="home"
           render={({ page, site }) => (
-            <Page page={page} site={site} />
+            <PageDisplay page={page} site={site} />
           )}
         />
       </PreviewSuspense>
@@ -28,7 +28,7 @@ export default function FrontPage({ page, site, preview }: Props) {
   }
   if (!page) return <div>🤔</div>;
 
-  return <Page page={page} site={site} />;
+  return <PageDisplay page={page} site={site} />;
 }
 
 export async function getStaticProps({ preview = false }) {

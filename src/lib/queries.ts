@@ -1,33 +1,28 @@
 // Current Pages IDs
 export const homeID = `*[_type == 'generalSettings'][0].home->_id`;
-export const shopID = `*[_type == 'generalSettings'][0].shop->_id`;
+export const workID = `*[_type == 'generalSettings'][0].work->_id`;
+export const blogID = `*[_type == 'generalSettings'][0].blog->_id`;
 export const errorID = `*[_type == 'generalSettings'][0].error->_id`;
 
 export const page = `
   _type,
   "slug": slug.current,
   "isHome": _id == ${homeID},
-  "isShop": _id == ${shopID}
-`;
-
-const link = `
-  _key,
-  _type,
-  title,
-  _type == 'navPage' => {
-    "page": page->{ ${page} }
-  },
-  _type == 'navLink' => {
-    url
+  "isWork": _id == ${workID},
+  "isBlog": _id == ${blogID},
+  _type == 'project' && format == 'link' => {
+    format,
+    link
   }
 `;
 
 const menu = `
   items[]{
-    ${link},
-    _type == 'navDropdown' => {
-      dropdownItems[]{ ${link} },
-    }
+    _key, _type, title,
+    _type == 'navPage' => { "page": page-> {
+      "slug": slug.current,
+    }},
+    _type == 'navLink' => { url },
   }
 `;
 
@@ -73,16 +68,80 @@ const content_block_fields = `
 `;
 
 export const blocks = `
-  blocks[] {
-    ...,
-    _type == "navLink" => {
-      "link": url
-    },
-    _type == "navPage" => {
-      page-> {
-        ...,
-        "slug": slug.current
+  ...,
+  _type == "navLink" => {
+    "link": url
+  },
+  _type == "navPage" => {
+    page-> { title, "slug": slug.current  }
+  },
+  _type == "menuBlock" => {
+    expand, orientation, isDropdown, "canToggle": toggle,
+    menu-> { ${menu} }
+  },
+  _type == "megaMenuBlock" => {
+    expand, orientation, "canToggle": toggle,
+    items[] {
+      _key, _type,
+      _type == 'navGroup' => {
+        ${menu}
+      },
+      _type == 'navMenu' => {
+        title,
+        menu-> {
+          ${menu},
+          _type == 'navMenu' => {
+            menu-> { ${menu} }
+          }
+        }
       }
+    }
+  },
+  _type == "sketchBlock" => {
+    "sketch": sketch->
+  },
+  _type == "sketchCollectionModule" => {
+    "active" : active->._id,
+    hasInlineNavigation,
+    sketches[]-> {
+      _id,
+      title,
+      theme,
+      description,
+      "slug": slug.current,
+    },
+  },
+  _type == 'blogPostsModule' => {
+    referenceType == 'auto' => {
+      'content': *[_type == 'blogPost' && status != 'draft'] {
+        ...,
+        tags[]-> {
+          _id,
+          "slug": slug.current,
+          title,
+        },
+        "slug": 'blog/' + slug.current
+      }
+    },
+    referenceType == 'manual' => {
+      showFilters,
+      content[]-> {
+        ...,
+        tags[]-> {
+          _id,
+          "slug": slug.current,
+          title,
+        },
+        "slug": 'blog/' + slug.current
+      }
+    }
+  },
+  _type == 'projectsModule' => {
+    referenceType == 'auto' => {
+      'content': *[_type == 'blogPost']
+    },
+    referenceType == 'manual' => {
+      content[]->
     }
   }
 `;
@@ -90,38 +149,7 @@ export const blocks = `
 // Main
 export const siteQuery = `{
   "rootDomain": *[_type == "generalSettings"][0].siteURL,
-    "shop": *[_type == "shopSettings"][0]{
-      storeURL,
-      cartMessage
-    },
-    "productCounts": [ {"slug": "all", "count": count(*[_type == "product"])} ] + *[_type == "collection"]{
-      "slug": slug.current,
-      "count": count(products)
-    },
-   'header': *[ _type == "headerSettings" ][0] {
-     'menuDesktop': menuDesktop-> { ${menu} },
-     'menuMobile': menuMobile-> { ${menu} },
-   },
-   'footer': *[ _type == "footerSettings" ][0] {
-     "block1": {
-       'title': blockTitle1,
-       newsletter
-     },
-     "block2": {
-       'title': blockTitle2,
-       'menu': blockMenu2
-     },
-     "block3": {
-       'title': blockTitle3,
-       'menu': blockMenu3
-     },
-     "block4": {
-       'title': blockTitle4,
-       social
-     },
-
-   },
-  'defaultSEO': *[ _type == "seoSettings" ][0] {
+  "defaultSEO": *[ _type == "seoSettings" ][0] {
     "site_title": metaTitle,
     "site_description": metaDesc,
     "share_title": shareTitle,
@@ -132,15 +160,19 @@ export const siteQuery = `{
 
 export const pageFields = `
   title,
-  'slug': slug.current,
-  style,
-  style == 'creative' => {
-    ${blocks}
+  "slug": slug.current,
+  "leftCol": {
+     "top": topLeft[][0]{ ${blocks} },
+     "center": leftCenter[][0]{ ${blocks} },
+     "bottom": bottomLeft[][0]{ ${blocks} }
   },
-  style == 'detailed' => {
-    modules[]
+  "main": mainBlocks[]{ ${blocks} },
+  "rightCol": right[0] { ${blocks} },
+  footer[0] {
+    ${blocks}
   }
 `;
+
 export const getPreviewQuery = (page: string) => {
   switch (page) {
     default:

@@ -2,9 +2,8 @@ import { lazy } from 'react';
 import { PreviewSuspense } from 'next-sanity/preview';
 
 import { getClient } from '@/lib/sanity.server';
-import { pageFields, siteQuery } from '@/lib/queries';
-
-import Page from '@/components/page';
+import { blogID, pageFields, siteQuery } from '@/lib/queries';
+import PageDisplay from '@/components/PageDisplay';
 
 const Preview = lazy(() => import('@/previews'));
 
@@ -19,9 +18,9 @@ export default function ProductPage({ page, site, preview }: Props) {
     return (
       <PreviewSuspense fallback={<div>Loading</div>}>
         <Preview
-          page="work"
+          page=""
           render={({ page, site }) => (
-            <Page page={page} site={site} />
+            <PageDisplay page={page} site={site} />
           )}
         />
       </PreviewSuspense>
@@ -29,13 +28,13 @@ export default function ProductPage({ page, site, preview }: Props) {
   }
   if (!page) return <div>🤔</div>;
 
-  return <Page page={page} site={site} />;
+  return <PageDisplay page={page} site={site} />;
 }
 
 export async function getStaticPaths() {
   // fetch all pages' slugs
   const paths = await getClient().fetch(
-    `*[ _type == "page" && defined(slug) ].slug.current`
+    `*[ _type == "page" && defined(slug) && slug.current && _id != ${blogID} ].slug.current`
   );
 
   return {

@@ -4,7 +4,6 @@ export function removeDuplicatePoints(
   const uniquePoints = new Map(
     arr.map((item) => [[`${item.x}${item.y}${item.z}`], item])
   );
-  console.log(uniquePoints);
   return [...uniquePoints.values()];
 }
 

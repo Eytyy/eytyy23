@@ -1,0 +1,36 @@
+/* Variables */
+:root {
+  --black: #000000;
+  --white: #ffffff;
+
+  --black-hsl: 0, 0%, 0%;
+  --white-hsl: 0, 0%, 100%;
+
+  --pageBG: #FFFFFF;
+  --pageText: #000000;
+
+  --pageBG-hsl: 0, 0%, 100%;
+  --pageText-hsl: 0, 0%, 0%;
+}
+
+[data-theme='black'] {
+  --pageBG: #000000;
+  --pageText: #fff6e2;
+
+  --pageBG-hsl: 0, 0%, 0%;
+  --pageText-hsl: 60, 14%, 95%;
+}
+
+[data-theme='blue'] {
+  --pageBG: #0000FF;
+  --pageText: #fff6e2;
+  --pageBG-hsl: 240deg 100% 50%;
+  --pageText-hsl: 0 0% 100%;
+}
+
+[data-theme='white'] {
+  --pageBG: #FFFFFF;
+  --pageText: #000000;
+  --pageBG-hsl: 0 0% 100%;
+  --pageText-hsl: 0 0% 0%;
+}

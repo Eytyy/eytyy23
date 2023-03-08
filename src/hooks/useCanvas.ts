@@ -1,74 +1,73 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-type Props = {
-  context: CanvasRenderingContext2D | WebGL2RenderingContext;
+type SketchProps = {
+  context: WebGL2RenderingContext;
+  canvas: HTMLCanvasElement;
 };
 
-const default_options = {
-  webgl: false,
+type SketchReturn = ({ context, canvas }: SketchProps) => void;
+type Sketch = ({ context, canvas }: SketchProps) => SketchReturn;
+
+type Settings = {
+  gl: boolean;
+  animate: boolean;
+};
+
+type Dispose = () => void;
+
+type State = {
+  canvas: HTMLCanvasElement | null;
+  context: WebGL2RenderingContext | null;
+};
+
+const initialState = {
+  canvas: null,
+  context: null,
+};
+
+const defaults = {
+  gl: false,
   animate: false,
-  dimensions: [
-    typeof window !== 'undefined' ? window.innerWidth : 800,
-    typeof window !== 'undefined' ? window.innerHeight : 800,
-  ],
 };
 
-type Options = {
-  webgl?: boolean;
-  animate?: boolean;
-  dimensions?: number[];
-};
+const useCanvas = (sketch: Sketch, settings: Settings = defaults) => {
+  const [state, setState] = useState<State>(initialState);
+  const { context, canvas } = state;
 
-type CanvasContext =
-  | CanvasRenderingContext2D
-  | WebGL2RenderingContext;
+  const raF = useRef<number | null>(null);
 
-export default function useCanvas(
-  sketch: ({ context }: Props) => void,
-  { animate = false, webgl = false }: Options = default_options
-) {
-  const [ref, setRef] = useState<HTMLCanvasElement | null>(null);
-  const context = useRef<CanvasContext | null>(null);
-  const raf = useRef<number | null>(null);
+  const render = useCallback(() => {
+    if (context === null || canvas === null) return;
 
-  // initialize
-  const animateSketch = useCallback(
-    (context: any) => {
-      sketch({ context });
-      raf.current = requestAnimationFrame(() =>
-        animateSketch(context)
-      );
-    },
-    [sketch]
-  );
+    const cb = sketch({ context, canvas });
+
+    if (settings.animate) {
+      raF.current = requestAnimationFrame(render);
+    }
+  }, [canvas, context, sketch, settings]);
+
+  const measuredRef = useCallback((node: HTMLCanvasElement) => {
+    if (node) {
+      setState({
+        context: node.getContext('webgl2'),
+        canvas: node,
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    // set context
-    if (ref) {
-      context.current = webgl
-        ? ref.getContext('webgl2')
-        : ref.getContext('2d');
-    }
-
-    // execute callback
-    if (context.current) {
-      const ctx = context.current;
-      if (animate) {
-        raf.current = requestAnimationFrame(() => animateSketch(ctx));
-      } else {
-        sketch({ context: ctx });
-      }
-    }
+    raF.current = requestAnimationFrame(render);
 
     return () => {
-      console.log('cleanup');
-      if (raf.current) {
-        cancelAnimationFrame(raf.current);
-        raf.current = null;
-        context.current = null;
+      if (raF.current) {
+        cancelAnimationFrame(raF.current);
       }
     };
-  }, [animate, sketch, animateSketch, ref, webgl]);
+  }, [render, canvas, context]);
 
-  return { ref: setRef };
-}
+  return {
+    ref: measuredRef,
+  };
+};
+
+export default useCanvas;
