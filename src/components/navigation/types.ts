@@ -2,7 +2,7 @@ export type NavPage = {
   _key: string;
   _type: 'navPage';
   title: string;
-  page: {
+  page?: {
     slug: string;
     _type: string;
   };

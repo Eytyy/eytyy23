@@ -12,9 +12,20 @@ module.exports = {
       pageText: 'var(--pageText)',
     },
     extend: {
+      height: {
+        app: 'var(--app-height)',
+      },
+      minHeight: {
+        app: 'var(--app-height)',
+      },
+      fontFamily: {
+        sans: ['var(--font-inter)'],
+      },
       gridTemplateRows: {
-        sketch: 'min-content auto',
+        'sketch-m': 'min-content auto',
+        sketch: 'auto min-content ',
         home: 'repeat(3, minmax(0, 1fr)) min-content',
+        'home-m': 'min-content 1fr',
       },
     },
   },

@@ -5,6 +5,9 @@ import { MenuItemProps } from './types';
 export default function CustomLink(props: MenuItemProps) {
   const { _type, title } = props;
   if (_type === 'navPage') {
+    if (!props.page) {
+      return <div>{title}</div>;
+    }
     return (
       <InternalLink
         title={title}

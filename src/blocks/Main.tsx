@@ -12,17 +12,12 @@ export default function MainBlock({ block }: { block: Block }) {
   useEffect(() => {
     setShowChild(true);
   }, []);
-
   switch (block._type) {
     case 'menuBlock':
       return <Menu {...block} />;
     case 'contentModule':
-      return (
-        <div>
-          <div>&darr; {block.title}</div>
-          <ContentBlock body={block.body} />
-        </div>
-      );
+    case 'advancedContentModule':
+      return <ContentBlock body={block.body} />;
     case 'sketchCollectionModule':
       if (!showChild) {
         return null;

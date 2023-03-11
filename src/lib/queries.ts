@@ -67,83 +67,85 @@ const content_block_fields = `
   },
 `;
 
-export const blocks = `
-  ...,
-  _type == "navLink" => {
-    "link": url
-  },
-  _type == "navPage" => {
-    page-> { title, "slug": slug.current  }
-  },
-  _type == "menuBlock" => {
-    expand, orientation, isDropdown, "canToggle": toggle,
-    menu-> { ${menu} }
-  },
-  _type == "megaMenuBlock" => {
-    expand, orientation, "canToggle": toggle,
-    items[] {
-      _key, _type,
-      _type == 'navGroup' => {
-        ${menu}
-      },
-      _type == 'navMenu' => {
-        title,
-        menu-> {
-          ${menu},
-          _type == 'navMenu' => {
-            menu-> { ${menu} }
-          }
-        }
-      }
-    }
-  },
-  _type == "sketchBlock" => {
-    "sketch": sketch->
-  },
-  _type == "sketchCollectionModule" => {
-    "active" : active->._id,
-    hasInlineNavigation,
-    sketches[]-> {
-      _id,
+const nav_link = `_type == "navLink" => {
+  "link": url
+}`;
+const nav_page = `_type == "navPage" => {
+  page-> { title, "slug": slug.current  }
+}`;
+
+const menu_block = `_type == "menuBlock" => {
+  expand, orientation, isDropdown, "canToggle": toggle,
+  menu-> { ${menu} }
+}`;
+const mega_menu_block = `_type == "megaMenuBlock" => {
+  expand, orientation, "canToggle": toggle,
+  items[] {
+    _key, _type,
+    _type == 'navGroup' => { ${menu}  },
+    _type == 'navMenu' => {
       title,
-      theme,
-      description,
-      "slug": slug.current,
-    },
-  },
-  _type == 'blogPostsModule' => {
-    referenceType == 'auto' => {
-      'content': *[_type == 'blogPost' && status != 'draft'] {
-        ...,
-        tags[]-> {
-          _id,
-          "slug": slug.current,
-          title,
-        },
-        "slug": 'blog/' + slug.current
+      menu-> {
+        ${menu},
+        _type == 'navMenu' => {  menu-> { ${menu} }  }
       }
-    },
-    referenceType == 'manual' => {
-      showFilters,
-      content[]-> {
-        ...,
-        tags[]-> {
-          _id,
-          "slug": slug.current,
-          title,
-        },
-        "slug": 'blog/' + slug.current
-      }
-    }
-  },
-  _type == 'projectsModule' => {
-    referenceType == 'auto' => {
-      'content': *[_type == 'blogPost']
-    },
-    referenceType == 'manual' => {
-      content[]->
     }
   }
+}`;
+
+const sketch_block = `_type == "sketchBlock" => {
+  "sketch": sketch->
+}`;
+const sketch_collection_block = `_type == "sketchCollectionModule" => {
+  "active" : active->._id,
+  hasInlineNavigation,
+  sketches[]-> {
+    _id,
+    title,
+    theme,
+    description,
+    "slug": slug.current,
+  },
+}`;
+
+const tags = `tags[]-> {
+  _id,
+  "slug": slug.current,
+  title,
+}`;
+const blog_post_modules = ` _type == 'blogPostsModule' => {
+  referenceType == 'auto' => {
+    'content': *[_type == 'blogPost' && status != 'draft'] {
+      ...,
+      "slug": 'blog/' + slug.current,
+      ${tags}
+    }
+  },
+  referenceType == 'manual' => {
+    showFilters,
+    content[]-> {
+      ...,
+      "slug": 'blog/' + slug.current,
+      ${tags}
+    }
+  }
+}`;
+
+const projects_module = `_type == 'projectsModule' => {
+  referenceType == 'auto' => { 'content': *[_type == 'blogPost'] },
+  referenceType == 'manual' => { content[]-> }
+}`;
+
+export const blocks = `
+  ...,
+  ${nav_link},
+  ${nav_page},
+  ${menu_block},
+  ${mega_menu_block},
+  ${sketch_block},
+  ${sketch_collection_block},
+  ${blog_post_modules},
+  ${projects_module}
 `;
 
 // Main
@@ -155,6 +157,11 @@ export const siteQuery = `{
     "share_title": shareTitle,
     "share_image": shareGraphic,
     "share_description": shareDesc,
+  },
+  "mobile_menu": *[_type == "generalSettings"][0] {
+    "block_1": mobileMenuFirstBlock[][0] { ${blocks} },
+    "block_2": mobileMenuSecondtBlock[][0] { ${blocks} },
+    "footer": mobileMenuFooter[][0] { ${blocks} },
   }
 }`;
 

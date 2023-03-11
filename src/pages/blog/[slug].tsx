@@ -1,5 +1,8 @@
+import BlogPostDisplay from '@/components/blog/Post';
+import { FilterProps } from '@/components/filters';
 import { siteQuery } from '@/lib/queries';
 import { getClient } from '@/lib/sanity.server';
+import { Block } from '@/types';
 
 import React from 'react';
 
@@ -8,15 +11,14 @@ type Props = {
     title: string;
     _createdAt: string;
     _updatedAt: string;
+    tags: FilterProps[];
+    slug: string;
+    blocks: Block[];
   };
 };
 
 export default function BlogPost({ page }: Props) {
-  return (
-    <div>
-      <h1 className="text-4xl">{page.title}</h1>
-    </div>
-  );
+  return <BlogPostDisplay {...page} />;
 }
 
 export async function getStaticPaths() {

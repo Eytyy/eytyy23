@@ -2,7 +2,7 @@ import { useFiltersContext } from '@/context/filters';
 import useDropdown from '@/hooks/useDropdown';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-
+import { RiEqualizerFill, RiEqualizerLine } from 'react-icons/ri';
 export type FilterGroup = {
   name: string;
   filters: FilterProps[];
@@ -23,18 +23,17 @@ function Filters({ filterGroups }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <button onClick={toggle}>
-          {visible ? <span>&uarr;</span> : <span>&darr;</span>}{' '}
-          filters {count > 0 && `(${count})`}
+        <button className="text-3xl" onClick={toggle}>
+          {visible ? <RiEqualizerFill /> : <RiEqualizerLine />}
         </button>
         {count > 0 && (
-          <button className="" onClick={clearFilters}>
-            • clear all
+          <button className="font-semibold" onClick={clearFilters}>
+            clear all
           </button>
         )}
       </div>
       {visible && (
-        <div>
+        <div className="text-lg">
           {filterGroups.map(({ filters, name }) => (
             <FilterGroup name={name} filters={filters} key={name} />
           ))}
@@ -56,9 +55,9 @@ function FilterGroup({ name, filters }: FilterGroup) {
     <div
       key={name}
       style={{ columnGap: '24px', rowGap: '8px' }}
-      className="my-2 flex flex-wrap items-center"
+      className="my-4 flex flex-wrap items-center"
     >
-      <div className="capitalize">&rarr; {name}</div>
+      <div className="font-semibold capitalize">{name}</div>
       {filters.map((filter) => {
         return (
           <Filter
@@ -91,7 +90,7 @@ function Filter({
     : false;
   const cn = clsx(
     'inline-block w-3 h-3 border-pageText transition-colors',
-    active ? 'border-2 bg-pageBG' : 'bg-pageText'
+    active ? 'border-2 bg-pageText' : 'bg-pageBG border-2'
   );
   return (
     <button

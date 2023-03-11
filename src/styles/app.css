@@ -1,2 +1,6 @@
 @import '_variables';
-@import '_code';
+
+@import 'base/_typography';
+
+@import 'components/_code';
+@import 'components/_sketch';

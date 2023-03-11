@@ -11,17 +11,10 @@ export default function ColumnBlock({ block }: { block: Block }) {
       return <Menu {...block} />;
     case 'megaMenuBlock':
       return <MegaMenu {...block} />;
-    case 'contentModule':
-      return (
-        <div>
-          <div>&darr; {block.title}</div>
-          <ContentBlock body={block.body} />
-        </div>
-      );
     case 'navPage':
     case 'navLink':
       return <CustomLink {...block} />;
     default:
-      return <div>ColumnBlock</div>;
+      return null;
   }
 }

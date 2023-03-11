@@ -1,8 +1,10 @@
 import Link from 'next/link';
+
 import { PortableText } from '@portabletext/react';
 
 import { getInternalLink } from '@/lib/helpers';
 import ImageBlock from './Image';
+import CodeBlock from './Code';
 
 type Props = {
   body: any;
@@ -43,6 +45,28 @@ const myPortableTextComponents: Portable = {
     },
   },
   types: {
+    myCodeField: ({ value }) => {
+      const {
+        language,
+        code,
+        highlightedLines = [],
+        filename,
+      } = value;
+      return (
+        <CodeBlock
+          value={code}
+          language={
+            language === 'sh'
+              ? 'powershell'
+              : language === 'groq'
+              ? 'javascript'
+              : language
+          }
+          markers={highlightedLines}
+          filename={filename}
+        />
+      );
+    },
     imageBlock: ({ value }: any) => {
       return (
         <div className="inlineImg">
@@ -55,10 +79,12 @@ const myPortableTextComponents: Portable = {
 
 export default function ContentBlock({ body }: Props) {
   return (
-    <PortableText
-      // @ts-ignore
-      value={body}
-      components={myPortableTextComponents}
-    />
+    <div className="content">
+      <PortableText
+        // @ts-ignore
+        value={body}
+        components={myPortableTextComponents}
+      />
+    </div>
   );
 }

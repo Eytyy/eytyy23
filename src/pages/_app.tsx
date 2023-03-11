@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import { Inter } from '@next/font/google';
 
 import '@/styles/globals.css';
 import '@/styles/app.css';
@@ -17,6 +18,12 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+const inter = Inter({
+  subsets: ['latin'],
+  weight: 'variable',
+  variable: '--font-inter',
+});
+
 export default function App({
   Component,
   pageProps,
@@ -32,7 +39,9 @@ export default function App({
       enableSystem={false}
       disableTransitionOnChange
     >
-      {getLayout(<Component {...pageProps} />)}
+      <div className={`${inter.variable} font-sans`}>
+        {getLayout(<Component {...pageProps} />)}
+      </div>
     </ThemeProvider>
   );
 }

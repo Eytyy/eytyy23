@@ -27,3 +27,10 @@ export function getInternalLink(_type: string, slug: string): string {
 }
 
 export const isBrowser = typeof window !== 'undefined';
+
+export const formatDate = (date: string) =>
+  new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(date));

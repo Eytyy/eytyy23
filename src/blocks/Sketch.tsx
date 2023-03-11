@@ -1,27 +1,28 @@
 import dynamic from 'next/dynamic';
+import React from 'react';
 
 const Brill2D = dynamic(
   () => import('@/components/sketches/2d-brill'),
-  { loading: () => <div>Loading...</div> }
+  { loading: () => <div></div> }
 );
 const Blob = dynamic(() => import('@/components/sketches/3d-blob'), {
-  loading: () => <div>Loading...</div>,
+  loading: () => <div></div>,
 });
 const Canvas2dGrid = dynamic(
   () => import('@/components/sketches/2d-canvas-grid'),
-  { loading: () => <div>Loading...</div> }
+  { loading: () => <div></div> }
 );
 const Curtain = dynamic(
   () => import('@/components/sketches/2d-curtain'),
-  { loading: () => <div>Loading...</div> }
+  { loading: () => <div></div> }
 );
 const SpikedSphere = dynamic(
   () => import('@/components/sketches/3d-spiked-sphere'),
-  { loading: () => <div>Loading...</div> }
+  { loading: () => <div></div> }
 );
 const AnimatedSynesthesia = dynamic(
   () => import('@/components/sketches/2d-animated-synestheia'),
-  { loading: () => <div>Loading...</div> }
+  { loading: () => <div></div> }
 );
 
 export type Props = {
@@ -30,7 +31,7 @@ export type Props = {
   title: string;
 };
 
-export default function SketchBlock({
+const SketchBlock = React.memo(function SketchBlock({
   slug,
   width,
   height,
@@ -50,4 +51,6 @@ export default function SketchBlock({
     default:
       return <Canvas2dGrid width={width} height={width} />;
   }
-}
+});
+
+export default SketchBlock;

@@ -9,7 +9,6 @@ import React, {
 import { lerp } from 'canvas-sketch-util/math';
 // @ts-ignore
 import random from 'canvas-sketch-util/random';
-import { TbArrowsShuffle } from 'react-icons/tb';
 
 const createGrid = () => {
   const points = [];
@@ -48,11 +47,15 @@ export default function AnimatedSynesthesia({
     context.restore();
   }, [context, width, height]);
 
-  const duration = random.rangeFloor(5, 20);
-  const margin = width * 0.3;
-  const points = createGrid();
-
   const sketch = useCallback(() => {
+    const duration = random.rangeFloor(5, 20);
+    const margin = width * 0.3;
+    const points = createGrid();
+
+    let prevTime: number;
+    let time = 0;
+    const timeScale = 1;
+
     const render = (time: number) => {
       if (!context) return;
       clearCanvas();
@@ -77,16 +80,14 @@ export default function AnimatedSynesthesia({
       });
     };
 
-    let prevTime: number;
-    let time = 0;
-    const timeScale = 1;
-
     const animate = (now: number) => {
       if (time >= duration && raF.current) {
         cancelAnimationFrame(raF.current);
         return void 0;
       }
-      if (prevTime === undefined) prevTime = now;
+      if (prevTime === undefined) {
+        prevTime = now;
+      }
       let deltaTimeMS = now - prevTime;
       const deltaTime = deltaTimeMS / 1000;
       time = time + deltaTime * timeScale;
@@ -96,14 +97,7 @@ export default function AnimatedSynesthesia({
       raF.current = requestAnimationFrame(animate);
     };
     raF.current = requestAnimationFrame(animate);
-  }, [width, height, clearCanvas, context, margin, duration, points]);
-
-  const referesh = useCallback(() => {
-    if (raF.current) {
-      cancelAnimationFrame(raF.current);
-    }
-    sketch();
-  }, [sketch]);
+  }, [width, height, clearCanvas, context]);
 
   useEffect(() => {
     if (context) sketch();
@@ -116,12 +110,12 @@ export default function AnimatedSynesthesia({
   }, [context, sketch, width, height]);
 
   return (
-    <div className="relative">
+    <>
       <canvas
         width={width}
         height={height}
         ref={(n) => n && setContext(n.getContext('2d'))}
       />
-    </div>
+    </>
   );
 }

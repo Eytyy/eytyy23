@@ -29,6 +29,7 @@ export default function Menu({
           title={title}
           visible={visible}
           onClick={toggle}
+          canToggle={canToggle}
         />
       )}
       {visible && (
@@ -45,7 +46,7 @@ export default function Menu({
 type MenuHeaderProps = {
   title: string;
   visible: boolean;
-
+  canToggle?: boolean;
   onClick: () => void;
 };
 
@@ -53,13 +54,20 @@ export function MenuHeader({
   title,
   visible,
   onClick,
+  canToggle,
 }: MenuHeaderProps) {
   return (
-    <div>
-      <button onClick={onClick} className="flex gap-2">
-        {visible ? <span>&uarr;</span> : <span>&darr;</span>}
-        {title}
-      </button>
+    <div className="mb-2">
+      {canToggle ? (
+        <button onClick={onClick} className="flex items-center gap-2">
+          <div className="text-3xl">
+            {visible ? <span>&uarr;</span> : <span>&darr;</span>}
+          </div>
+          <div className="font-medium">{title}</div>
+        </button>
+      ) : (
+        <div className="font-medium">{title}</div>
+      )}
     </div>
   );
 }

@@ -29,7 +29,7 @@ export type PageProps = {
 };
 
 export type ContentBlock = {
-  _type: 'contentModule';
+  _type: 'contentModule' | 'advancedContentModule';
   _key: string;
   title: string;
   body: any[];
