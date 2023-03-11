@@ -26,10 +26,10 @@ type Props = {
   height: number;
 };
 
-const margin = 20;
-const count = 25;
-
 export default function Canvas2dGrid({ width, height }: Props) {
+  const margin = 20;
+  const count = Math.floor(width * 0.033);
+
   const [context, setContext] =
     useState<CanvasRenderingContext2D | null>(null);
 
@@ -128,7 +128,7 @@ export default function Canvas2dGrid({ width, height }: Props) {
       };
       raF.current = requestAnimationFrame(animate);
     },
-    [width, height, clearCanvas]
+    [width, height, clearCanvas, count]
   );
 
   useEffect(() => {

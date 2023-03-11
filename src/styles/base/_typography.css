@@ -5,6 +5,7 @@
     @apply text-6xl mb-14;
   }
 }
+
 .content {
   h2 {
     @apply text-3xl font-bold my-5;

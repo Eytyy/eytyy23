@@ -24,8 +24,12 @@ module.exports = {
       gridTemplateRows: {
         'sketch-m': 'min-content auto',
         sketch: 'auto min-content ',
+
         home: 'repeat(3, minmax(0, 1fr)) min-content',
         'home-m': 'min-content 1fr',
+
+        blog: '1fr',
+        'blog-m': 'min-content 1fr min-content',
       },
     },
   },

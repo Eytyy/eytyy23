@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React, { ReactNode, useEffect, useState } from 'react';
-import ColumnBlock from '@/blocks/Column';
+import ColumnBlock from '@/components/blocks/Column';
 import LeftCol from './LeftCol';
 import RightCol from './RightCol';
 import { Block } from '@/types';
@@ -83,7 +83,7 @@ export default function Layout({ children, page, site }: Props) {
           <main className="col-span-full col-start-1 row-span-3 row-start-2 md:col-span-4 md:col-start-3 md:row-start-1">
             {children}
           </main>
-          <div className="relative col-span-2 col-start-7 row-span-3 row-start-1 hidden grid-rows-2  justify-items-end md:grid">
+          <div className="relative col-span-2 col-start-7 row-span-3 row-start-1 hidden grid-rows-2 justify-items-end md:grid">
             {<RightCol rightCol={rightCol} />}
           </div>
           <footer className="relative col-span-3 col-start-6 row-start-4 hidden md:block">

@@ -2,7 +2,7 @@ import { Block } from '@/types';
 import React, { useEffect, useState } from 'react';
 import ContentBlock from './Content';
 import { BlogPostCards } from '@/components/blog';
-import SketchCollectionModule from '@/modules/SketchCollection';
+import SketchCollectionModule from '@/components/modules/SketchCollection';
 import Menu from '@/components/navigation/Menu';
 
 export default function MainBlock({ block }: { block: Block }) {

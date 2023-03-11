@@ -1,6 +1,6 @@
 import { Block } from '@/types';
 import React from 'react';
-import ColumnBlock from '@/blocks/Column';
+import ColumnBlock from '@/components/blocks/Column';
 
 type Props = {
   blocks: {

@@ -1,7 +1,7 @@
 import { Block } from '@/types';
 import Link from 'next/link';
 import React from 'react';
-import ColumnBlock from '@/blocks/Column';
+import ColumnBlock from '@/components/blocks/Column';
 import Logo from './Logo';
 
 type Props = {

@@ -21,8 +21,8 @@ function Filters({ filterGroups }: Props) {
       : activeFilters.tags.length;
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
+    <>
+      <div className="relative z-20 flex items-center justify-between">
         <button className="text-3xl" onClick={toggle}>
           {visible ? <RiEqualizerFill /> : <RiEqualizerLine />}
         </button>
@@ -33,13 +33,14 @@ function Filters({ filterGroups }: Props) {
         )}
       </div>
       {visible && (
-        <div className="text-lg">
+        <div className="fixed top-0 left-0 z-10 mt-4 h-full w-full gap-1 space-y-4 px-8 py-24 text-lg md:static md:top-5 md:p-0">
+          <div className="absolute top-0 left-0 h-full w-full bg-pageBG md:hidden" />
           {filterGroups.map(({ filters, name }) => (
             <FilterGroup name={name} filters={filters} key={name} />
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 }
 
@@ -52,11 +53,7 @@ export type FilterProps = {
 function FilterGroup({ name, filters }: FilterGroup) {
   const { activeFilters, updateFilter } = useFiltersContext();
   return (
-    <div
-      key={name}
-      style={{ columnGap: '24px', rowGap: '8px' }}
-      className="my-4 flex flex-wrap items-center"
-    >
+    <div key={name} className="relative my-4 grid gap-4">
       <div className="font-semibold capitalize">{name}</div>
       {filters.map((filter) => {
         return (
@@ -93,13 +90,15 @@ function Filter({
     active ? 'border-2 bg-pageText' : 'bg-pageBG border-2'
   );
   return (
-    <button
-      className="flex cursor-pointer items-center gap-2"
-      onClick={() => onClick(name, filter.slug)}
-    >
-      <motion.span className={cn} />
-      <span>{filter.slug}</span>
-    </button>
+    <div>
+      <button
+        className="flex cursor-pointer items-center gap-2"
+        onClick={() => onClick(name, filter.slug)}
+      >
+        <motion.span className={cn} />
+        <span>{filter.slug}</span>
+      </button>
+    </div>
   );
 }
 

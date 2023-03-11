@@ -1,4 +1,4 @@
-import ColumnBlock from '@/blocks/Column';
+import ColumnBlock from '@/components/blocks/Column';
 import { Block } from '@/types';
 import { Variants, motion } from 'framer-motion';
 import Link from 'next/link';
@@ -58,13 +58,14 @@ export default function MobileHeader({
         </Link>
       </div>
       <motion.div
-        className="fixed left-0 top-0 z-10 flex h-full w-full bg-pageBG px-8 pt-24 pb-16 text-xl md:hidden"
+        className="fixed left-0 top-0 z-10 flex h-full w-full px-8 pt-24 pb-16 text-xl md:hidden"
         initial="hidden"
         variants={menu}
         animate={visible ? 'visible' : 'hidden'}
       >
+        <div className="absolute left-0 top-0 h-full w-full bg-pageBG opacity-90" />
         <motion.div
-          className="flex h-full w-full flex-col gap-10 font-light"
+          className="relative flex h-full w-full flex-col gap-10 font-light"
           variants={inner}
         >
           {block_1 && <ColumnBlock block={block_1} />}

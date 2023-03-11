@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import { CgInfinity } from 'react-icons/cg';
 
 import useThemeSwitch, { themes_names } from '@/hooks/useThemeSwitch';
-import SketchBlock from '@/blocks/Sketch';
+import SketchBlock from '@/components/blocks/Sketch';
 import { useRouter } from 'next/router';
 import { SketchProps } from '@/components/Sketch';
 
@@ -207,12 +207,12 @@ function CollectionInlineNavigation({
         >
           {visible ? <span>&darr;</span> : <span>&uarr;</span>}
         </button>
-        <button
+        {/* <button
           onClick={() => router.reload()}
           className="flex gap-2 text-4xl md:text-3xl"
         >
           <CgInfinity />
-        </button>
+        </button> */}
       </div>
 
       <motion.nav className={nav}>

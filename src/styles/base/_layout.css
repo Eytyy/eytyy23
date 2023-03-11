@@ -1,0 +1,15 @@
+.page-grid {
+  @apply grid min-h-app grid-cols-4 md:grid-cols-8 gap-4 md:gap-11 bg-pageBG p-8 text-pageText md:p-14;
+}
+.main {
+  @apply col-span-full col-start-1 md:col-span-4 md:col-start-3 md:row-start-1;
+}
+.left {
+  @apply col-start-1 md:block md:col-start-1 md:col-span-2;
+}
+.right {
+  @apply col-start-3 md:col-start-7 md:col-span-2 md:grid md:justify-items-end;
+}
+.mobile-nav {
+  @apply absolute md:top-5 bottom-5 md:bottom-auto z-10 mb-8 md:mb-0 mt-4 gap-1 left-3 right-0;
+}

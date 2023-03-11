@@ -15,16 +15,6 @@ type Props = {
   height: number;
 };
 
-type State = {
-  canvas: HTMLCanvasElement | null;
-  context: CanvasRenderingContext2D | null;
-};
-
-const initialState = {
-  canvas: null,
-  context: null,
-};
-
 const createGrid = (count: number) => {
   const points = [];
   for (let x = 0; x < count; x++) {
@@ -40,10 +30,10 @@ const createGrid = (count: number) => {
   return points;
 };
 
-const margin = 20;
-const count = 30;
-
 export default function Curtain({ width, height }: Props) {
+  const margin = 20;
+  const count = Math.ceil(width * 0.038);
+
   const [context, setContext] =
     useState<CanvasRenderingContext2D | null>(null);
   const raF = useRef<number | null>(null);
@@ -189,7 +179,7 @@ export default function Curtain({ width, height }: Props) {
       };
       raF.current = requestAnimationFrame(animate);
     },
-    [height, width, clearCanvas]
+    [height, width, clearCanvas, count]
   );
 
   useEffect(() => {

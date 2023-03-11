@@ -14,6 +14,7 @@ type Props = {
     tags: FilterProps[];
     slug: string;
     blocks: Block[];
+    summary: any;
   };
 };
 

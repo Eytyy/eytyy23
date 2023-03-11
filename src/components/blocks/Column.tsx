@@ -1,6 +1,5 @@
 import { Block } from '@/types';
 import React from 'react';
-import ContentBlock from './Content';
 import CustomLink from '@/components/navigation/link';
 import Menu from '@/components/navigation/Menu';
 import MegaMenu from '@/components/navigation/MegaMenu';

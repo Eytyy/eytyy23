@@ -1,10 +1,11 @@
-import { lazy } from 'react';
+import React, { lazy } from 'react';
 import { PreviewSuspense } from 'next-sanity/preview';
 
 import { getClient } from '@/lib/sanity.server';
 import { pageFields, siteQuery } from '@/lib/queries';
-import { FiltersContextProvider } from '@/context/filters';
+
 import { Blog } from '@/components/blog';
+import BlogLayout from '@/components/blog/Layout';
 
 const Preview = lazy(() => import('@/previews'));
 
@@ -29,11 +30,7 @@ export default function BlogPage({ page, site, preview }: Props) {
   }
   if (!page) return <div>🤔</div>;
 
-  return (
-    <FiltersContextProvider>
-      <Blog page={page} site={site} />
-    </FiltersContextProvider>
-  );
+  return <Blog page={page} site={site} />;
 }
 
 export async function getStaticProps({ preview = false }) {
@@ -72,3 +69,7 @@ export async function getStaticProps({ preview = false }) {
     },
   };
 }
+
+BlogPage.getLayout = function getLayout(page: any) {
+  return <BlogLayout {...page.props}>{page}</BlogLayout>;
+};
