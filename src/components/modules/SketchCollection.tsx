@@ -133,11 +133,11 @@ function Main({
   const ref = useRef<null | HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({ container: ref });
-  const value = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const value = useTransform(scrollYProgress, [0, 1], [1, 0.5]);
 
   useEffect(() => {
     const trackValue = (v: number) => {
-      if (v === 0) {
+      if (v === 0.5) {
         LoadNextSketch();
         if (ref.current) {
           ref.current.scrollTo(0, 0);
