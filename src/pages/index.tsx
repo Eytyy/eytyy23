@@ -27,7 +27,7 @@ export default function FrontPage({ page, site, preview }: Props) {
     );
   }
   if (!page) return <div>🤔</div>;
-
+  return <div>دقيقة و برجع</div>;
   return <PageDisplay page={page} site={site} />;
 }
 
