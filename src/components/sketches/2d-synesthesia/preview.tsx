@@ -34,7 +34,7 @@ type Props = {
   height: number;
 };
 
-export default function Synesthesia({ width, height }: Props) {
+export default function SynesthesiaPreview({ width, height }: Props) {
   const [context, setContext] =
     useState<CanvasRenderingContext2D | null>(null);
   const raF = useRef<number | null>(null);

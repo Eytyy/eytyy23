@@ -29,7 +29,7 @@ type Props = {
   height: number;
 };
 
-export default function AnimatedSynesthesia({
+export default function AnimatedSynesthesiaPreview({
   width,
   height,
 }: Props) {

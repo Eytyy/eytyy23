@@ -2,31 +2,34 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 
 const Brill2D = dynamic(
-  () => import('@/components/sketches/2d-brill'),
+  () => import('@/components/sketches/2d-brill/preview'),
   { loading: () => <div></div> }
 );
-const Blob = dynamic(() => import('@/components/sketches/3d-blob'), {
-  loading: () => <div></div>,
-});
+const Blob = dynamic(
+  () => import('@/components/sketches/3d-blob/preview'),
+  {
+    loading: () => <div></div>,
+  }
+);
 const Canvas2dGrid = dynamic(
-  () => import('@/components/sketches/2d-canvas-grid'),
+  () => import('@/components/sketches/2d-canvas-grid/preview'),
   { loading: () => <div></div> }
 );
 const Curtain = dynamic(
-  () => import('@/components/sketches/2d-curtain'),
+  () => import('@/components/sketches/2d-curtain/preview'),
   { loading: () => <div></div> }
 );
 const SpikedSphere = dynamic(
-  () => import('@/components/sketches/3d-spiked-sphere'),
+  () => import('@/components/sketches/3d-spiked-sphere/preview'),
   { loading: () => <div></div> }
 );
 const AnimatedSynesthesia = dynamic(
-  () => import('@/components/sketches/2d-animated-synestheia'),
+  () =>
+    import('@/components/sketches/2d-animated-synestheia/preview'),
   { loading: () => <div></div> }
 );
 
 export type Props = {
-  _id: string;
   slug: string;
   title: string;
 };

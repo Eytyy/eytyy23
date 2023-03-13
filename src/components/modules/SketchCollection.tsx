@@ -16,7 +16,7 @@ import clsx from 'clsx';
 
 import useThemeSwitch, { themes_names } from '@/hooks/useThemeSwitch';
 import SketchBlock from '@/components/blocks/Sketch';
-import { SketchProps } from '@/components/Sketch';
+import { SketchProps } from '@/components/sketch';
 
 type Themes = (typeof themes_names)[number] | undefined;
 
@@ -27,15 +27,16 @@ export default function SketchCollectionModule({
   const theme = useThemeSwitch();
 
   const [node, setNode] = useState<HTMLElement | null>(null);
-  const [size, setSize] = useState({
-    width: 0,
-    height: 0,
-  });
+  const [size, setSize] = useState({ width: 0, height: 0 });
 
+  // measured callback ref to save the wrapper node in state
+  // this is used to get the element's boundingClientRect
+  // and set the canvas size according to it's parent width and height
   const measuredRef = useCallback((node: HTMLElement) => {
     if (node !== null) setNode(node);
   }, []);
 
+  // Update canvas size in state on window.resize
   useLayoutEffect(() => {
     if (node) {
       const onResize = () => {
@@ -45,6 +46,7 @@ export default function SketchCollectionModule({
           height: bounds.height - 130,
         });
       };
+
       onResize();
       window.addEventListener('resize', onResize);
       return () => {

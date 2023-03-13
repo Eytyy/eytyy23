@@ -30,7 +30,7 @@ const createGrid = (count: number) => {
   return points;
 };
 
-export default function Curtain({ width, height }: Props) {
+export default function CurtainPreview({ width, height }: Props) {
   const margin = 20;
   const count = Math.ceil(width * 0.038);
 

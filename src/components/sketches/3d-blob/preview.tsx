@@ -6,13 +6,11 @@ import React, {
 } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+import palettes from 'nice-color-palettes';
 // @ts-ignore
 import random from 'canvas-sketch-util/random';
-import palettes from 'nice-color-palettes';
-import Bezier from 'bezier-easing';
-
-import fragmentShader from '@/shaders/sketch07.frag';
-import vertexShader from '@/shaders/sketch07.vert';
+import frag from '@/shaders/blob.frag';
 
 type Props = {
   width: number;
@@ -29,7 +27,7 @@ const initialState = {
   context: null,
 };
 
-const SpikedSphere = function SpikedSphere({ width, height }: Props) {
+const BlobPreview = ({ width, height }: Props) => {
   const [state, setState] = useState<State>(initialState);
 
   const controls = useRef<OrbitControls | null>(null);
@@ -38,22 +36,12 @@ const SpikedSphere = function SpikedSphere({ width, height }: Props) {
 
   const { context, canvas } = state;
 
-  const measuredRef = useCallback((node: HTMLCanvasElement) => {
-    if (node) {
-      setState({
-        context: node.getContext('webgl2'),
-        canvas: node,
-      });
-    }
-  }, []);
-
   const sketch = useCallback(
     (context: WebGL2RenderingContext, canvas: HTMLCanvasElement) => {
-      if (!context) return;
-
+      /* --------------------  Setup --------------------  */
       const palette = random.pick(palettes);
 
-      // Create a scene
+      // Create new scene & renderer
       const scene = new THREE.Scene();
       renderer.current = new THREE.WebGLRenderer({ context });
       renderer.current.setClearColor('black', 1);
@@ -64,54 +52,33 @@ const SpikedSphere = function SpikedSphere({ width, height }: Props) {
       camera.position.set(0, 0, -3);
       camera.lookAt(new THREE.Vector3());
 
-      // Setup camera controller
+      // Instantiate OribtControls
       controls.current = new OrbitControls(camera, canvas);
 
       // Setup a geometry
-      const geometry = new THREE.SphereGeometry(1, 32, 64);
+      let geometry = new THREE.SphereGeometry(1, 32, 14);
 
-      const meshes: THREE.Mesh<
-        THREE.SphereGeometry,
-        THREE.ShaderMaterial
-      >[] = [];
+      const vertexShader = /* glsl */ `
+        varying vec2 vUv;
+        void main () {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position.xyz, 1.0);
+        }
+      `;
+      let material = new THREE.ShaderMaterial({
+        uniforms: {
+          time: { value: 0 },
+          color: { value: new THREE.Color('#F00') },
+        },
+        vertexShader,
+        fragmentShader: frag,
+      });
 
-      const count = 1;
+      let mesh = new THREE.Mesh(geometry, material);
 
-      for (let i = 0; i < count; i++) {
-        // Setup a material
-        const material = new THREE.ShaderMaterial({
-          fragmentShader,
-          vertexShader,
-          uniforms: {
-            playhead: { value: 0 },
-            color: { value: new THREE.Color(random.pick(palette)) },
-          },
-        });
+      scene.add(mesh);
 
-        // Setup a mesh with geometry + material
-        const mesh = new THREE.Mesh(geometry, material);
-        // mesh.position.set(
-        //   random.range(-1, 1),
-        //   random.range(-1, 1),
-        //   random.range(-1, 1)
-        // );
-        // mesh.scale.multiplyScalar(random.range(0.1, 0.3));
-
-        // Add the mesh to the scene
-        scene.add(mesh);
-        meshes.push(mesh);
-      }
-
-      // Setup a light
-      const directionalLight = new THREE.DirectionalLight(
-        'white',
-        1.0
-      );
-      directionalLight.position.set(4, 5, 5);
-      scene.add(directionalLight);
-
-      const ambientLight = new THREE.AmbientLight('hsl(0, 0%, 40%)');
-      scene.add(ambientLight);
+      /* --------------------  Render Logic -------------------- */
 
       let prevTime: number;
       let time = 0;
@@ -119,13 +86,8 @@ const SpikedSphere = function SpikedSphere({ width, height }: Props) {
 
       const render = (time: number) => {
         if (!renderer.current || !controls.current) return;
-        const t = Math.sin(time * 0.081 * Math.PI * 2) * 2;
-
-        meshes.forEach((mesh) => {
-          mesh.material.uniforms.playhead.value = time;
-          mesh.rotation.z = Bezier(0.67, 0.03, 0.29, 0.99)(t);
-        });
-
+        material.uniforms.time.value = time;
+        // update
         controls.current.update();
         renderer.current.render(scene, camera);
       };
@@ -146,6 +108,15 @@ const SpikedSphere = function SpikedSphere({ width, height }: Props) {
     []
   );
 
+  const measuredRef = useCallback((node: HTMLCanvasElement) => {
+    if (node) {
+      setState({
+        context: node.getContext('webgl2'),
+        canvas: node,
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if (canvas && context) sketch(context, canvas);
 
@@ -165,4 +136,4 @@ const SpikedSphere = function SpikedSphere({ width, height }: Props) {
   return <canvas width={width} height={height} ref={measuredRef} />;
 };
 
-export default SpikedSphere;
+export default BlobPreview;

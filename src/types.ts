@@ -6,7 +6,7 @@ import {
   NavLink,
   NavPage,
 } from './components/navigation/types';
-import { SketchProps } from './components/Sketch';
+import { SketchProps } from './components/sketch';
 
 type Detailed = {
   format: 'detailed';
