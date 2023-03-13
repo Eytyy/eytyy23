@@ -115,7 +115,7 @@ export default function FlowField() {
   }
 
   return (
-    <div className="bg-pageBG transition-colors duration-300 ease-linear">
+    <div className="bg-[black] transition-colors duration-300 ease-linear">
       <div className="grid min-h-app grid-cols-8 gap-11 text-pageText">
         <main
           ref={measuredRef}
@@ -128,7 +128,7 @@ export default function FlowField() {
             ref={(n) => n && setContext(n.getContext('2d'))}
           />
         </main>
-        <div className=" col-span-2 col-start-6 row-start-1 space-y-4">
+        <div className="relative z-20 col-span-2 col-start-6 row-start-1 space-y-4">
           <div>
             <input
               value={fieldProps.radius}

@@ -2,7 +2,12 @@ import Sketch, { SketchProps } from '@/components/sketch';
 import { siteQuery } from '@/lib/queries';
 import { getClient } from '@/lib/sanity.server';
 
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react';
 
 type Props = {
   page: SketchProps;
@@ -20,7 +25,7 @@ export default function SketchPage({ page }: Props) {
     if (node !== null) setNode(node);
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (node) {
       const onResize = () => {
         const bounds = node.getBoundingClientRect();
