@@ -38,9 +38,9 @@ export default class FlowFieldEffect {
       this.#width,
       0
     );
-    gradient.addColorStop(0.1, '#FFF');
-    gradient.addColorStop(0.5, '#FFF');
-    gradient.addColorStop(0.9, '#FFF');
+    gradient.addColorStop(0.1, '#554');
+    gradient.addColorStop(0.5, '#554');
+    gradient.addColorStop(0.5, '#665');
     return gradient;
   }
 

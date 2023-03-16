@@ -128,7 +128,7 @@ export default function FlowField() {
             ref={(n) => n && setContext(n.getContext('2d'))}
           />
         </main>
-        <div className="relative z-20 col-span-2 col-start-6 row-start-1 space-y-4">
+        <div className="relative z-20 col-span-2 col-start-6 row-start-1 space-y-4 pt-10">
           <div>
             <input
               value={fieldProps.radius}

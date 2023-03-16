@@ -2,12 +2,7 @@ import Sketch, { SketchProps } from '@/components/sketch';
 import { siteQuery } from '@/lib/queries';
 import { getClient } from '@/lib/sanity.server';
 
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 type Props = {
   page: SketchProps;
