@@ -15,10 +15,13 @@ import {
   pageSlugsQuery,
   pageQuery,
   blogPostQuery,
+  sketchQuery,
+  sketchSlugsQuery,
 } from './queries';
 import { type SiteProps, type PageProps } from '@/types';
 import { FilterGroup } from '@/components/filters';
 import { BlogPost } from '@/components/blog/Post';
+import { SketchProps } from '@/components/sketch';
 
 export const client = createClient({
   projectId,
@@ -68,4 +71,18 @@ export async function getPageBySlug(
   slug: string
 ): Promise<PageProps> {
   return await client.fetch(pageQuery, { slug });
+}
+
+export async function getAllSketchSlugs(): Promise<
+  Pick<SketchProps, 'slug'>[]
+> {
+  const slugs =
+    (await client.fetch<string[]>(sketchSlugsQuery)) || [];
+  return slugs.map((slug) => ({ slug }));
+}
+
+export async function getSketchBySlug(
+  slug: string
+): Promise<SketchProps> {
+  return await client.fetch(sketchQuery, { slug });
 }

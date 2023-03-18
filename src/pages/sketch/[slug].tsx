@@ -1,10 +1,20 @@
 import Sketch, { SketchProps } from '@/components/sketch';
 import { useCallback, useEffect, useState } from 'react';
-import { siteQuery } from '@/lib/queries';
-import { client } from '@/lib/sanity.client';
+import {
+  getAllSketchSlugs,
+  getSiteSettings,
+  getSketchBySlug,
+} from '@/lib/sanity.client';
+import { GetStaticProps } from 'next';
+import { SiteProps } from '@/types';
 
 type Props = {
   page: SketchProps;
+  site: SiteProps;
+};
+
+type Query = {
+  [key: string]: string;
 };
 
 export default function SketchPage({ page }: Props) {
@@ -44,31 +54,24 @@ export default function SketchPage({ page }: Props) {
 }
 
 export async function getStaticPaths() {
-  const paths = await getClient().fetch(
-    `*[_type == 'sketch' && defined(slug)][].slug.current`
-  );
+  const slugs = await getAllSketchSlugs();
   return {
-    paths: paths.map((slug: string) => ({ params: { slug } })),
-    fallback: true,
+    paths: slugs.map(({ slug }) => `/sketch/${slug}`),
+    fallback: 'blocking',
   };
 }
 
-export async function getStaticProps({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const data = client
-    ? await client.fetch(
-        `{
-      "page": *[_type == 'sketch' && slug.current == $slug][0],
-      "site": ${siteQuery}
-    }`,
-        { slug: params.slug }
-      )
-    : {};
-  return { props: { page: data.page, site: data.site } };
-}
+export const getStaticProps: GetStaticProps<Props, Query> = async (
+  ctx
+) => {
+  const { params = {} } = ctx;
+
+  const [site, page] = await Promise.all([
+    getSiteSettings(),
+    getSketchBySlug(params.slug),
+  ]);
+  return { props: { page, site } };
+};
 
 SketchPage.getLayout = function getLayout(page: any) {
   return page;

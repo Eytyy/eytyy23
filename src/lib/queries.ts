@@ -255,3 +255,10 @@ export const filtersQuery = groq`[{
     "slug": slug.current
   }
 }]`;
+
+export const sketchSlugsQuery = groq`*[_type == 'sketch' && defined(slug)][].slug.current`;
+
+export const sketchQuery = groq`*[_type == 'sketch' && slug.current == $slug][0]{
+  ...,
+  "slug": slug.current
+}`;
