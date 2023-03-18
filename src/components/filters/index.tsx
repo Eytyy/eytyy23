@@ -3,6 +3,7 @@ import useDropdown from '@/hooks/useDropdown';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { RiEqualizerFill, RiEqualizerLine } from 'react-icons/ri';
+
 export type FilterGroup = {
   name: string;
   filters: FilterProps[];

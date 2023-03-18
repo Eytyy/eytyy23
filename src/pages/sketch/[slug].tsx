@@ -1,8 +1,7 @@
 import Sketch, { SketchProps } from '@/components/sketch';
+import { useCallback, useEffect, useState } from 'react';
 import { siteQuery } from '@/lib/queries';
-import { getClient } from '@/lib/sanity.server';
-
-import React, { useCallback, useEffect, useState } from 'react';
+import { client } from '@/lib/sanity.client';
 
 type Props = {
   page: SketchProps;
@@ -59,13 +58,15 @@ export async function getStaticProps({
 }: {
   params: { slug: string };
 }) {
-  const data = await getClient().fetch(
-    `{
+  const data = client
+    ? await client.fetch(
+        `{
       "page": *[_type == 'sketch' && slug.current == $slug][0],
       "site": ${siteQuery}
     }`,
-    { slug: params.slug }
-  );
+        { slug: params.slug }
+      )
+    : {};
   return { props: { page: data.page, site: data.site } };
 }
 

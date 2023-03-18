@@ -1,3 +1,5 @@
+import { groq } from 'next-sanity';
+
 // Current Pages IDs
 export const homeID = `*[_type == 'generalSettings'][0].home->_id`;
 export const workID = `*[_type == 'generalSettings'][0].work->_id`;
@@ -78,6 +80,7 @@ const menu_block = `_type == "menuBlock" => {
   expand, orientation, isDropdown, "canToggle": toggle,
   menu-> { ${menu} }
 }`;
+
 const mega_menu_block = `_type == "megaMenuBlock" => {
   expand, orientation, "canToggle": toggle,
   items[] {
@@ -96,6 +99,7 @@ const mega_menu_block = `_type == "megaMenuBlock" => {
 const sketch_block = `_type == "sketchBlock" => {
   "sketch": sketch->
 }`;
+
 const sketch_collection_block = `_type == "sketchCollectionModule" => {
   "active" : active->._id,
   hasInlineNavigation,
@@ -113,6 +117,7 @@ const tags = `tags[]-> {
   "slug": slug.current,
   title,
 }`;
+
 const blog_post_modules = ` _type == 'blogPostsModule' => {
   referenceType == 'auto' => {
     'content': *[_type == 'blogPost' && status != 'draft'] {
@@ -180,18 +185,6 @@ export const pageFields = `
   }
 `;
 
-export const getPreviewQuery = (page: string) => {
-  switch (page) {
-    default:
-      return `{
-        "page": *[ _type == "page" && slug.current == $page][0] {
-          ${blocks}
-        },
-        "site": ${siteQuery}
-      }`;
-  }
-};
-
 export const allProjectsSlugQuery = `*[ _type == "project" && defined(slug) ].slug.current`;
 
 export const allPagesSlugQuery = `*[ _type == "page" && defined(slug) ].slug.current`;
@@ -216,3 +209,49 @@ export const errorPageQuery = `
     seo
   }
 `;
+
+export const indexQuery = groq`
+  *[_type == "page" && _id == *[_type=="generalSettings"][0].home->_id ][0] {
+    ${pageFields}
+  }
+`;
+
+export const blogQuery = groq`
+  *[_type == "page" && _id == *[_type=="generalSettings"][0].blog->_id ][0] {
+    ${pageFields}
+  }
+`;
+
+export const blogPostSlugsQuery = groq`*[_type == 'blogPost' && defined(slug) && status != 'draft'][].slug.current`;
+
+export const blogPostQuery = groq`*[_type == 'blogPost' && slug.current == $slug][0] {
+  ...,
+  "slug": slug.current
+}`;
+
+export const pageSlugsQuery = groq`
+  *[ _type == "page" && defined(slug) && slug.current && !(_id in [
+    ${homeID},
+    ${workID},
+    ${errorID},
+    ${blogID},
+  ]) ].slug.current
+`;
+
+export const pageQuery = groq`*[_type == "page" && slug.current == $slug ][0]{
+  ${pageFields}
+}`;
+
+export const filtersQuery = groq`[{
+  "name": 'tags',
+  "filters": *[ _type == 'tag' &&
+    slug.current in array::unique(
+      *[_type == 'blogPost' && defined(slug) && status != 'draft'][]
+      .tags[]->.slug.current
+    )
+  ] | order(title asc) {
+    _id,
+    title,
+    "slug": slug.current
+  }
+}]`;

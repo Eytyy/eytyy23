@@ -25,7 +25,32 @@ export type ProjectProps = {
 } & (Detailed | Simple);
 
 export type PageProps = {
-  _type: 'page';
+  title: string;
+  slug: string;
+  main?: Block[];
+  rightCol?: Block;
+  footer?: Block[];
+  leftCol?: {
+    top?: Block;
+    center?: Block;
+    bottom?: Block;
+  };
+};
+
+export type SiteProps = {
+  rootDomain?: string;
+  defaultSEO?: {
+    site_title: string;
+    site_description: string;
+    share_title: string;
+    share_image: string;
+    share_description: string;
+  };
+  mobile_menu?: {
+    block_1: Block;
+    block_2: Block;
+    footer: Block;
+  };
 };
 
 export type ContentBlock = {

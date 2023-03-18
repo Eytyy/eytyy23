@@ -23,18 +23,6 @@ type Props = {
 export default function Layout({ children, page, site }: Props) {
   const router = useRouter();
   const theme = useThemeSwitch();
-
-  // update theme on route change
-  useEffect(() => {
-    if (
-      theme &&
-      router.pathname !== '/' &&
-      theme.theme.name !== 'black'
-    ) {
-      theme.setTheme('black');
-    }
-  }, [router, theme]);
-
   // Update window inner height in a css variable. This is a workaround
   // to avoid problems caused by the toolbar on mobile browsers
   // when elements have a full viewport height.
@@ -54,7 +42,7 @@ export default function Layout({ children, page, site }: Props) {
     };
   }, []);
 
-  if (!page || !site) return null;
+  if (!page) return null;
 
   const { leftCol, rightCol, footer } = page;
 
@@ -78,7 +66,7 @@ export default function Layout({ children, page, site }: Props) {
             {leftCol && <LeftCol blocks={leftCol} />}
           </div>
           <header className="col-span-full md:hidden">
-            <MobileHeader {...site.mobile_menu} />
+            {site && <MobileHeader {...site.mobile_menu} />}
           </header>
           <main className="col-span-full col-start-1 row-span-3 row-start-2 md:col-span-4 md:col-start-3 md:row-start-1">
             {children}

@@ -1,73 +1,79 @@
 import { lazy } from 'react';
+import { GetStaticProps } from 'next';
 import { PreviewSuspense } from 'next-sanity/preview';
 
-import { getClient } from '@/lib/sanity.server';
-import { blogID, pageFields, siteQuery } from '@/lib/queries';
-import PageDisplay from '@/components/PageDisplay';
+import {
+  getAllPageSlugs,
+  getPageBySlug,
+  getSiteSettings,
+} from '@/lib/sanity.client';
 
-const Preview = lazy(() => import('@/previews'));
+import { PageProps, SiteProps } from '@/types';
+import PageDisplay from '@/components/PageDisplay';
+const PreviewPage = lazy(
+  () => import('@/components/previews/PreviewPage')
+);
 
 interface Props {
-  page: any;
-  site: any;
+  page: PageProps;
+  site: SiteProps;
   preview: boolean;
+  token: string | null;
 }
 
-export default function ProductPage({ page, site, preview }: Props) {
+interface Query {
+  [key: string]: string;
+}
+
+interface PreviewData {
+  token?: string;
+}
+
+export default function ProductPage(props: Props) {
+  const { site, page, preview, token } = props;
+
   if (preview) {
     return (
-      <PreviewSuspense fallback={<div>Loading</div>}>
-        <Preview
-          page=""
-          render={({ page, site }) => (
-            <PageDisplay page={page} site={site} />
-          )}
-        />
+      <PreviewSuspense
+        fallback={
+          <PageDisplay page={page} site={site} loading preview />
+        }
+      >
+        <PreviewPage token={token} page={page} />
       </PreviewSuspense>
     );
   }
-  if (!page) return <div>🤔</div>;
 
   return <PageDisplay page={page} site={site} />;
 }
 
 export async function getStaticPaths() {
-  // fetch all pages' slugs
-  const paths = await getClient().fetch(
-    `*[ _type == "page" && defined(slug) && slug.current && _id != ${blogID} ].slug.current`
-  );
+  const slugs = await getAllPageSlugs();
 
   return {
-    paths: paths.map((slug: string) => ({ params: { slug } })),
-    fallback: true,
+    paths: slugs.map((slug) => ({ params: { slug } })),
+    fallback: 'blocking',
   };
 }
 
-export async function getStaticProps({
-  params,
-  preview = false,
-}: {
-  params: { slug: string };
-  preview: boolean;
-}) {
-  if (preview) return { props: { preview } };
+export const getStaticProps: GetStaticProps<
+  Props,
+  Query,
+  PreviewData
+> = async (ctx) => {
+  const { preview = false, previewData = {}, params = {} } = ctx;
 
-  // fetch page by slug
-  const pageQuery = `{
-    "page": *[_type == "page" && slug.current == $slug ][0]{
-      ${pageFields}
-    },
-    "site": ${siteQuery}
-  }`;
-
-  const data = await getClient(preview).fetch(pageQuery, {
-    slug: params.slug,
-  });
+  const [site, page] = await Promise.all([
+    getSiteSettings(),
+    getPageBySlug(params.slug),
+  ]);
 
   return {
     props: {
-      page: data.page,
-      site: data.site,
+      page,
+      site,
+      preview,
+      token: previewData.token ?? null,
     },
   };
-}
+};

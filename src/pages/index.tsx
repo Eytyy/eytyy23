@@ -1,50 +1,64 @@
+import { GetStaticProps } from 'next';
 import { lazy } from 'react';
 import { PreviewSuspense } from 'next-sanity/preview';
-
-import { getClient } from '@/lib/sanity.server';
-import { pageFields, siteQuery } from '@/lib/queries';
 import PageDisplay from '@/components/PageDisplay';
+const PreviewIndexPage = lazy(
+  () => import('@/components/previews/PreviewIndexPage')
+);
+import { getIndex, getSiteSettings } from '@/lib/sanity.client';
+import { SiteProps, PageProps } from '@/types';
 
-const Preview = lazy(() => import('@/previews'));
-
-type Props = {
-  page: any;
-  site: any;
+interface Props {
+  page: PageProps;
+  site: SiteProps;
   preview: boolean;
-};
+  token: string | null;
+}
 
-export default function FrontPage({ page, site, preview }: Props) {
+interface Query {
+  [key: string]: string;
+}
+
+interface PreviewData {
+  token?: string;
+}
+
+export default function FrontPage(props: Props) {
+  const { page, site, preview, token } = props;
+
   if (preview) {
     return (
-      <PreviewSuspense fallback={<div>Loading</div>}>
-        <Preview
-          page="home"
-          render={({ page, site }) => (
-            <PageDisplay page={page} site={site} />
-          )}
-        />
+      <PreviewSuspense
+        fallback={
+          <PageDisplay loading preview page={page} site={site} />
+        }
+      >
+        <PreviewIndexPage token={token} />
       </PreviewSuspense>
     );
   }
-  if (!page) return <div>🤔</div>;
+
   return <PageDisplay page={page} site={site} />;
 }
 
-export async function getStaticProps({ preview = false }) {
-  if (preview) return { props: { preview } };
+export const getStaticProps: GetStaticProps<
+  Props,
+  Query,
+  PreviewData
+> = async (ctx) => {
+  const { preview = false, previewData = {} } = ctx;
 
-  const homeQuery = `{
-    "page": *[ _type == "page" && _id == *[_type=="generalSettings"][0].home->_id ][0] {
-      ${pageFields}
-    },
-    "site": ${siteQuery}
-  }`;
-  const data = await getClient(preview).fetch(homeQuery);
+  const [site = {}, page] = await Promise.all([
+    getSiteSettings(),
+    getIndex(),
+  ]);
 
   return {
     props: {
-      page: data.page,
-      site: data.site,
+      page,
+      site,
+      preview,
+      token: previewData.token ?? null,
     },
   };
-}
+};

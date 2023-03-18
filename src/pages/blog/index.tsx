@@ -1,74 +1,77 @@
 import React, { lazy } from 'react';
 import { PreviewSuspense } from 'next-sanity/preview';
 
-import { getClient } from '@/lib/sanity.server';
-import { pageFields, siteQuery } from '@/lib/queries';
-
 import { Blog } from '@/components/blog';
 import BlogLayout from '@/components/blog/Layout';
+import {
+  getBlog,
+  getFilters,
+  getSiteSettings,
+} from '@/lib/sanity.client';
+import { PageProps, SiteProps } from '@/types';
+import { FilterGroup } from '@/components/filters';
+import { GetStaticProps } from 'next';
 
-const Preview = lazy(() => import('@/previews'));
+const PreviewIndexPage = lazy(
+  () => import('@/components/previews/PreviewBlogPage')
+);
 
-type Props = {
-  page: any;
-  site: any;
+interface Props {
+  page: PageProps;
+  site: SiteProps;
+  filterGroups: FilterGroup[];
   preview: boolean;
-};
+  token: string | null;
+}
 
-export default function BlogPage({ page, site, preview }: Props) {
+interface Query {
+  [key: string]: string;
+}
+
+interface PreviewData {
+  token?: string;
+}
+
+export default function BlogPage({
+  page,
+  site,
+  preview,
+  token,
+}: Props) {
   if (preview) {
     return (
-      <PreviewSuspense fallback={<div>Loading</div>}>
-        <Preview
-          page="blog"
-          render={({ page, site }) => (
-            <Blog page={page} site={site} />
-          )}
-        />
+      <PreviewSuspense
+        fallback={<Blog loading preview page={page} site={site} />}
+      >
+        <PreviewIndexPage token={token} />
       </PreviewSuspense>
     );
   }
-  if (!page) return <div>🤔</div>;
 
   return <Blog page={page} site={site} />;
 }
 
-export async function getStaticProps({ preview = false }) {
-  if (preview) return { props: { preview } };
-
-  const homeQuery = `{
-    "page": *[ _type == "page" && _id == *[_type=="generalSettings"][0].blog->_id ][0] {
-      ${pageFields},
-      "filterGroups": [{
-        "name": 'tags',
-        "filters": *[
-          _type == 'tag' &&
-          slug.current in array::unique(
-            *[
-              _type == 'blogPost'
-              && defined(slug)
-              && status != 'draft'
-            ][].tags[]->.slug.current
-          )
-        ] | order(title asc) {
-          _id,
-          title,
-          "slug": slug.current
-        }
-      }]
-    },
-    "site": ${siteQuery},
-
-  }`;
-  const data = await getClient(preview).fetch(homeQuery);
-
+export const getStaticProps: GetStaticProps<
+  Props,
+  Query,
+  PreviewData
+> = async (ctx) => {
+  const { preview = false, previewData = {} } = ctx;
+  const [site = {}, page, filterGroups] = await Promise.all([
+    getSiteSettings(),
+    getBlog(),
+    getFilters(),
+  ]);
   return {
     props: {
-      page: data.page,
-      site: data.site,
+      filterGroups,
+      page,
+      site,
+      preview,
+      token: previewData.token ?? null,
     },
   };
-}
+};
 
 BlogPage.getLayout = function getLayout(page: any) {
   return <BlogLayout {...page.props}>{page}</BlogLayout>;
