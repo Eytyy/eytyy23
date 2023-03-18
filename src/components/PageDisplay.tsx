@@ -11,7 +11,7 @@ type Props = {
 };
 
 export default function PageDisplay(props: Props) {
-  const { preview, loading, site, page } = props;
+  const { preview, loading, page } = props;
   return (
     <>
       <Alert preview={preview} loading={loading} />

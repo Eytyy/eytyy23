@@ -30,13 +30,18 @@ type Previewdata = {
   token?: string;
 };
 
-export default function BlogPost({ page, preview, token }: Props) {
+export default function BlogPost(props: Props) {
+  const { page, preview, token } = props;
   if (preview) {
-    <PreviewSuspense fallback={<BlogPostDisplay {...page} />}>
-      <PreviewBlogPost token={token} page={page} />
-    </PreviewSuspense>;
+    return (
+      <PreviewSuspense
+        fallback={<BlogPostDisplay page={page} loading preview />}
+      >
+        <PreviewBlogPost token={token} page={page} />
+      </PreviewSuspense>
+    );
   }
-  return <BlogPostDisplay {...page} />;
+  return <BlogPostDisplay page={page} />;
 }
 
 export async function getStaticPaths() {
@@ -58,6 +63,11 @@ export const getStaticProps: GetStaticProps<
     getSiteSettings(),
   ]);
   return {
-    props: { page, site, preview, token: previewData.token ?? null },
+    props: {
+      page,
+      site,
+      preview,
+      token: previewData.token ?? null,
+    },
   };
 };

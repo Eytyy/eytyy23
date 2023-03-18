@@ -1,6 +1,7 @@
 import { blogPostQuery } from '@/lib/queries';
 import { usePreview } from '@/lib/sanity.preview';
 import React from 'react';
+
 import BlogPostDisplay, { BlogPost } from '../blog/Post';
 
 type Props = {
@@ -10,5 +11,5 @@ type Props = {
 
 export default function PreviewBlogPost({ page, token }: Props) {
   const post = usePreview(token, blogPostQuery, { slug: page.slug });
-  return <BlogPostDisplay {...post} />;
+  return <BlogPostDisplay preview page={post} />;
 }

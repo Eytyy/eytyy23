@@ -2,6 +2,7 @@ import MainBlock from '@/components/blocks/Main';
 import { formatDate } from '@/lib/helpers';
 import { Block } from '@/types';
 import React from 'react';
+import Alert from '../AlertBanner';
 import { FilterProps } from '../filters';
 
 export type BlogPost = {
@@ -15,13 +16,21 @@ export type BlogPost = {
   slug: string;
 };
 
+type Props = {
+  page: BlogPost;
+  loading?: boolean;
+  preview?: boolean;
+};
+
 export default function BlogPostDisplay({
-  title,
-  _createdAt,
-  blocks,
-}: Omit<BlogPost, '_id'>) {
+  page,
+  preview,
+  loading,
+}: Omit<Props, '_id'>) {
+  const { title, _createdAt, blocks } = page;
   return (
     <div>
+      <Alert loading={loading} preview={preview} />
       <div className="mb-2">{formatDate(_createdAt)}</div>
       <h1 className="text-4xl font-bold md:text-6xl">{title}</h1>
       {blocks?.map((block) => (

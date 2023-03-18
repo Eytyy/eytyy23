@@ -29,7 +29,7 @@ interface PreviewData {
   token?: string;
 }
 
-export default function ProductPage(props: Props) {
+export default function Page(props: Props) {
   const { site, page, preview, token } = props;
 
   if (preview) {

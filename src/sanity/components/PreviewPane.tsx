@@ -117,8 +117,6 @@ const Iframe = memo(function Iframe(
     url.searchParams.set('secret', secret);
   }
 
-  console.log(url.toString());
-
   return (
     <iframe
       title="preview"

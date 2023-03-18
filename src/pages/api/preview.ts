@@ -5,7 +5,7 @@ import {
   projectId,
   useCdn,
 } from '@/lib/sanity.api';
-import { blogPostQuery } from '@/lib/queries';
+import { blogPostQuery, pageQuery } from '@/lib/queries';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { PageConfig } from 'next/types';
 import { createClient } from 'next-sanity';
@@ -68,31 +68,37 @@ export default async function preview(
 
   // If no slug is provided open preview mode on the frontpage
 
-  if (req.query.type === 'blogPost') {
-    // Check if the post with the given `slug` exists
+  // Check if the page with the given `slug` exists
+  if (req.query.slug) {
     const client = _client.withConfig({
-      // Fallback to using the WRITE token until https://www.sanity.io/docs/vercel-integration starts shipping a READ token.
-      // As this client only exists on the server and the token is never shared with the browser, we don't risk escalating permissions to untrustworthy users
       token:
         process.env.SANITY_API_READ_TOKEN ||
         process.env.SANITY_API_WRITE_TOKEN,
     });
-    const post = await client.fetch(blogPostQuery, {
-      slug: req.query.slug,
-    });
+    let page;
+    let redirectURL: `/blog/${string}` | `/${string}`;
+    if (req.query.type === 'blogPost') {
+      page = await client.fetch(blogPostQuery, {
+        slug: req.query.slug,
+      });
+      redirectURL = `/blog/${page.slug}`;
+    } else {
+      page = await client.fetch(pageQuery, {
+        slug: req.query.slug,
+      });
+      redirectURL = `/${req.query.slug}`;
+    }
 
     // If the slug doesn't exist prevent preview mode from being enabled
-    if (!post) {
+    if (!page) {
       return res.status(401).send('Invalid slug');
     }
 
     // Redirect to the path from the fetched post
     // We don't redirect to req.query.slug as that might lead to open redirect vulnerabilities
-    return redirectToPreview(res, previewData, `/blog/${post.slug}`);
-  }
-
-  if (req.query.slug) {
-    return redirectToPreview(res, previewData, `/${req.query.slug}`);
+    return redirectURL
+      ? redirectToPreview(res, previewData, redirectURL)
+      : res.status(401).send('Invalid url');
   }
 
   return redirectToPreview(res, previewData, `/`);
