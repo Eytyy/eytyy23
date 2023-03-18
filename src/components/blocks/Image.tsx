@@ -2,8 +2,10 @@ import React from 'react';
 import Image from 'next/image';
 import { useNextSanityImage } from 'next-sanity-image';
 
-import { sanityConfig } from '@/lib/config';
+import { projectId, dataset } from '@/lib/sanity.api';
 import { ImageProps } from '@/types';
+
+const clientConfig = { projectId, dataset };
 
 const ImageBlock = ({
   image,
@@ -54,18 +56,14 @@ const DefaultImage = ({
   background,
   objectFit,
 }: ImageProps) => {
-  const imageProps = useNextSanityImage(
-    { clientConfig: sanityConfig },
-    image,
-    {
-      imageBuilder: (imgBldr, opts) => {
-        if (opts.width !== null) {
-          return imgBldr.width(opts.width);
-        }
-        return imgBldr;
-      },
-    }
-  );
+  const imageProps = useNextSanityImage({ clientConfig }, image, {
+    imageBuilder: (imgBldr, opts) => {
+      if (opts.width !== null) {
+        return imgBldr.width(opts.width);
+      }
+      return imgBldr;
+    },
+  });
 
   if (!imageProps) return null;
   return (
@@ -93,20 +91,16 @@ const CroppedImage = ({
   objectFit,
   background,
 }: ImageProps) => {
-  const imageProps = useNextSanityImage(
-    { clientConfig: sanityConfig },
-    image,
-    {
-      imageBuilder: (imgBldr, opts) => {
-        if (opts.width !== null) {
-          const w = opts.width;
-          const h = getImageHeight(w, format);
-          return imgBldr.width(w).height(h);
-        }
-        return imgBldr;
-      },
-    }
-  );
+  const imageProps = useNextSanityImage({ clientConfig }, image, {
+    imageBuilder: (imgBldr, opts) => {
+      if (opts.width !== null) {
+        const w = opts.width;
+        const h = getImageHeight(w, format);
+        return imgBldr.width(w).height(h);
+      }
+      return imgBldr;
+    },
+  });
 
   if (!imageProps) return null;
 

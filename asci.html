@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ANSI/ASCII Animation</title>
+</head>
+
+<body style="background: black; color: white;">
+  <pre id="animation"></pre>
+  <script>
+    const animationContainer = document.getElementById('animation');
+    let frame = 0;
+
+    // Define the frames of the animation as an array of strings
+    const frames = [
+      '  .-.   ',
+      ' /   \\  ',
+      '|     | ',
+      ' \\   /  ',
+      '  `^`   '
+    ];
+
+    // Function to render the animation
+    function render() {
+      animationContainer.textContent = frames[frame % frames.length];
+      frame++;
+      requestAnimationFrame(render);
+    }
+
+    // Call the render function to start the animation
+    render();
+  </script>
+</body>
+
+</html>

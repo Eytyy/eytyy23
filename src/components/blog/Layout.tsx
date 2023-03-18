@@ -1,15 +1,15 @@
+import { ReactNode, useEffect } from 'react';
 import Head from 'next/head';
-import React, { ReactNode, useEffect, useState } from 'react';
-import ColumnBlock from '@/components/blocks/Column';
-import RightCol from '@/components/RightCol';
-import { Block } from '@/types';
-import MobileHeader from '@/components/MobileHeader';
-import { useRouter } from 'next/router';
-import useThemeSwitch from '@/hooks/useThemeSwitch';
-import Filters from '../filters';
-import { FiltersContextProvider } from '@/context/filters';
-import Logo from '../Logo';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import useThemeSwitch from '@/hooks/useThemeSwitch';
+import { FiltersContextProvider } from '@/context/filters';
+import { Block } from '@/types';
+
+import MobileHeader from '@/components/MobileHeader';
+import Filters from '../filters';
+import Logo from '../Logo';
 
 type Props = {
   children: ReactNode;
