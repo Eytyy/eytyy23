@@ -41,7 +41,7 @@ const media_module_fields = `
       }
     },
     _type == 'videoBlock' => {
-      autoPlay, loop,
+      autoPlay, loop, cropTop,
       "url": file.asset->.url,
       "color": background,
     }
@@ -207,6 +207,36 @@ export const errorPageQuery = `
     ${blocks},
     title,
     seo
+  }
+`;
+
+export const porfolioPageQuery = `
+  *[_type == "cv"][0]{
+    sections[] {
+      _key,
+      title,
+      anchor,
+      mainBlocks[] {
+        _type == 'mediaModule' => {
+          format,
+          media[] {
+            _type, _key, caption, format,
+            _type == 'imageBlock' => {
+              alt,
+              image {
+                ...,
+                asset->
+              }
+            },
+            _type == 'videoBlock' => {
+              autoPlay, loop, cropTop,
+              "url": file.asset->.url,
+              "color": background,
+            }
+          }
+        }
+      }
+    }
   }
 `;
 

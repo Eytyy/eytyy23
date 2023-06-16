@@ -1,24 +1,24 @@
-import {FaExternalLinkSquareAlt, FaLink} from 'react-icons/fa'
-import {IoMdCube} from 'react-icons/io'
-import {MdMoreHoriz} from 'react-icons/md'
-import {defineField, defineType} from 'sanity'
+import { FaExternalLinkSquareAlt, FaLink } from 'react-icons/fa';
+import { IoMdCube } from 'react-icons/io';
+import { MdMoreHoriz } from 'react-icons/md';
+import { defineField, defineType } from 'sanity';
 
 export default defineType({
   type: 'document',
   title: 'General Settings',
   name: 'generalSettings',
   groups: [
-    {title: 'Site Details', name: 'details', default: true},
-    {title: 'Displays', name: 'displays'},
-    {title: 'Advanced', name: 'advanced'},
-    {title: 'Mobile', name: 'mobile'},
+    { title: 'Site Details', name: 'details', default: true },
+    { title: 'Displays', name: 'displays' },
+    { title: 'Advanced', name: 'advanced' },
+    { title: 'Mobile', name: 'mobile' },
   ],
   fields: [
     defineField({
       title: 'Home Page',
       name: 'home',
       type: 'reference',
-      to: [{type: 'page'}],
+      to: [{ type: 'page' }],
       description: 'This page will show at the root of your domain',
       group: 'displays',
     }),
@@ -26,7 +26,7 @@ export default defineType({
       title: 'Work Page',
       name: 'work',
       type: 'reference',
-      to: [{type: 'page'}],
+      to: [{ type: 'page' }],
       description: 'This page will show at "/work"',
       group: 'displays',
     }),
@@ -34,7 +34,7 @@ export default defineType({
       title: 'Blog Page',
       name: 'blog',
       type: 'reference',
-      to: [{type: 'page'}],
+      to: [{ type: 'page' }],
       description: 'This page will show at "/blog"',
       group: 'displays',
     }),
@@ -42,8 +42,9 @@ export default defineType({
       title: 'Error Page (404)',
       name: 'error',
       type: 'reference',
-      to: [{type: 'page'}],
-      description: 'This page will show for any URL at your domain that does not exist yet',
+      to: [{ type: 'page' }],
+      description:
+        'This page will show for any URL at your domain that does not exist yet',
       group: 'displays',
     }),
     defineField({
@@ -51,11 +52,11 @@ export default defineType({
       name: 'mobileMenuFirstBlock',
       type: 'array',
       of: [
-        {type: 'contentModule', icon: IoMdCube},
-        {type: 'navLink', icon: FaExternalLinkSquareAlt},
-        {type: 'navPage', icon: FaLink},
-        {type: 'navStatic', icon: FaLink},
-        {type: 'menuBlock', icon: MdMoreHoriz},
+        { type: 'contentModule', icon: IoMdCube },
+        { type: 'navLink', icon: FaExternalLinkSquareAlt },
+        { type: 'navPage', icon: FaLink },
+        { type: 'navStatic', icon: FaLink },
+        { type: 'menuBlock', icon: MdMoreHoriz },
       ],
       group: 'mobile',
     }),
@@ -64,11 +65,11 @@ export default defineType({
       name: 'mobileMenuSecondtBlock',
       type: 'array',
       of: [
-        {type: 'contentModule', icon: IoMdCube},
-        {type: 'navLink', icon: FaExternalLinkSquareAlt},
-        {type: 'navPage', icon: FaLink},
-        {type: 'navStatic', icon: FaLink},
-        {type: 'menuBlock', icon: MdMoreHoriz},
+        { type: 'contentModule', icon: IoMdCube },
+        { type: 'navLink', icon: FaExternalLinkSquareAlt },
+        { type: 'navPage', icon: FaLink },
+        { type: 'navStatic', icon: FaLink },
+        { type: 'menuBlock', icon: MdMoreHoriz },
       ],
       group: 'mobile',
     }),
@@ -77,11 +78,11 @@ export default defineType({
       name: 'mobileMenuFooter',
       type: 'array',
       of: [
-        {type: 'contentModule', icon: IoMdCube},
-        {type: 'navLink', icon: FaExternalLinkSquareAlt},
-        {type: 'navPage', icon: FaLink},
-        {type: 'navStatic', icon: FaLink},
-        {type: 'menuBlock', icon: MdMoreHoriz},
+        { type: 'contentModule', icon: IoMdCube },
+        { type: 'navLink', icon: FaExternalLinkSquareAlt },
+        { type: 'navPage', icon: FaLink },
+        { type: 'navStatic', icon: FaLink },
+        { type: 'menuBlock', icon: MdMoreHoriz },
       ],
       group: 'mobile',
     }),
@@ -89,7 +90,8 @@ export default defineType({
       title: 'Site Title',
       name: 'siteTitle',
       type: 'string',
-      description: 'The name of your site, usually your company/brand name',
+      description:
+        'The name of your site, usually your company/brand name',
       group: 'details',
     }),
     defineField({
@@ -104,7 +106,7 @@ export default defineType({
     prepare() {
       return {
         title: 'General Settings',
-      }
+      };
     },
   },
-})
+});

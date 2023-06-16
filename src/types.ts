@@ -37,6 +37,39 @@ export type PageProps = {
   };
 };
 
+type ImageBlock = {
+  _key: string;
+  _type: 'imageBlock';
+  image: ImageProps;
+  alt: string;
+  caption: string;
+};
+
+export type VideoBlock = {
+  _key: string;
+  _type: 'videoBlock';
+  url: string;
+  autoPlay: boolean;
+  loop: boolean;
+  cropTop: boolean;
+};
+
+export type MediaBlock = {
+  _key: string;
+  _type: 'mediaModule';
+  format: 'detailed';
+  media: (ImageBlock | VideoBlock)[];
+};
+
+export type PortfolioProps = {
+  sections: {
+    _key: string;
+    anchor: string;
+    title: string;
+    mainBlocks?: MediaBlock[];
+  }[];
+};
+
 export type SiteProps = {
   rootDomain?: string;
   defaultSEO?: {

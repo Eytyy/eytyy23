@@ -1,5 +1,5 @@
-import {defineType, defineField} from 'sanity'
-import {FaVideo} from 'react-icons/fa'
+import { defineType, defineField } from 'sanity';
+import { FaVideo } from 'react-icons/fa';
 
 export default defineType({
   type: 'object',
@@ -33,13 +33,18 @@ export default defineType({
       type: 'boolean',
     }),
     defineField({
+      name: 'cropTop',
+      title: 'Crop Top',
+      type: 'boolean',
+    }),
+    defineField({
       name: 'format',
       title: 'Format',
       type: 'string',
       options: {
         list: [
-          {title: 'square', value: 'square'},
-          {title: 'landscape', value: 'landscape'},
+          { title: 'square', value: 'square' },
+          { title: 'landscape', value: 'landscape' },
         ],
       },
     }),
@@ -49,11 +54,11 @@ export default defineType({
       caption: 'caption',
       alt: 'alt',
     },
-    prepare({caption, alt}) {
+    prepare({ caption, alt }) {
       return {
         title: caption ? caption : alt,
         media: FaVideo,
-      }
+      };
     },
   },
-})
+});

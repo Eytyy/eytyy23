@@ -18,39 +18,8 @@ type Query = {
 };
 
 export default function SketchPage({ page }: Props) {
-  const [size, setSize] = useState({
-    width: 0,
-    height: 0,
-  });
-
-  const [node, setNode] = useState<HTMLElement | null>(null);
-
-  const measuredRef = useCallback((node: HTMLElement) => {
-    if (node !== null) setNode(node);
-  }, []);
-
-  useEffect(() => {
-    if (node) {
-      const onResize = () => {
-        const bounds = node.getBoundingClientRect();
-        setSize({
-          width: bounds.width,
-          height: bounds.height - 130,
-        });
-      };
-      onResize();
-      window.addEventListener('resize', onResize);
-      return () => {
-        window.removeEventListener('resize', onResize);
-      };
-    }
-  }, [node]);
-
-  return (
-    <section className="h-full" ref={measuredRef}>
-      <Sketch {...page} />
-    </section>
-  );
+  console.log(page);
+  return <Sketch {...page} />;
 }
 
 export async function getStaticPaths() {

@@ -17,8 +17,13 @@ import {
   blogPostQuery,
   sketchQuery,
   sketchSlugsQuery,
+  porfolioPageQuery,
 } from './queries';
-import { type SiteProps, type PageProps } from '@/types';
+import {
+  type SiteProps,
+  type PageProps,
+  PortfolioProps,
+} from '@/types';
 import { FilterGroup } from '@/components/filters';
 import { BlogPost } from '@/components/blog/Post';
 import { SketchProps } from '@/components/sketch';
@@ -32,6 +37,10 @@ export const client = createClient({
 
 export async function getIndex(): Promise<PageProps> {
   return await client.fetch(indexQuery);
+}
+
+export async function getPortfolio(): Promise<PortfolioProps> {
+  return await client.fetch(porfolioPageQuery);
 }
 
 export async function getSiteSettings(): Promise<SiteProps> {

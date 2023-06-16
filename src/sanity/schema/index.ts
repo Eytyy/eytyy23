@@ -35,6 +35,9 @@ import {
   pageSection,
   person,
 } from './objects';
+import cv from './documents/cv';
+import cvProject from './modules/cv-project';
+import cvProjectSection from './modules/cv-project-section';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -66,6 +69,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     advancedContentModule,
     sketchCollectionModule,
     tagsModule,
+    cvProject,
+    cvProjectSection,
 
     // docs
     project,
@@ -75,6 +80,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     sketch,
     blogPost,
     tag,
+    cv,
 
     generalSettings,
     seoSettings,
