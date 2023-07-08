@@ -55,6 +55,7 @@ export default function SynesthesiaPreview({ width, height }: Props) {
     const render = (time: number) => {
       if (!context) return;
       clearCanvas();
+
       points.forEach(({ position }) => {
         const [u, v] = position;
         const x = lerp(margin, width - margin, u);

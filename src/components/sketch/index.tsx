@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import FlowField from '../sketches/flow-field';
 import WalkingLine from '../sketches/walking-line';
+import Synesthesia from '../sketches/2d-synesthesia';
+import AnimatedSynesthesia from '../sketches/2d-animated-synestheia';
 
 export type SketchProps = {
   _id: string;
@@ -27,10 +29,7 @@ export default function Sketch(sketch: SketchProps) {
     if (node) {
       const onResize = () => {
         const bounds = node.getBoundingClientRect();
-        setSize({
-          width: bounds.width,
-          height: bounds.height,
-        });
+        setSize({ width: bounds.width, height: bounds.height });
       };
       onResize();
       window.addEventListener('resize', onResize);
@@ -40,9 +39,11 @@ export default function Sketch(sketch: SketchProps) {
     }
   }, [node]);
 
-  console.log(size);
   return (
-    <section ref={measuredRef} className="h-screen">
+    <section
+      ref={measuredRef}
+      className="h-screen bg-black text-white"
+    >
       {size.width * size.height > 0 &&
         renderSketch(sketch.slug, size)}
     </section>
@@ -54,6 +55,13 @@ function renderSketch(
   size: { width: number; height: number }
 ) {
   switch (slug) {
+    case 'synesthesia':
+      return (
+        <AnimatedSynesthesia
+          width={size.width}
+          height={size.height}
+        />
+      );
     case 'flow-field':
       return <FlowField />;
     case 'walking-line':

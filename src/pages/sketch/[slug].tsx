@@ -18,7 +18,6 @@ type Query = {
 };
 
 export default function SketchPage({ page }: Props) {
-  console.log(page);
   return <Sketch {...page} />;
 }
 
