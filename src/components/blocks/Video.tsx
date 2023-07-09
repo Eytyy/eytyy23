@@ -13,12 +13,14 @@ export default function VideoBlock({
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <video
         src={url}
-        controls
         className={clsx(
           'h-auto w-full',
           props.cropTop && '-mt-[4.2%]'
         )}
-      ></video>
+        autoPlay={props.autoPlay}
+        muted={props.autoPlay}
+        loop={props.autoPlay}
+      />
     </div>
   );
 }

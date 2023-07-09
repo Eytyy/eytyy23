@@ -28,23 +28,34 @@ const menu = `
   }
 `;
 
+const image_block = `
+  _type == 'imageBlock' => {
+    ...,
+    "_type": "imageBlock",
+    image {
+      ...,
+      asset->
+    }
+  }
+`;
+
+const video_block = `
+  _type == 'videoBlock' => {
+    "_type": "videoBlock",
+    autoPlay, loop, cropTop,
+    "url": file.asset->.url,
+    "color": background,
+  }
+`;
+
 // fields
 const media_module_fields = `
   format,
+  _type,
   media[] {
     _type, _key, addCaption, caption, format,
-    _type == 'imageBlock' => {
-      alt,
-      image {
-        ...,
-        asset->
-      }
-    },
-    _type == 'videoBlock' => {
-      autoPlay, loop, cropTop,
-      "url": file.asset->.url,
-      "color": background,
-    }
+    ${image_block},
+    ${video_block},
   }
 `;
 
@@ -192,7 +203,7 @@ export const allPagesSlugQuery = `*[ _type == "page" && defined(slug) ].slug.cur
 export const projectBySlugQuery = `{
   "page": *[ _type == "project" && slug.current == $slug ][0] {
     title,
-    description[] { ${content_block_fields} },
+    description { ${content_block_fields} },
     mainMedia {${media_module_fields}},
     ${blocks},
     seo,
@@ -213,28 +224,28 @@ export const errorPageQuery = `
 export const porfolioPageQuery = `
   *[_type == "cv"][0]{
     sections[] {
+      ...,
       _key,
       title,
       anchor,
+      theme,
+      link,
+      description[] {
+        ${content_block_fields}
+      },
       mainBlocks[] {
         _type == 'mediaModule' => {
-          format,
-          media[] {
-            _type, _key, caption, format,
-            _type == 'imageBlock' => {
-              alt,
-              image {
-                ...,
-                asset->
-              }
-            },
-            _type == 'videoBlock' => {
-              autoPlay, loop, cropTop,
-              "url": file.asset->.url,
-              "color": background,
-            }
-          }
-        }
+          ${media_module_fields}
+        },
+        _type == 'contentModule' => {
+          ${content_block_fields}
+        },
+        _type == 'imageBlock' => {
+          ${image_block}
+        },
+        _type == 'videoBlock' => {
+          ${video_block}
+        },
       }
     }
   }

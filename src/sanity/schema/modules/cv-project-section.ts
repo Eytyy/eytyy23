@@ -13,11 +13,43 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'theme',
+      title: 'Theme',
+      type: 'string',
+      options: {
+        list: [
+          {
+            title: 'Blue',
+            value: 'blue',
+          },
+          {
+            title: 'Black',
+            value: 'black',
+          },
+          {
+            title: 'White',
+            value: 'white',
+          },
+        ],
+      },
+      initialValue: 'black',
+    }),
+    defineField({
       title: 'Title',
       name: 'title',
       type: 'string',
       description:
         'This is the title of the module, it will not be displayed on the page.',
+    }),
+    defineField({
+      title: 'Description',
+      name: 'description',
+      type: 'contentBlock',
+    }),
+    defineField({
+      title: 'Link',
+      name: 'link',
+      type: 'navLink',
     }),
     defineField({
       title: 'Main blocks',

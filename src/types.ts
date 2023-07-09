@@ -66,7 +66,10 @@ export type PortfolioProps = {
     _key: string;
     anchor: string;
     title: string;
-    mainBlocks?: MediaBlock[];
+    mainBlocks: MainBlocks[];
+    description: ContentBlock[];
+    theme: 'blue' | 'white' | 'black';
+    link: NavLink;
   }[];
 };
 
@@ -125,6 +128,15 @@ export type Block =
   | MenuProps
   | NavLink
   | NavPage;
+
+export type MainBlocks =
+  | ContentBlock
+  | SketchBlock
+  | SketchCollection
+  | BlogPostsModule
+  | MediaBlock
+  | ImageBlock
+  | VideoBlock;
 
 export type ImageProps = {
   sizes?: string;
