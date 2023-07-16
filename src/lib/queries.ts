@@ -6,86 +6,28 @@ export const workID = `*[_type == 'generalSettings'][0].work->_id`;
 export const blogID = `*[_type == 'generalSettings'][0].blog->_id`;
 export const errorID = `*[_type == 'generalSettings'][0].error->_id`;
 
-export const page = `
-  _type,
-  "slug": slug.current,
-  "isHome": _id == ${homeID},
-  "isWork": _id == ${workID},
-  "isBlog": _id == ${blogID},
-  _type == 'project' && format == 'link' => {
-    format,
-    link
+// ------------------- Blocks, Modules, and Fields ------------------- //
+const links = `
+  _type == "navLink" => {
+    ...,
+    "link": url
+  },
+  _type == "navPage" => {
+    ...,
+    "page": page-> {
+      _type,
+      title,
+      "slug": slug.current
+    }
   }
 `;
 
 const menu = `
   items[]{
     _key, _type, title,
-    _type == 'navPage' => { "page": page-> {
-      "slug": slug.current,
-    }},
-    _type == 'navLink' => { url },
+    ${links}
   }
 `;
-
-const image_block = `
-  _type == 'imageBlock' => {
-    ...,
-    "_type": "imageBlock",
-    image {
-      ...,
-      asset->
-    }
-  }
-`;
-
-const video_block = `
-  _type == 'videoBlock' => {
-    "_type": "videoBlock",
-    autoPlay, loop, cropTop,
-    "url": file.asset->.url,
-    "color": background,
-  }
-`;
-
-// fields
-const media_module_fields = `
-  format,
-  _type,
-  media[] {
-    _type, _key, addCaption, caption, format,
-    ${image_block},
-    ${video_block},
-  }
-`;
-
-const content_block_fields = `
-  ...,
-  _type == 'imageBlock' => {
-    ...,
-    image {
-      ...,
-      asset->
-    }
-  },
-  markDefs[] {
-    ...,
-    _type == 'internalLink' => {
-      ...,
-      reference-> {
-        _type,
-        "slug": slug.current
-      }
-    }
-  },
-`;
-
-const nav_link = `_type == "navLink" => {
-  "link": url
-}`;
-const nav_page = `_type == "navPage" => {
-  page-> { title, "slug": slug.current  }
-}`;
 
 const menu_block = `_type == "menuBlock" => {
   expand, orientation, isDropdown, "canToggle": toggle,
@@ -105,6 +47,51 @@ const mega_menu_block = `_type == "megaMenuBlock" => {
       }
     }
   }
+}`;
+
+const image_block = `_type == 'imageBlock' => {
+  ...,
+  "_type": "imageBlock",
+  image {
+    ...,
+    asset->
+  }
+}`;
+
+const video_block = ` _type == 'videoBlock' => {
+  "_type": "videoBlock",
+  autoPlay, loop, cropTop,
+  "url": file.asset->.url,
+  "color": background,
+}`;
+
+const media_module = `_type == 'mediaModule' => {
+  format,
+  _type,
+  media[] {
+    _type, _key, addCaption, caption, format,
+    ${image_block},
+    ${video_block},
+  }
+}`;
+
+const content_block_fields = `
+  ...,
+  ${image_block},
+  markDefs[] {
+    ...,
+    _type == 'internalLink' => {
+      ...,
+      reference-> {
+        _type,
+        "slug": slug.current
+      }
+    }
+  },
+`;
+
+const content_module = `_type == 'contentModule' => {
+  ${content_block_fields}
 }`;
 
 const sketch_block = `_type == "sketchBlock" => {
@@ -152,19 +139,42 @@ const projects_module = `_type == 'projectsModule' => {
   referenceType == 'manual' => { content[]-> }
 }`;
 
-export const blocks = `
+export const column_blocks = `
   ...,
-  ${nav_link},
-  ${nav_page},
+  ${links},
   ${menu_block},
   ${mega_menu_block},
-  ${sketch_block},
-  ${sketch_collection_block},
   ${blog_post_modules},
-  ${projects_module}
+  ${projects_module},
+  ${content_module}
 `;
 
-// Main
+export const main_blocks = `
+  ...,
+  ${media_module},
+  ${content_module},
+  ${sketch_block},
+  ${sketch_collection_block},
+  ${image_block},
+  ${video_block},
+`;
+
+export const pageFields = `
+  title,
+  "slug": slug.current,
+  "leftCol": {
+     "top": topLeft[][0]{ ${column_blocks} },
+     "center": leftCenter[][0]{ ${column_blocks} },
+     "bottom": bottomLeft[][0]{ ${column_blocks} }
+  },
+  "main": mainBlocks[]{ ${main_blocks} },
+  "rightCol": right[0] { ${column_blocks} },
+  footer[0] {
+    ${column_blocks}
+  }
+`;
+
+// ------------------------ Queries ------------------------ //
 export const siteQuery = `{
   "rootDomain": *[_type == "generalSettings"][0].siteURL,
   "defaultSEO": *[ _type == "seoSettings" ][0] {
@@ -175,26 +185,11 @@ export const siteQuery = `{
     "share_description": shareDesc,
   },
   "mobile_menu": *[_type == "generalSettings"][0] {
-    "block_1": mobileMenuFirstBlock[][0] { ${blocks} },
-    "block_2": mobileMenuSecondtBlock[][0] { ${blocks} },
-    "footer": mobileMenuFooter[][0] { ${blocks} },
+    "block_1": mobileMenuFirstBlock[][0] { ${column_blocks} },
+    "block_2": mobileMenuSecondtBlock[][0] { ${column_blocks} },
+    "footer": mobileMenuFooter[][0] { ${column_blocks} },
   }
 }`;
-
-export const pageFields = `
-  title,
-  "slug": slug.current,
-  "leftCol": {
-     "top": topLeft[][0]{ ${blocks} },
-     "center": leftCenter[][0]{ ${blocks} },
-     "bottom": bottomLeft[][0]{ ${blocks} }
-  },
-  "main": mainBlocks[]{ ${blocks} },
-  "rightCol": right[0] { ${blocks} },
-  footer[0] {
-    ${blocks}
-  }
-`;
 
 export const allProjectsSlugQuery = `*[ _type == "project" && defined(slug) ].slug.current`;
 
@@ -204,8 +199,7 @@ export const projectBySlugQuery = `{
   "page": *[ _type == "project" && slug.current == $slug ][0] {
     title,
     description { ${content_block_fields} },
-    mainMedia {${media_module_fields}},
-    ${blocks},
+    ${main_blocks},
     seo,
   },
   "site": ${siteQuery}
@@ -215,7 +209,7 @@ export const errorPageQuery = `
   *[_type == "page" && _id == ${errorID}] | order(_updatedAt desc)[0]{
     "id": _id,
     hasTransparentHeader,
-    ${blocks},
+    ${main_blocks},
     title,
     seo
   }
@@ -234,18 +228,7 @@ export const porfolioPageQuery = `
         ${content_block_fields}
       },
       mainBlocks[] {
-        _type == 'mediaModule' => {
-          ${media_module_fields}
-        },
-        _type == 'contentModule' => {
-          ${content_block_fields}
-        },
-        _type == 'imageBlock' => {
-          ${image_block}
-        },
-        _type == 'videoBlock' => {
-          ${video_block}
-        },
+        ${main_blocks}
       }
     }
   }
