@@ -9,6 +9,7 @@ import { NextPage } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { themes_names } from '@/hooks/useThemeSwitch';
 import { AppProvider } from '@/context/app';
+import PlausibleProvider from 'next-plausible';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -37,12 +38,15 @@ export default function App({
       enableSystem={false}
       disableTransitionOnChange
     >
-      <AppProvider site={pageProps.site}>
-        <div className={`${inter.variable} font-sans`}>
-          <div id="portal"></div>
-          {getLayout(<Component {...pageProps} />)}
-        </div>
-      </AppProvider>
+      {' '}
+      <PlausibleProvider domain="eytyy.com">
+        <AppProvider site={pageProps.site}>
+          <div className={`${inter.variable} font-sans`}>
+            <div id="portal"></div>
+            {getLayout(<Component {...pageProps} />)}
+          </div>
+        </AppProvider>
+      </PlausibleProvider>
     </ThemeProvider>
   );
 }
