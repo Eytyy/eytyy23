@@ -1,5 +1,5 @@
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useHasMounted } from './useHasMounted';
 
 const themes = {
   black: {
@@ -14,7 +14,7 @@ const themes = {
   },
   white: {
     title: 'White Mode',
-    name: 'metal',
+    name: 'white',
     color: { hex: '#FFF' },
   },
 };
@@ -37,16 +37,6 @@ export default function useThemeSwitch() {
     theme: currentTheme,
     setTheme: updateTheme,
   };
-}
-
-export function useHasMounted() {
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  return hasMounted;
 }
 
 type Props = {};

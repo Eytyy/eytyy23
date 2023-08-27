@@ -4,11 +4,11 @@ import { Inter } from '@next/font/google';
 import '@/styles/globals.css';
 import '@/styles/app.css';
 
-import Layout from '@/components/Layout';
 import { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
 import { ThemeProvider } from 'next-themes';
 import { themes_names } from '@/hooks/useThemeSwitch';
+import { AppProvider } from '@/context/app';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,9 +28,7 @@ export default function App({
   Component,
   pageProps,
 }: AppPropsWithLayout) {
-  const getLayout =
-    Component.getLayout ??
-    ((page) => <Layout {...pageProps}>{page}</Layout>);
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <ThemeProvider
@@ -39,9 +37,12 @@ export default function App({
       enableSystem={false}
       disableTransitionOnChange
     >
-      <div className={`${inter.variable} font-sans`}>
-        {getLayout(<Component {...pageProps} />)}
-      </div>
+      <AppProvider site={pageProps.site}>
+        <div className={`${inter.variable} font-sans`}>
+          <div id="portal"></div>
+          {getLayout(<Component {...pageProps} />)}
+        </div>
+      </AppProvider>
     </ThemeProvider>
   );
 }

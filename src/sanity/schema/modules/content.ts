@@ -1,17 +1,18 @@
-import {defineType, defineField} from 'sanity'
-import {BiBookContent} from 'react-icons/bi'
+import { defineType, defineField } from 'sanity';
+import { RiQuoteText } from 'react-icons/ri';
 
 export default defineType({
   type: 'object',
   title: 'Content Module',
   name: 'contentModule',
-  icon: BiBookContent,
+  icon: RiQuoteText,
   fields: [
     defineField({
       title: 'Title',
       name: 'title',
       type: 'string',
-      description: 'This is the title of the module, it will not be displayed on the page.',
+      description:
+        'This is the title of the module, it will not be displayed on the page.',
     }),
     defineField({
       title: 'Body',
@@ -23,11 +24,11 @@ export default defineType({
     select: {
       title: 'title',
     },
-    prepare({title}) {
+    prepare({ title }) {
       return {
-        media: BiBookContent,
+        media: RiQuoteText,
         title: title || 'Content Module',
-      }
+      };
     },
   },
-})
+});

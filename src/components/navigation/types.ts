@@ -1,3 +1,5 @@
+import { MediaModule } from '@/types';
+
 export type NavPage = {
   _key: string;
   _type: 'navPage';
@@ -5,6 +7,7 @@ export type NavPage = {
   page?: {
     slug: string;
     _type: string;
+    preview?: MediaModule;
   };
 };
 
@@ -29,28 +32,8 @@ export type NavGroup = {
 };
 
 export type Menu = {
+  title: string;
   items: MenuItemProps[];
 };
 
 export type MenuItemProps = NavPage | NavLink;
-
-export type MegaMenuProps = {
-  _key: string;
-  _type: 'megaMenuBlock';
-  title: string;
-  orientation: string;
-  canToggle: boolean;
-  expand: boolean;
-  items: (NavGroup | NavMenu)[];
-};
-
-export type MenuProps = {
-  _key: string;
-  title: string;
-  _type: 'menuBlock';
-  orientation: 'vertical' | 'horizontal';
-  canToggle: boolean;
-  expand: boolean;
-  menu: Menu;
-  isDropdown: boolean;
-};

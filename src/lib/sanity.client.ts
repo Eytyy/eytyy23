@@ -17,16 +17,14 @@ import {
   blogPostQuery,
   sketchQuery,
   sketchSlugsQuery,
-  porfolioPageQuery,
+  projectQuery,
+  allProjectsSlugQuery,
 } from './queries';
-import {
-  type SiteProps,
-  type PageProps,
-  PortfolioProps,
-} from '@/types';
-import { FilterGroup } from '@/components/filters';
+import { type SiteProps, type PageProps } from '@/types';
 import { BlogPost } from '@/components/blog/Post';
 import { SketchProps } from '@/components/sketch';
+import { ProjectProps } from '@/components/work/ProjectContainer';
+import { FilterGroup } from '@/components/blog/Filters';
 
 export const client = createClient({
   projectId,
@@ -37,10 +35,6 @@ export const client = createClient({
 
 export async function getIndex(): Promise<PageProps> {
   return await client.fetch(indexQuery);
-}
-
-export async function getPortfolio(): Promise<PortfolioProps> {
-  return await client.fetch(porfolioPageQuery);
 }
 
 export async function getSiteSettings(): Promise<SiteProps> {
@@ -55,18 +49,21 @@ export async function getFilters(): Promise<FilterGroup[]> {
   return (await client.fetch(filtersQuery)) || [];
 }
 
+// all slugs
+export async function getAllProjectsSlugs(): Promise<
+  Pick<ProjectProps, 'slug'>[]
+> {
+  const slugs =
+    (await client.fetch<string[]>(allProjectsSlugQuery)) || [];
+  return slugs.map((slug) => ({ slug }));
+}
+
 export async function getAllBlogPostsSlugs(): Promise<
   Pick<BlogPost, 'slug'>[]
 > {
   const slugs =
     (await client.fetch<string[]>(blogPostSlugsQuery)) || [];
   return slugs.map((slug) => ({ slug }));
-}
-
-export async function getBlogPostBySlug(
-  slug: string
-): Promise<BlogPost> {
-  return await client.fetch(blogPostQuery, { slug });
 }
 
 export async function getAllPageSlugs(): Promise<
@@ -76,18 +73,31 @@ export async function getAllPageSlugs(): Promise<
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function getPageBySlug(
-  slug: string
-): Promise<PageProps> {
-  return await client.fetch(pageQuery, { slug });
-}
-
 export async function getAllSketchSlugs(): Promise<
   Pick<SketchProps, 'slug'>[]
 > {
   const slugs =
     (await client.fetch<string[]>(sketchSlugsQuery)) || [];
   return slugs.map((slug) => ({ slug }));
+}
+
+// page by slug
+export async function getProjectBySlug(
+  slug: string
+): Promise<ProjectProps> {
+  return await client.fetch(projectQuery, { slug });
+}
+
+export async function getBlogPostBySlug(
+  slug: string
+): Promise<BlogPost> {
+  return await client.fetch(blogPostQuery, { slug });
+}
+
+export async function getPageBySlug(
+  slug: string
+): Promise<PageProps> {
+  return await client.fetch(pageQuery, { slug });
 }
 
 export async function getSketchBySlug(

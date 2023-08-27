@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { GetStaticProps } from 'next';
 import { PreviewSuspense } from 'next-sanity/preview';
 import { lazy } from 'react';
@@ -11,6 +13,7 @@ import BlogPostDisplay, {
   type BlogPost,
 } from '@/components/blog/Post';
 import { SiteProps } from '@/types';
+import BlogLayout from '@/components/blog/Layout';
 const PreviewBlogPost = lazy(
   () => import('@/components/previews/PreviewBlogPost')
 );
@@ -70,4 +73,8 @@ export const getStaticProps: GetStaticProps<
       token: previewData.token ?? null,
     },
   };
+};
+
+BlogPost.getLayout = function getLayout(page: any) {
+  return <BlogLayout {...page.props}>{page}</BlogLayout>;
 };

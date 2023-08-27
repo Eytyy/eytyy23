@@ -32,11 +32,7 @@ export default defineType({
       title: 'Loop',
       type: 'boolean',
     }),
-    defineField({
-      name: 'cropTop',
-      title: 'Crop Top',
-      type: 'boolean',
-    }),
+
     defineField({
       name: 'format',
       title: 'Format',
@@ -47,6 +43,7 @@ export default defineType({
           { title: 'landscape', value: 'landscape' },
         ],
       },
+      initialValue: 'landscape',
     }),
   ],
   preview: {

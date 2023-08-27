@@ -7,6 +7,7 @@ const PreviewIndexPage = lazy(
 );
 import { getIndex, getSiteSettings } from '@/lib/sanity.client';
 import { SiteProps, PageProps } from '@/types';
+import Layout from '@/components/Layout';
 
 interface Props {
   page: PageProps;
@@ -48,7 +49,7 @@ export const getStaticProps: GetStaticProps<
 > = async (ctx) => {
   const { preview = false, previewData = {} } = ctx;
 
-  const [site = {}, page] = await Promise.all([
+  const [site, page] = await Promise.all([
     getSiteSettings(),
     getIndex(),
   ]);
@@ -61,4 +62,8 @@ export const getStaticProps: GetStaticProps<
       token: previewData.token ?? null,
     },
   };
+};
+
+FrontPage.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout {...page.props}>{page}</Layout>;
 };

@@ -1,11 +1,14 @@
-import { Block } from '@/types';
 import React, { useEffect, useState } from 'react';
 import ContentBlock from './Content';
-import { BlogPostCards } from '@/components/blog';
 import SketchCollectionModule from '@/components/modules/SketchCollection';
-import Menu from '@/components/navigation/Menu';
+import ImageBlock from './Image';
+import MediaModule from '../modules/MediaModule';
+import VideoBlock from './Video';
 
-export default function MainBlock({ block }: { block: Block }) {
+import type { MainBlocks } from '@/types';
+import { BlogPostCards } from '../blog';
+
+export default function MainBlock({ block }: { block: MainBlocks }) {
   const [showChild, setShowChild] = useState(false);
 
   // Wait until after client-side hydration to show
@@ -13,8 +16,6 @@ export default function MainBlock({ block }: { block: Block }) {
     setShowChild(true);
   }, []);
   switch (block._type) {
-    case 'menuBlock':
-      return <Menu {...block} />;
     case 'contentModule':
     case 'advancedContentModule':
       return <ContentBlock body={block.body} />;
@@ -23,9 +24,15 @@ export default function MainBlock({ block }: { block: Block }) {
         return null;
       }
       return <SketchCollectionModule {...block} />;
+    case 'mediaModule':
+      return <MediaModule {...block} />;
+    case 'imageBlock':
+      return <ImageBlock {...block} />;
+    case 'videoBlock':
+      return <VideoBlock {...block} />;
     case 'blogPostsModule':
       return <BlogPostCards {...block} />;
     default:
-      return <div>Main Block</div>;
+      return <div>I do not know what to do with this</div>;
   }
 }

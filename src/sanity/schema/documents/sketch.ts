@@ -1,5 +1,5 @@
-import {defineType, defineField} from 'sanity'
-import {MdAnimation} from 'react-icons/md'
+import { defineType, defineField } from 'sanity';
+import { MdAnimation } from 'react-icons/md';
 
 export default defineType({
   title: 'Sketch',
@@ -7,8 +7,8 @@ export default defineType({
   type: 'document',
   icon: MdAnimation,
   groups: [
-    {name: 'main', title: 'Main', default: true},
-    {name: 'seo', title: 'SEO'},
+    { name: 'main', title: 'Main', default: true },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     defineField({
@@ -21,6 +21,12 @@ export default defineType({
       name: 'id',
       title: 'ID',
       type: 'string',
+      group: 'main',
+    }),
+    defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'image',
       group: 'main',
     }),
     defineField({
@@ -61,7 +67,7 @@ export default defineType({
         maxLength: 96,
       },
       group: 'main',
-      hidden: ({parent}) => parent.format === 'link',
+      hidden: ({ parent }) => parent.format === 'link',
     }),
     defineField({
       name: 'seo',
@@ -74,9 +80,9 @@ export default defineType({
     select: {
       title: 'title',
     },
-    prepare: ({title}) => ({
+    prepare: ({ title }) => ({
       title,
       media: MdAnimation,
     }),
   },
-})
+});

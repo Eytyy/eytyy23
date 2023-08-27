@@ -8,8 +8,10 @@ module.exports = {
       current: 'currentColor',
       black: '#000000',
       white: '#fff6e2',
+      blue: '#0000FF',
       pageBG: 'var(--pageBG)',
       pageText: 'var(--pageText)',
+      accent: 'var(--accent)',
     },
     extend: {
       height: {

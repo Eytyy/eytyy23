@@ -2,7 +2,6 @@ import { SketchCollection } from '@/types';
 import React, {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
@@ -17,6 +16,7 @@ import clsx from 'clsx';
 import useThemeSwitch, { themes_names } from '@/hooks/useThemeSwitch';
 import SketchBlock from '@/components/blocks/Sketch';
 import { SketchProps } from '@/components/sketch';
+import useElementBounds from '@/hooks/useElementBounds';
 
 type Themes = (typeof themes_names)[number] | undefined;
 
@@ -25,38 +25,10 @@ export default function SketchCollectionModule({
   active: activeID,
 }: SketchCollection) {
   const theme = useThemeSwitch();
-
-  const [node, setNode] = useState<HTMLElement | null>(null);
-  const [size, setSize] = useState({ width: 0, height: 0 });
-
-  // measured callback ref to save the wrapper node in state
-  // this is used to get the element's boundingClientRect
-  // and set the canvas size according to it's parent width and height
-  const measuredRef = useCallback((node: HTMLElement) => {
-    if (node !== null) setNode(node);
-  }, []);
-
-  // Update canvas size in state on window.resize
-  useLayoutEffect(() => {
-    if (node) {
-      const onResize = () => {
-        const bounds = node.getBoundingClientRect();
-        setSize({
-          width: bounds.width,
-          height: bounds.height - 130,
-        });
-      };
-
-      onResize();
-      window.addEventListener('resize', onResize);
-      return () => {
-        window.removeEventListener('resize', onResize);
-      };
-    }
-  }, [node]);
+  const { size, measuredRef } = useElementBounds();
 
   return (
-    <section className="h-full" ref={measuredRef}>
+    <section className="h-full w-full" ref={measuredRef}>
       <AnimatePresence mode="wait">
         {theme ? (
           <Main
@@ -74,20 +46,13 @@ export default function SketchCollectionModule({
   );
 }
 
-function Main({
-  sketches,
-  theme,
-  activeID,
-  size,
-}: {
+type MainProps = {
   activeID?: string;
   theme: {
     theme: {
       title: string;
       name: string;
-      color: {
-        hex: string;
-      };
+      color: { hex: string };
     };
     setTheme: (name: 'black' | 'blue' | 'white') => any;
   };
@@ -96,7 +61,9 @@ function Main({
     height: number;
   };
   sketches: SketchProps[];
-}) {
+};
+
+function Main({ sketches, theme, activeID, size }: MainProps) {
   const [active, setActive] = useState(activeID || sketches[0]._id);
 
   const selectedIdx = sketches.findIndex(

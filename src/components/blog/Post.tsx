@@ -1,14 +1,14 @@
 import MainBlock from '@/components/blocks/Main';
 import { formatDate } from '@/lib/helpers';
-import { Block } from '@/types';
+import type { MainBlocks } from '@/types';
 import React from 'react';
 import Alert from '../AlertBanner';
-import { FilterProps } from '../filters';
+import { FilterProps } from './Filters';
 
 export type BlogPost = {
   _id: string;
   title: string;
-  blocks: Block[];
+  blocks: MainBlocks[];
   summary: any;
   _createdAt: string;
   _updatedAt: string;

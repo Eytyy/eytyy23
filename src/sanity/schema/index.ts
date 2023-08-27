@@ -7,11 +7,9 @@ import { SchemaTypeDefinition } from 'sanity';
 import {
   contentBlock,
   imageBlock,
-  menuBlock,
   sketchBlock,
   videoBlock,
   advancedContentBlock,
-  megaMenuBlock,
 } from './blocks';
 
 import {
@@ -34,10 +32,11 @@ import {
   navType,
   pageSection,
   person,
+  collaborator,
+  projectSection,
 } from './objects';
-import cv from './documents/cv';
-import cvProject from './modules/cv-project';
-import cvProjectSection from './modules/cv-project-section';
+import work from './documents/singletons/work';
+import projectSectionColBlock from './blocks/project-section-col-block';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -47,11 +46,11 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     imageBlock,
     videoBlock,
     sketchBlock,
-    menuBlock,
-    megaMenuBlock,
+    projectSectionColBlock,
 
     // objects
     pageSection,
+    projectSection,
     person,
     navLink,
     navPage,
@@ -59,6 +58,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     navType,
     navGroup,
     navMenu,
+    collaborator,
 
     // modules
     contentModule,
@@ -69,8 +69,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     advancedContentModule,
     sketchCollectionModule,
     tagsModule,
-    cvProject,
-    cvProjectSection,
 
     // docs
     project,
@@ -80,8 +78,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     sketch,
     blogPost,
     tag,
-    cv,
 
+    // singletons
+    work,
     generalSettings,
     seoSettings,
   ],

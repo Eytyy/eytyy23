@@ -27,11 +27,13 @@ const createGrid = () => {
 type Props = {
   width: number;
   height: number;
+  canvasColor?: string;
 };
 
 export default function AnimatedSynesthesiaPreview({
   width,
   height,
+  canvasColor = 'blue',
 }: Props) {
   const [context, setContext] =
     useState<CanvasRenderingContext2D | null>(null);
@@ -42,10 +44,10 @@ export default function AnimatedSynesthesiaPreview({
     context.save();
     context.beginPath();
     context.rect(0, 0, width, height);
-    context.fillStyle = 'blue';
+    context.fillStyle = canvasColor;
     context.fill();
     context.restore();
-  }, [context, width, height]);
+  }, [context, width, height, canvasColor]);
 
   const sketch = useCallback(() => {
     const duration = random.rangeFloor(5, 20);

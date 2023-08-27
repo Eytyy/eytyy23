@@ -7,48 +7,6 @@ export const blogID = `*[_type == 'generalSettings'][0].blog->_id`;
 export const errorID = `*[_type == 'generalSettings'][0].error->_id`;
 
 // ------------------- Blocks, Modules, and Fields ------------------- //
-const links = `
-  _type == "navLink" => {
-    ...,
-    "link": url
-  },
-  _type == "navPage" => {
-    ...,
-    "page": page-> {
-      _type,
-      title,
-      "slug": slug.current
-    }
-  }
-`;
-
-const menu = `
-  items[]{
-    _key, _type, title,
-    ${links}
-  }
-`;
-
-const menu_block = `_type == "menuBlock" => {
-  expand, orientation, isDropdown, "canToggle": toggle,
-  menu-> { ${menu} }
-}`;
-
-const mega_menu_block = `_type == "megaMenuBlock" => {
-  expand, orientation, "canToggle": toggle,
-  items[] {
-    _key, _type,
-    _type == 'navGroup' => { ${menu}  },
-    _type == 'navMenu' => {
-      title,
-      menu-> {
-        ${menu},
-        _type == 'navMenu' => {  menu-> { ${menu} }  }
-      }
-    }
-  }
-}`;
-
 const image_block = `_type == 'imageBlock' => {
   ...,
   "_type": "imageBlock",
@@ -60,7 +18,7 @@ const image_block = `_type == 'imageBlock' => {
 
 const video_block = ` _type == 'videoBlock' => {
   "_type": "videoBlock",
-  autoPlay, loop, cropTop,
+  autoPlay, loop,
   "url": file.asset->.url,
   "color": background,
 }`;
@@ -95,7 +53,14 @@ const content_module = `_type == 'contentModule' => {
 }`;
 
 const sketch_block = `_type == "sketchBlock" => {
-  "sketch": sketch->
+  "sketch": sketch-> {
+    ...,
+    "slug": slug.current,
+    image {
+      ...,
+      asset->
+    }
+  }
 }`;
 
 const sketch_collection_block = `_type == "sketchCollectionModule" => {
@@ -109,6 +74,32 @@ const sketch_collection_block = `_type == "sketchCollectionModule" => {
     "slug": slug.current,
   },
 }`;
+
+const links = `
+  _type == "navLink" => {
+    ...,
+    "link": url
+  },
+  _type == "navPage" => {
+    ...,
+    "page": page-> {
+      _type,
+      title,
+      "slug": slug.current,
+      preview {
+        ${media_module}
+      }
+    }
+  }
+`;
+
+const menu = `
+  title,
+  items[]{
+    _key, _type, title,
+    ${links}
+  }
+`;
 
 const tags = `tags[]-> {
   _id,
@@ -139,16 +130,6 @@ const projects_module = `_type == 'projectsModule' => {
   referenceType == 'manual' => { content[]-> }
 }`;
 
-export const column_blocks = `
-  ...,
-  ${links},
-  ${menu_block},
-  ${mega_menu_block},
-  ${blog_post_modules},
-  ${projects_module},
-  ${content_module}
-`;
-
 export const main_blocks = `
   ...,
   ${media_module},
@@ -157,21 +138,14 @@ export const main_blocks = `
   ${sketch_collection_block},
   ${image_block},
   ${video_block},
+  ${blog_post_modules},
+  ${projects_module},
 `;
 
 export const pageFields = `
   title,
   "slug": slug.current,
-  "leftCol": {
-     "top": topLeft[][0]{ ${column_blocks} },
-     "center": leftCenter[][0]{ ${column_blocks} },
-     "bottom": bottomLeft[][0]{ ${column_blocks} }
-  },
   "main": mainBlocks[]{ ${main_blocks} },
-  "rightCol": right[0] { ${column_blocks} },
-  footer[0] {
-    ${column_blocks}
-  }
 `;
 
 // ------------------------ Queries ------------------------ //
@@ -184,26 +158,21 @@ export const siteQuery = `{
     "share_image": shareGraphic,
     "share_description": shareDesc,
   },
-  "mobile_menu": *[_type == "generalSettings"][0] {
-    "block_1": mobileMenuFirstBlock[][0] { ${column_blocks} },
-    "block_2": mobileMenuSecondtBlock[][0] { ${column_blocks} },
-    "footer": mobileMenuFooter[][0] { ${column_blocks} },
-  }
+  "settings": *[_type == "generalSettings"][0] {
+    ...,
+    "rootDomain": siteURL,
+    mainMenu-> { ${menu} },
+    secondaryMenu-> { ${menu} },
+    footerMenu-> { ${menu} },
+    "mainVisual": mainVisual[0] {
+      ${main_blocks}
+    }
+  },
 }`;
 
 export const allProjectsSlugQuery = `*[ _type == "project" && defined(slug) ].slug.current`;
 
 export const allPagesSlugQuery = `*[ _type == "page" && defined(slug) ].slug.current`;
-
-export const projectBySlugQuery = `{
-  "page": *[ _type == "project" && slug.current == $slug ][0] {
-    title,
-    description { ${content_block_fields} },
-    ${main_blocks},
-    seo,
-  },
-  "site": ${siteQuery}
-}`;
 
 export const errorPageQuery = `
   *[_type == "page" && _id == ${errorID}] | order(_updatedAt desc)[0]{
@@ -215,48 +184,15 @@ export const errorPageQuery = `
   }
 `;
 
-export const porfolioPageQuery = `
-  *[_type == "cv"][0]{
-    sections[] {
-      ...,
-      _key,
-      title,
-      anchor,
-      theme,
-      link,
-      description[] {
-        ${content_block_fields}
-      },
-      mainBlocks[] {
-        ${main_blocks}
-      }
-    }
-  }
-`;
-
 export const indexQuery = groq`
   *[_type == "page" && _id == *[_type=="generalSettings"][0].home->_id ][0] {
     ${pageFields}
   }
 `;
 
-export const blogQuery = groq`
-  *[_type == "page" && _id == *[_type=="generalSettings"][0].blog->_id ][0] {
-    ${pageFields}
-  }
-`;
-
-export const blogPostSlugsQuery = groq`*[_type == 'blogPost' && defined(slug) && status != 'draft'][].slug.current`;
-
-export const blogPostQuery = groq`*[_type == 'blogPost' && slug.current == $slug][0] {
-  ...,
-  "slug": slug.current
-}`;
-
 export const pageSlugsQuery = groq`
   *[ _type == "page" && defined(slug) && slug.current && !(_id in [
     ${homeID},
-    ${workID},
     ${errorID},
     ${blogID},
   ]) ].slug.current
@@ -264,6 +200,49 @@ export const pageSlugsQuery = groq`
 
 export const pageQuery = groq`*[_type == "page" && slug.current == $slug ][0]{
   ${pageFields}
+}`;
+
+export const blogQuery = groq`
+  *[_type == "page" && _id == *[_type=="generalSettings"][0].blog->_id ][0] {
+    ${pageFields}
+  }
+`;
+
+export const projectQuery = groq`*[_type == 'project' && slug.current == $slug][0] {
+  _id,
+  "slug": slug.current,
+  title,
+  theme,
+  sections[] {
+    _type,
+    _key,
+    title,
+    theme,
+    showSideFirst,
+    content[] {
+      _key,
+      _type,
+      ${media_module},
+      ${image_block},
+      ${video_block},
+      ${content_module}
+    },
+    sideContent[] {
+      _key,
+      title,
+      fullWidth,
+      content[] {
+        ${content_block_fields}
+      }
+    },
+  }
+}`;
+
+export const blogPostSlugsQuery = groq`*[_type == 'blogPost' && defined(slug) && status != 'draft'][].slug.current`;
+
+export const blogPostQuery = groq`*[_type == 'blogPost' && slug.current == $slug][0] {
+  ...,
+  "slug": slug.current
 }`;
 
 export const filtersQuery = groq`[{

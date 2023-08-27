@@ -1,25 +1,49 @@
-import { type VideoBlock as VideoBlockProps } from '@/types';
+import { type VideoBlockProps as VideoBlockProps } from '@/types';
 import clsx from 'clsx';
 import React from 'react';
 
-type Props = {};
-
 export default function VideoBlock({
   url,
-  ...props
+  autoPlay,
+  inView = false,
+  background = false,
 }: VideoBlockProps) {
+  const ref = React.useRef<HTMLVideoElement>(null);
+
+  React.useEffect(() => {
+    if (autoPlay && ref.current && ref.current.paused && inView) {
+      ref.current.play();
+    } else if (
+      autoPlay &&
+      ref.current &&
+      !ref.current.paused &&
+      !inView
+    ) {
+      ref.current.pause();
+    }
+  }, [autoPlay, inView]);
+
   return (
-    <div className="relative overflow-hidden">
+    <div
+      className={clsx(
+        background
+          ? 'absolute top-1/2 left-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2'
+          : 'relative overflow-hidden'
+      )}
+    >
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
       <video
+        ref={ref}
         src={url}
         className={clsx(
-          'h-auto w-full',
-          props.cropTop && '-mt-[4.2%]'
+          background
+            ? 'h-auto min-h-full w-auto min-w-full max-w-none'
+            : 'h-auto w-full'
         )}
-        autoPlay={props.autoPlay}
-        muted={props.autoPlay}
-        loop={props.autoPlay}
+        autoPlay={autoPlay && inView}
+        muted={autoPlay}
+        loop={autoPlay}
+        playsInline
       />
     </div>
   );

@@ -3,12 +3,14 @@ import FlowField from '../sketches/flow-field';
 import WalkingLine from '../sketches/walking-line';
 import Synesthesia from '../sketches/2d-synesthesia';
 import AnimatedSynesthesia from '../sketches/2d-animated-synestheia';
+import { ImageProps } from '@/types';
 
 export type SketchProps = {
   _id: string;
   slug: string;
   title: string;
   theme: string;
+  image: ImageProps;
 };
 
 export default function Sketch(sketch: SketchProps) {

@@ -2,7 +2,7 @@ import React from 'react';
 
 type Props = {};
 
-export default function Logo({}: Props) {
+export default function LetterLogo({}: Props) {
   return (
     <svg viewBox="0 0 66 90" className="h-full max-h-8 w-auto">
       <g>

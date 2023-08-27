@@ -1,6 +1,6 @@
 import React from 'react';
 import MainBlock from '@/components/blocks/Main';
-import { Block } from '@/types';
+import type { MainBlocks } from '@/types';
 
 type Props = {
   page: any;
@@ -12,7 +12,7 @@ export default function Home({ page }: Props) {
 
   return (
     <>
-      {main?.map((block: Block) => (
+      {main?.map((block: MainBlocks) => (
         <MainBlock key={block._key} block={block} />
       ))}
     </>

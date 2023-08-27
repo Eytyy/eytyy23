@@ -1,6 +1,3 @@
-import { FaExternalLinkSquareAlt, FaLink } from 'react-icons/fa';
-import { IoMdCube } from 'react-icons/io';
-import { MdMoreHoriz } from 'react-icons/md';
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
@@ -8,10 +5,9 @@ export default defineType({
   title: 'General Settings',
   name: 'generalSettings',
   groups: [
-    { title: 'Site Details', name: 'details', default: true },
-    { title: 'Displays', name: 'displays' },
+    { title: 'Site', name: 'details', default: true },
+    { title: 'Landing Pages', name: 'landing' },
     { title: 'Advanced', name: 'advanced' },
-    { title: 'Mobile', name: 'mobile' },
   ],
   fields: [
     defineField({
@@ -20,15 +16,15 @@ export default defineType({
       type: 'reference',
       to: [{ type: 'page' }],
       description: 'This page will show at the root of your domain',
-      group: 'displays',
+      group: 'landing',
     }),
     defineField({
       title: 'Work Page',
       name: 'work',
       type: 'reference',
-      to: [{ type: 'page' }],
+      to: [{ type: 'work' }],
       description: 'This page will show at "/work"',
-      group: 'displays',
+      group: 'landing',
     }),
     defineField({
       title: 'Blog Page',
@@ -36,7 +32,7 @@ export default defineType({
       type: 'reference',
       to: [{ type: 'page' }],
       description: 'This page will show at "/blog"',
-      group: 'displays',
+      group: 'landing',
     }),
     defineField({
       title: 'Error Page (404)',
@@ -45,47 +41,9 @@ export default defineType({
       to: [{ type: 'page' }],
       description:
         'This page will show for any URL at your domain that does not exist yet',
-      group: 'displays',
+      group: 'landing',
     }),
-    defineField({
-      title: 'Menu (1st Block)',
-      name: 'mobileMenuFirstBlock',
-      type: 'array',
-      of: [
-        { type: 'contentModule', icon: IoMdCube },
-        { type: 'navLink', icon: FaExternalLinkSquareAlt },
-        { type: 'navPage', icon: FaLink },
-        { type: 'navStatic', icon: FaLink },
-        { type: 'menuBlock', icon: MdMoreHoriz },
-      ],
-      group: 'mobile',
-    }),
-    defineField({
-      title: 'Menu (2nd Block)',
-      name: 'mobileMenuSecondtBlock',
-      type: 'array',
-      of: [
-        { type: 'contentModule', icon: IoMdCube },
-        { type: 'navLink', icon: FaExternalLinkSquareAlt },
-        { type: 'navPage', icon: FaLink },
-        { type: 'navStatic', icon: FaLink },
-        { type: 'menuBlock', icon: MdMoreHoriz },
-      ],
-      group: 'mobile',
-    }),
-    defineField({
-      title: 'Menu (Footer)',
-      name: 'mobileMenuFooter',
-      type: 'array',
-      of: [
-        { type: 'contentModule', icon: IoMdCube },
-        { type: 'navLink', icon: FaExternalLinkSquareAlt },
-        { type: 'navPage', icon: FaLink },
-        { type: 'navStatic', icon: FaLink },
-        { type: 'menuBlock', icon: MdMoreHoriz },
-      ],
-      group: 'mobile',
-    }),
+
     defineField({
       title: 'Site Title',
       name: 'siteTitle',
@@ -100,6 +58,42 @@ export default defineType({
       name: 'klaviyoAccountID',
       type: 'string',
       group: 'advanced',
+    }),
+    defineField({
+      title: 'Site Main Visual',
+      description: 'For pop-up menus and such',
+      name: 'mainVisual',
+      type: 'array',
+      of: [
+        { type: 'imageBlock' },
+        { type: 'videoBlock' },
+        { type: 'sketchBlock' },
+      ],
+      group: 'details',
+    }),
+    defineField({
+      title: 'Main Menu',
+      name: 'mainMenu',
+      type: 'reference',
+      to: [{ type: 'menu' }],
+      group: 'details',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      title: 'Secondary Menu',
+      name: 'secondaryMenu',
+      type: 'reference',
+      to: [{ type: 'menu' }],
+      group: 'details',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      title: 'Footer Menu',
+      name: 'footerMenu',
+      type: 'reference',
+      to: [{ type: 'menu' }],
+      group: 'details',
+      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {

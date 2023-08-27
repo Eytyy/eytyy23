@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import useDropdown from '@/hooks/useDropdown';
 import clsx from 'clsx';
 import CustomLink from './link';

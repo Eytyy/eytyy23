@@ -1,6 +1,6 @@
 import React from 'react';
 import MainBlock from '@/components/blocks/Main';
-import { Block, PageProps, SiteProps } from '@/types';
+import type { MainBlocks, PageProps, SiteProps } from '@/types';
 import Alert from './AlertBanner';
 
 type Props = {
@@ -15,7 +15,7 @@ export default function PageDisplay(props: Props) {
   return (
     <>
       <Alert preview={preview} loading={loading} />
-      {page.main?.map((block: Block) => (
+      {page.main?.map((block: MainBlocks) => (
         <MainBlock key={block._key} block={block} />
       ))}
     </>

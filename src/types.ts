@@ -1,43 +1,15 @@
 import { BlogPostsModule } from './components/blog/Cards';
 
-import {
-  MegaMenuProps,
-  MenuProps,
-  NavLink,
-  NavPage,
-} from './components/navigation/types';
+import { Menu } from './components/navigation/types';
 import { SketchProps } from './components/sketch';
-
-type Detailed = {
-  format: 'detailed';
-  blocks: [];
-};
-
-type Simple = {
-  format: 'link';
-  link: string;
-};
-
-export type ProjectProps = {
-  _type: 'project';
-  slug: string;
-  title: string;
-} & (Detailed | Simple);
 
 export type PageProps = {
   title: string;
   slug: string;
-  main?: Block[];
-  rightCol?: Block;
-  footer?: Block[];
-  leftCol?: {
-    top?: Block;
-    center?: Block;
-    bottom?: Block;
-  };
+  main?: MainBlocks[];
 };
 
-type ImageBlock = {
+export type ImageBlockProps = {
   _key: string;
   _type: 'imageBlock';
   image: ImageProps;
@@ -45,51 +17,43 @@ type ImageBlock = {
   caption: string;
 };
 
-export type VideoBlock = {
+export type VideoBlockProps = {
   _key: string;
   _type: 'videoBlock';
   url: string;
   autoPlay: boolean;
   loop: boolean;
-  cropTop: boolean;
+  inView: boolean;
+  alt: string;
+  caption: string;
+  background?: boolean;
 };
 
-export type MediaBlock = {
+export type MediaModule = {
   _key: string;
   _type: 'mediaModule';
   format: 'detailed';
-  media: (ImageBlock | VideoBlock)[];
-};
-
-export type PortfolioProps = {
-  sections: {
-    _key: string;
-    anchor: string;
-    title: string;
-    mainBlocks: MainBlocks[];
-    description: ContentBlock[];
-    theme: 'blue' | 'white' | 'black';
-    link: NavLink;
-  }[];
+  items: (ImageBlockProps | VideoBlockProps)[];
 };
 
 export type SiteProps = {
-  rootDomain?: string;
   defaultSEO?: {
-    site_title: string;
-    site_description: string;
-    share_title: string;
-    share_image: string;
-    share_description: string;
+    site_title?: string;
+    site_description?: any[];
+    share_title?: string;
+    share_image?: { [key: string]: any };
+    share_description?: any[];
   };
-  mobile_menu?: {
-    block_1: Block;
-    block_2: Block;
-    footer: Block;
+  settings: {
+    rootDomain?: string;
+    mainMenu: Menu;
+    secondaryMenu: Menu;
+    footerMenu: Menu;
+    mainVisual?: VisualBlocks;
   };
 };
 
-export type ContentBlock = {
+export type ContentBlockProps = {
   _type: 'contentModule' | 'advancedContentModule';
   _key: string;
   title: string;
@@ -119,24 +83,43 @@ export type ProjectsModule = {
   content: [];
 };
 
-export type Block =
-  | ContentBlock
-  | SketchBlock
-  | SketchCollection
-  | BlogPostsModule
-  | MegaMenuProps
-  | MenuProps
-  | NavLink
-  | NavPage;
+export type ProjectSectionType = {
+  content: (
+    | ImageBlockProps
+    | VideoBlockProps
+    | ContentBlockProps
+    | MediaModule
+  )[];
+  sideContent: {
+    title: string;
+    content: any[];
+    _key: string;
+    fullWidth: boolean;
+  }[];
+  _key: string;
+  title: string;
+  theme: 'black' | 'white' | 'blue';
+  showSideFirst?: boolean;
+};
 
 export type MainBlocks =
-  | ContentBlock
+  | ContentBlockProps
   | SketchBlock
   | SketchCollection
   | BlogPostsModule
-  | MediaBlock
-  | ImageBlock
-  | VideoBlock;
+  | MediaModule
+  | ImageBlockProps
+  | VideoBlockProps;
+
+export type MediaBlocksType =
+  | ImageBlockProps
+  | VideoBlockProps
+  | SketchBlock;
+
+export type VisualBlocks =
+  | SketchBlock
+  | ImageBlockProps
+  | VideoBlockProps;
 
 export type ImageProps = {
   sizes?: string;

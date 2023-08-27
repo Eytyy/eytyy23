@@ -1,13 +1,13 @@
-import {FaVideo} from 'react-icons/fa'
-import {defineType, defineField} from 'sanity'
+import { FaVideo } from 'react-icons/fa';
+import { defineType, defineField } from 'sanity';
 
 export default defineType({
   title: 'Project',
   name: 'project',
   type: 'document',
   groups: [
-    {name: 'main', title: 'Main', default: true},
-    {name: 'seo', title: 'SEO'},
+    { name: 'main', title: 'Main', default: true },
+    { name: 'seo', title: 'SEO' },
   ],
   fields: [
     defineField({
@@ -22,8 +22,8 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          {value: 'detailed', title: 'Detailed'},
-          {value: 'link', title: 'Link'},
+          { value: 'detailed', title: 'Detailed' },
+          { value: 'link', title: 'Link' },
         ],
         layout: 'radio',
       },
@@ -37,20 +37,18 @@ export default defineType({
       group: 'main',
     }),
     defineField({
-      name: 'blocks',
-      type: 'array',
-      title: 'Blocks',
-      of: [
-        {type: 'contentModule'},
-        {type: 'imageBlock'},
-        {type: 'videoBlock', icon: FaVideo},
-        {type: 'navPage'},
-        {type: 'navLink'},
-        {type: 'navStatic'},
-        {type: 'mediaModule'},
-      ],
+      name: 'preview',
+      type: 'mediaModule',
       group: 'main',
-      hidden: ({parent}) => parent.format === 'link',
+      hidden: ({ parent }) => parent.format === 'link',
+    }),
+    defineField({
+      name: 'sections',
+      type: 'array',
+      title: 'Sections',
+      of: [{ type: 'projectSection' }],
+      group: 'main',
+      hidden: ({ parent }) => parent.format === 'link',
     }),
     defineField({
       name: 'slug',
@@ -61,7 +59,21 @@ export default defineType({
         maxLength: 96,
       },
       group: 'main',
-      hidden: ({parent}) => parent.format === 'link',
+      hidden: ({ parent }) => parent.format === 'link',
+    }),
+    defineField({
+      name: 'theme',
+      title: 'Theme',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Blue', value: 'blue' },
+          { title: 'Black', value: 'black' },
+          { title: 'White', value: 'white' },
+        ],
+      },
+      group: 'main',
+      initialValue: 'black',
     }),
     defineField({
       name: 'seo',
@@ -70,4 +82,4 @@ export default defineType({
       group: 'seo',
     }),
   ],
-})
+});

@@ -5,9 +5,11 @@ import { PortableText } from '@portabletext/react';
 import { getInternalLink } from '@/lib/helpers';
 import ImageBlock from './Image';
 import CodeBlock from './Code';
+import clsx from 'clsx';
 
 type Props = {
   body: any;
+  className?: string;
 };
 
 type Portable = {
@@ -77,9 +79,9 @@ const myPortableTextComponents: Portable = {
   },
 };
 
-export default function ContentBlock({ body }: Props) {
+export default function ContentBlock({ body, className }: Props) {
   return (
-    <div className="content">
+    <div className={clsx('content', className)}>
       <PortableText
         // @ts-ignore
         value={body}

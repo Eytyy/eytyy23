@@ -105,7 +105,7 @@ const currentProjects = (
       }
 
       return S.document()
-        .schemaType('page')
+        .schemaType('work')
         .documentId(data.work._id)
         .views([
           S.view.form(),

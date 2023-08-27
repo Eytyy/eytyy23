@@ -38,10 +38,21 @@ const SketchBlock = React.memo(function SketchBlock({
   slug,
   width,
   height,
-}: { width: number; height: number } & Props) {
+  canvasColor,
+}: {
+  width: number;
+  height: number;
+  canvasColor?: string;
+} & Props) {
   switch (slug) {
     case 'synesthesia':
-      return <AnimatedSynesthesia width={width} height={height} />;
+      return (
+        <AnimatedSynesthesia
+          width={width}
+          height={height}
+          canvasColor={canvasColor}
+        />
+      );
     case 'blob':
       return <Blob width={width} height={width} />;
     case 'spiked-sphere':
