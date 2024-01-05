@@ -8,4 +8,6 @@ export { default as navStatic } from './nav-static';
 export { default as person } from './person';
 export { default as pageSection } from './page-section';
 export { default as projectSection } from './project-section';
-export { default as collaborator } from './collaborator';
+export { default as projectSectionFull } from './project-section-full';
+export { default as projectMainSection } from './project-main-section';
+export { default as projectInfo } from './project-info';

@@ -14,28 +14,3 @@
 
   --app-height: 100vh;
 }
-
-[data-theme='black'] {
-  --pageBG: #000000;
-  --pageText: #fff6e2;
-
-  --pageBG-hsl: 0, 0%, 0%;
-  --pageText-hsl: 60, 14%, 95%;
-  --accent: #ffff00;
-}
-
-[data-theme='blue'] {
-  --pageBG: #0000FF;
-  --pageText: #fff6e2;
-  --pageBG-hsl: 240deg 100% 50%;
-  --pageText-hsl: 0 0% 100%;
-  --accent: #ff0000;
-}
-
-[data-theme='white'] {
-  --pageBG: #FFFFFF;
-  --pageText: #000;
-  --pageBG-hsl: 0 0% 100%;
-  --pageText-hsl: 240deg 100% 50%;
-  --accent: #0000FF;
-}

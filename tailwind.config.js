@@ -14,11 +14,18 @@ module.exports = {
       accent: 'var(--accent)',
     },
     extend: {
+      screens: {
+        '3xl': '1920px',
+      },
       height: {
         app: 'var(--app-height)',
+        project: 'calc(var(--app-height) - var(--header-height))',
       },
       minHeight: {
         app: 'var(--app-height)',
+      },
+      maxHeight: {
+        project: 'calc(var(--app-height) - var(--header-height))',
       },
       fontFamily: {
         sans: ['var(--font-inter)'],

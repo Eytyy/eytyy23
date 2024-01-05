@@ -16,7 +16,6 @@ export const blocks = [
   { type: 'sketchBlock', icon: MdAnimation },
 
   { type: 'sketchCollectionModule', icon: MdAnimation },
-  { type: 'projectsModule', icon: TbPlugConnected },
   { type: 'blogPostsModule', icon: TbPlugConnected },
   { type: 'contentModule', icon: IoMdCube },
 ];

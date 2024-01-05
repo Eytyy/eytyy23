@@ -1,17 +1,9 @@
 @tailwind base;
 
-@layer base{
-  h1 {
-    @apply text-6xl mb-14;
-  }
-}
 
 .content {
   a {
     @apply text-accent hover:underline;
-  }
-  h2 {
-    @apply text-3xl font-bold my-5;
   }
   p {
     @apply my-6;
@@ -27,15 +19,24 @@
   }
 }
 
-.side-content {
-  p {
-    @apply mb-6;
-    &:last-child {
-      @apply mb-0;
+.blog {
+  a {
+      @apply text-accent hover:underline;
     }
-  }
-  strong {
-    @apply font-semibold;
-  }
 
+    p {
+      @apply my-6;
+
+      &:first-child {
+        @apply mt-0;
+      }
+
+      &:last-child {
+        @apply mb-0;
+      }
+    }
+
+    strong {
+      @apply font-semibold;
+    }
 }

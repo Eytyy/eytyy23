@@ -1,7 +1,7 @@
 import PreviewProject from '@/components/previews/PreviewProject';
-import ProjectContainer, {
+import ProjectDisplay, {
   type ProjectProps,
-} from '@/components/work/ProjectContainer';
+} from '@/components/work/ProjectDisplay';
 import {
   getAllProjectsSlugs,
   getProjectBySlug,
@@ -31,16 +31,12 @@ export default function Project(props: Props) {
   const { page, preview, token, site } = props;
   if (preview) {
     return (
-      <PreviewSuspense
-        fallback={
-          <ProjectContainer page={page} site={site} loading preview />
-        }
-      >
+      <PreviewSuspense fallback={<ProjectDisplay page={page} />}>
         <PreviewProject token={token} page={page} site={site} />
       </PreviewSuspense>
     );
   }
-  return <ProjectContainer key={page._id} page={page} site={site} />;
+  return <ProjectDisplay key={page._id} page={page} />;
 }
 
 export async function getStaticPaths() {

@@ -8,8 +8,7 @@ export const errorID = `*[_type == 'generalSettings'][0].error->_id`;
 
 // ------------------- Blocks, Modules, and Fields ------------------- //
 const image_block = `_type == 'imageBlock' => {
-  ...,
-  "_type": "imageBlock",
+  alt, caption, size, addBorder, background,
   image {
     ...,
     asset->
@@ -17,15 +16,13 @@ const image_block = `_type == 'imageBlock' => {
 }`;
 
 const video_block = ` _type == 'videoBlock' => {
-  "_type": "videoBlock",
-  autoPlay, loop,
+  autoPlay, loop, size,  addBorder, background,
   "url": file.asset->.url,
-  "color": background,
+  cover
 }`;
 
 const media_module = `_type == 'mediaModule' => {
   format,
-  _type,
   media[] {
     _type, _key, addCaption, caption, format,
     ${image_block},
@@ -125,11 +122,6 @@ const blog_post_modules = ` _type == 'blogPostsModule' => {
   }
 }`;
 
-const projects_module = `_type == 'projectsModule' => {
-  referenceType == 'auto' => { 'content': *[_type == 'blogPost'] },
-  referenceType == 'manual' => { content[]-> }
-}`;
-
 export const main_blocks = `
   ...,
   ${media_module},
@@ -139,7 +131,6 @@ export const main_blocks = `
   ${image_block},
   ${video_block},
   ${blog_post_modules},
-  ${projects_module},
 `;
 
 export const pageFields = `
@@ -158,16 +149,33 @@ export const siteQuery = `{
     "share_image": shareGraphic,
     "share_description": shareDesc,
   },
-  "settings": *[_type == "generalSettings"][0] {
-    ...,
-    "rootDomain": siteURL,
-    mainMenu-> { ${menu} },
-    secondaryMenu-> { ${menu} },
-    footerMenu-> { ${menu} },
-    "mainVisual": mainVisual[0] {
-      ${main_blocks}
+  "menus": {
+    "work": {
+      'title': 'Work',
+      'items': *[_type == 'project'] | order(year desc){
+        _id, title, "_type": "navPage",
+        format == 'detailed' => {
+          "slug": '/projects/'+slug.current,
+        },
+        format == 'link' => {
+          "_type": "navLink",
+          "url": link
+        }
+      }
+    },
+    "blog": {
+      'title': 'Blog',
+      'items': *[_type == 'blogPost'] | order(_createdAt desc) {
+        _id, title, "slug": '/blog/'+slug.current,
+      }
+    },
+    "sketches": {
+      'title': 'Sketches',
+      'items': *[_type == 'sketch'] | order(_createdAt desc){
+        _id, title, "slug": '/sketch/'+slug.current,
+      }
     }
-  },
+  }
 }`;
 
 export const allProjectsSlugQuery = `*[ _type == "project" && defined(slug) ].slug.current`;
@@ -210,31 +218,65 @@ export const blogQuery = groq`
 
 export const projectQuery = groq`*[_type == 'project' && slug.current == $slug][0] {
   _id,
-  "slug": slug.current,
   title,
   theme,
-  sections[] {
+  summary,
+  mainMedia {
     _type,
-    _key,
-    title,
-    theme,
-    showSideFirst,
-    content[] {
-      _key,
-      _type,
-      ${media_module},
-      ${image_block},
-      ${video_block},
-      ${content_module}
-    },
-    sideContent[] {
-      _key,
-      title,
-      fullWidth,
-      content[] {
-        ${content_block_fields}
+    ${media_module}
+  },
+  link,
+  "slug": slug.current,
+  sections[] {
+    _type, _key,
+    _type == "projectMainSection" => {
+      projectInfo {
+        client,
+        discipline[]-> {
+          _id,
+          title
+        },
+        sector[]-> {
+          _id,
+          "title": name,
+        },
+        collaborators[]-> {
+          _id,
+          title,
+          link,
+        },
+      },
+      content,
+      media {
+        ${media_module}
       }
     },
+    _type == 'projectSection' => {
+      "_type": "twoColsProjectSection",
+      content[] {
+        _key,
+        _type,
+        ${media_module},
+        ${image_block},
+        ${video_block},
+        ${content_module}
+      },
+      "sideContent": sideContent.content
+    },
+    _type == 'projectSectionFull' => {
+      "_type": "fullProjectSection",
+      content[] {
+        _key,
+        _type,
+        ${media_module},
+        ${image_block},
+        ${video_block},
+        ${content_module}
+      },
+    },
+    ${media_module},
+    ${image_block},
+    ${video_block},
   }
 }`;
 

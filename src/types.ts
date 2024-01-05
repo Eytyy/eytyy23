@@ -1,6 +1,7 @@
 import { BlogPostsModule } from './components/blog/Cards';
+import { MediaModuleType } from './components/modules/MediaModule';
+import { MenuType } from './components/navigation/types';
 
-import { Menu } from './components/navigation/types';
 import { SketchProps } from './components/sketch';
 
 export type PageProps = {
@@ -15,25 +16,24 @@ export type ImageBlockProps = {
   image: ImageProps;
   alt: string;
   caption: string;
+  size: 'full' | 'small' | 'medium';
+  format: 'default' | 'square' | 'landscape';
+  background?: boolean;
+  addBorder?: boolean;
 };
 
 export type VideoBlockProps = {
   _key: string;
   _type: 'videoBlock';
   url: string;
+  caption: string;
+  size: 'full' | 'small' | 'medium';
   autoPlay: boolean;
   loop: boolean;
   inView: boolean;
-  alt: string;
-  caption: string;
+  cover: ImageBlockProps;
   background?: boolean;
-};
-
-export type MediaModule = {
-  _key: string;
-  _type: 'mediaModule';
-  format: 'detailed';
-  items: (ImageBlockProps | VideoBlockProps)[];
+  addBorder?: boolean;
 };
 
 export type SiteProps = {
@@ -44,12 +44,10 @@ export type SiteProps = {
     share_image?: { [key: string]: any };
     share_description?: any[];
   };
-  settings: {
-    rootDomain?: string;
-    mainMenu: Menu;
-    secondaryMenu: Menu;
-    footerMenu: Menu;
-    mainVisual?: VisualBlocks;
+  menus: {
+    work: MenuType;
+    blog: MenuType;
+    skecthes: MenuType;
   };
 };
 
@@ -76,38 +74,69 @@ export type SketchCollection = {
   sketches: SketchProps[];
 };
 
-export type ProjectsModule = {
-  _type: 'projectsModule';
+export type FullProjectSectionProps = {
   _key: string;
-  showFilters: boolean;
-  content: [];
-};
-
-export type ProjectSectionType = {
+  _type: 'fullProjectSection';
+  title: string;
   content: (
     | ImageBlockProps
     | VideoBlockProps
     | ContentBlockProps
-    | MediaModule
+    | MediaModuleType
   )[];
-  sideContent: {
-    title: string;
-    content: any[];
-    _key: string;
-    fullWidth: boolean;
-  }[];
-  _key: string;
-  title: string;
-  theme: 'black' | 'white' | 'blue';
-  showSideFirst?: boolean;
 };
+
+export type TwoColsProjectSectionProps = {
+  _key: string;
+  _type: 'twoColsProjectSection';
+  title: string;
+  content: (
+    | ImageBlockProps
+    | VideoBlockProps
+    | ContentBlockProps
+    | MediaModuleType
+  )[];
+  sideContent: any[];
+};
+
+export type ProjectMainSectionProps = {
+  _key: string;
+  _type: 'projectMainSection';
+  title: string;
+  media: MediaModuleType;
+  projectInfo: {
+    sector: {
+      _id: string;
+      title: string;
+    }[];
+    discipline: {
+      _id: string;
+      title: string;
+    }[];
+    client: string;
+    collaborators: {
+      _id: string;
+      title: string;
+      link: string;
+    }[];
+  };
+  content: any[];
+};
+
+export type ProjectBlockType =
+  | FullProjectSectionProps
+  | TwoColsProjectSectionProps
+  | ProjectMainSectionProps
+  | ImageBlockProps
+  | VideoBlockProps
+  | MediaModuleType;
 
 export type MainBlocks =
   | ContentBlockProps
   | SketchBlock
   | SketchCollection
   | BlogPostsModule
-  | MediaModule
+  | MediaModuleType
   | ImageBlockProps
   | VideoBlockProps;
 

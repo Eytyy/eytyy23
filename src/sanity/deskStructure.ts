@@ -1,7 +1,6 @@
 import { projects } from './structure/work';
 import settings from './structure/settings';
 import pages from './structure/pages';
-import menus from './structure/menus';
 import {
   StructureBuilder,
   StructureResolverContext,
@@ -13,11 +12,11 @@ const excluded = [
   'page',
   'project',
   'product',
-  'menu',
   'generalSettings',
   'seoSettings',
   'blogPost',
   'tag',
+  'work',
 ];
 
 const structure = (
@@ -34,8 +33,6 @@ const structure = (
       tags(S),
       S.divider(),
       settings(S),
-      menus(S),
-      // @ts-ignore
       ...S.documentTypeListItems().filter(
         (listItem) => !excluded.includes(listItem.getId() as string)
       ),

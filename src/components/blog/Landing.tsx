@@ -20,7 +20,6 @@ import Filters, { FilterGroup } from './Filters';
 
 import type { MainBlocks, PageProps, SiteProps } from '@/types';
 import clsx from 'clsx';
-import SuperMenu from '../SuperMenu';
 import { HiArrowNarrowDown } from 'react-icons/hi';
 
 type Props = {
@@ -103,9 +102,6 @@ function BlogHeader({
         'sticky top-0 z-50 w-full bg-pageBG px-10 py-10 lg:px-16 lg:py-14'
       )}
     >
-      <BasicGridLeft>
-        <SuperMenu pageTitle={'blog'} />
-      </BasicGridLeft>
       <BasicGridMain className={clsx('lg:text-left')}>
         <button
           className="flex items-center gap-1 font-bold"

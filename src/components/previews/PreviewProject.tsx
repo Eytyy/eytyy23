@@ -1,10 +1,8 @@
 import { projectQuery } from '@/lib/queries';
 import { usePreview } from '@/lib/sanity.preview';
 import React from 'react';
-import ProjectContainer, {
-  ProjectProps,
-} from '@/components/work/ProjectContainer';
 import { SiteProps } from '@/types';
+import ProjectDisplay, { ProjectProps } from '../work/ProjectDisplay';
 
 type Props = {
   page: ProjectProps;
@@ -16,5 +14,5 @@ export default function PreviewProject({ page, site, token }: Props) {
   const project = usePreview(token, projectQuery, {
     slug: page.slug,
   });
-  return <ProjectContainer preview page={project} site={site} />;
+  return <ProjectDisplay page={project} />;
 }

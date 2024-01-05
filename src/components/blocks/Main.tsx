@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import ContentBlock from './Content';
+
 import SketchCollectionModule from '@/components/modules/SketchCollection';
-import ImageBlock from './Image';
-import MediaModule from '../modules/MediaModule';
-import VideoBlock from './Video';
+import MediaModule from '@/components/modules/MediaModule';
+import { BlogPostCards } from '@/components/blog';
+import { ContentBlock, MediaBlock } from '.';
 
 import type { MainBlocks } from '@/types';
-import { BlogPostCards } from '../blog';
 
-export default function MainBlock({ block }: { block: MainBlocks }) {
+type Props = {
+  block: MainBlocks;
+};
+
+export default function MainBlock({ block }: Props) {
   const [showChild, setShowChild] = useState(false);
 
   // Wait until after client-side hydration to show
   useEffect(() => {
     setShowChild(true);
   }, []);
+
   switch (block._type) {
     case 'contentModule':
     case 'advancedContentModule':
-      return <ContentBlock body={block.body} />;
+      return (
+        <ContentBlock body={block.body} className="max-w-[90ch]" />
+      );
     case 'sketchCollectionModule':
       if (!showChild) {
         return null;
@@ -27,9 +33,8 @@ export default function MainBlock({ block }: { block: MainBlocks }) {
     case 'mediaModule':
       return <MediaModule {...block} />;
     case 'imageBlock':
-      return <ImageBlock {...block} />;
     case 'videoBlock':
-      return <VideoBlock {...block} />;
+      return <MediaBlock {...block} />;
     case 'blogPostsModule':
       return <BlogPostCards {...block} />;
     default:

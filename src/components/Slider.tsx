@@ -1,25 +1,17 @@
-// @ts-nocheck
-
 import React, {
   useCallback,
   useEffect,
   useReducer,
-  useRef,
   useState,
 } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
+import { useMediaQuery } from 'usehooks-ts';
 import clsx from 'clsx';
 
-import ImageBlock from '@/components/blocks/Image';
-import VideoBlock from '@/components/blocks/Video';
+import FloatingCursor from '@/components/FloatingCursor';
+import { MediaModuleType } from '@/components/modules/MediaModule';
 
-import type {
-  ImageBlockProps,
-  MediaModule,
-  VideoBlockProps,
-} from '@/types';
-import { useMediaQuery } from 'usehooks-ts';
-import FloatingCursor from '../FloatingCursor';
+import { MediaBlock } from './blocks';
 
 type MediaConfigType = {
   autoplay?: boolean;
@@ -30,13 +22,9 @@ type MediaConfigType = {
 };
 
 type SliderProps = {
-  content: MediaModule['media'];
+  content: MediaModuleType['media'];
   config?: MediaConfigType;
 };
-
-const gap = 44;
-const margin = 64;
-const cols = 6;
 
 type State = {
   position: number;
@@ -114,10 +102,7 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export default function ProjectSlider({
-  content,
-  config,
-}: SliderProps) {
+export default function Slider({ content, config }: SliderProps) {
   const [state, dispatch] = useReducer(reducer, {
     position: 0,
     activeIndex: 0,
@@ -159,9 +144,7 @@ export default function ProjectSlider({
         },
       });
     } else {
-      const colWidth = (width - margin - gap * (cols - 1)) / cols;
-      const bleed = colWidth + margin;
-      const slideWidth = width - bleed;
+      const slideWidth = width;
       const slideWidthPercent = (slideWidth / width) * 100;
 
       dispatch({
@@ -323,11 +306,11 @@ export default function ProjectSlider({
                 <motion.div
                   key={slide._key}
                   style={{ flex: `0 0 ${slideWidth.percent}%` }}
-                  className="relative md:pr-11 [&>img]:pointer-events-none"
+                  className="relative [&>img]:pointer-events-none"
                 >
-                  <ProjectSlide
+                  <MediaBlock
                     key={slide._key}
-                    slide={slide}
+                    {...slide}
                     config={config}
                   />
                 </motion.div>
@@ -336,30 +319,12 @@ export default function ProjectSlider({
           )}
         </div>
       </motion.div>
-      <p className="w-full max-w-[70ch] px-10 pt-4 md:px-0 lg:min-h-[140px]">
+      {/* <p>
         <span className="mr-2 font-bold">
           {state.activeIndex + 1}/{content.length}:
         </span>
         {content[state.activeIndex].caption}
-      </p>
+      </p> */}
     </div>
-  );
-}
-
-function ProjectSlide({
-  slide,
-  config,
-}: {
-  slide: ImageBlockProps | VideoBlockProps;
-  config?: MediaConfigType;
-}) {
-  return (
-    <>
-      {slide._type === 'imageBlock' ? (
-        <ImageBlock {...slide} {...config} />
-      ) : (
-        <VideoBlock {...slide} />
-      )}
-    </>
   );
 }

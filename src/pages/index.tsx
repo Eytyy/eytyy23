@@ -8,6 +8,7 @@ const PreviewIndexPage = lazy(
 import { getIndex, getSiteSettings } from '@/lib/sanity.client';
 import { SiteProps, PageProps } from '@/types';
 import Layout from '@/components/Layout';
+import HomeLayout from '@/components/layouts/HomeLayout';
 
 interface Props {
   page: PageProps;
@@ -65,5 +66,5 @@ export const getStaticProps: GetStaticProps<
 };
 
 FrontPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <Layout {...page.props}>{page}</Layout>;
+  return <HomeLayout {...page.props}>{page}</HomeLayout>;
 };

@@ -7,21 +7,9 @@ export default defineType({
   icon: RiLayoutLeft2Line,
   fields: [
     defineField({
-      name: 'title',
-      title: 'Section Title',
-      type: 'string',
-    }),
-    defineField({
       name: 'content',
       type: 'contentBlock',
       title: 'Content',
-    }),
-
-    defineField({
-      name: 'fullWidth',
-      type: 'boolean',
-      title: 'Full Width?',
-      initialValue: true,
     }),
   ],
 });

@@ -3,10 +3,12 @@ import ImageBlock from './Image';
 import VideoBlock from './Video';
 import React from 'react';
 import { useInView } from 'framer-motion';
+import { MediaConfigType } from '../modules/MediaModule';
 
-export default function MediaBlock(
-  props: ImageBlockProps | VideoBlockProps
-) {
+type Props = (ImageBlockProps | VideoBlockProps) & {
+  config?: MediaConfigType;
+};
+export default function MediaBlock(props: Props) {
   const { _type } = props;
   const ref = React.useRef<HTMLDivElement>(null);
   const inView = useInView(ref, {

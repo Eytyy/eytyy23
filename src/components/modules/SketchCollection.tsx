@@ -13,34 +13,25 @@ import {
 } from 'framer-motion';
 import clsx from 'clsx';
 
-import useThemeSwitch, { themes_names } from '@/hooks/useThemeSwitch';
 import SketchBlock from '@/components/blocks/Sketch';
 import { SketchProps } from '@/components/sketch';
 import useElementBounds from '@/hooks/useElementBounds';
-
-type Themes = (typeof themes_names)[number] | undefined;
 
 export default function SketchCollectionModule({
   sketches,
   active: activeID,
 }: SketchCollection) {
-  const theme = useThemeSwitch();
   const { size, measuredRef } = useElementBounds();
 
   return (
     <section className="h-full w-full" ref={measuredRef}>
       <AnimatePresence mode="wait">
-        {theme ? (
-          <Main
-            key={'main'}
-            sketches={sketches}
-            activeID={activeID}
-            size={size}
-            theme={theme}
-          />
-        ) : (
-          <Loading key="loader" />
-        )}
+        <Main
+          key={'main'}
+          sketches={sketches}
+          activeID={activeID}
+          size={size}
+        />
       </AnimatePresence>
     </section>
   );
@@ -48,14 +39,6 @@ export default function SketchCollectionModule({
 
 type MainProps = {
   activeID?: string;
-  theme: {
-    theme: {
-      title: string;
-      name: string;
-      color: { hex: string };
-    };
-    setTheme: (name: 'black' | 'blue' | 'white') => any;
-  };
   size: {
     width: number;
     height: number;
@@ -63,7 +46,7 @@ type MainProps = {
   sketches: SketchProps[];
 };
 
-function Main({ sketches, theme, activeID, size }: MainProps) {
+function Main({ sketches, activeID, size }: MainProps) {
   const [active, setActive] = useState(activeID || sketches[0]._id);
 
   const selectedIdx = sketches.findIndex(
@@ -71,22 +54,9 @@ function Main({ sketches, theme, activeID, size }: MainProps) {
   );
   const selected = sketches[selectedIdx];
 
-  useEffect(() => {
-    if (theme) theme.setTheme(selected.theme as keyof Themes);
-  }, [theme, selected.theme]);
-
-  const setActiveSketch = useCallback(
-    (id: string) => {
-      if (theme) {
-        const sketch_theme: Themes = sketches.find(
-          (s) => s._id === id
-        )?.theme as Themes;
-        theme.setTheme(sketch_theme ? sketch_theme : 'black');
-      }
-      setActive(id);
-    },
-    [sketches, theme]
-  );
+  const setActiveSketch = useCallback((id: string) => {
+    setActive(id);
+  }, []);
 
   const LoadNextSketch = useCallback(() => {
     if (selectedIdx !== sketches.length - 1) {

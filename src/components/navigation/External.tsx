@@ -1,14 +1,12 @@
 import clsx from 'clsx';
 
 type Props = {
-  title: string;
   link: string;
   children?: React.ReactNode;
   className?: string;
 };
 
 export default function ExternalLink({
-  title,
   link,
   className,
   children,
@@ -20,7 +18,7 @@ export default function ExternalLink({
       href={link}
       className={clsx(className)}
     >
-      {children} {title}
+      {children}
     </a>
   );
 }

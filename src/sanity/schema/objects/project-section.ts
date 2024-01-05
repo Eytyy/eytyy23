@@ -1,16 +1,16 @@
-import { RiLayoutBottom2Line, RiQuoteText } from 'react-icons/ri';
+import { RiLayoutColumnLine, RiQuoteText } from 'react-icons/ri';
 import { defineType, defineField } from 'sanity';
 import { FaVideo } from 'react-icons/fa';
 
 export default defineType({
   name: 'projectSection',
-  title: 'Project Section',
+  title: '2 Cols Project Section',
   type: 'object',
-  icon: RiLayoutBottom2Line,
+  icon: RiLayoutColumnLine,
   fields: [
     defineField({
-      name: 'title',
-      title: 'Section Title',
+      name: 'name',
+      title: 'Section Name',
       type: 'string',
     }),
     defineField({
@@ -30,31 +30,18 @@ export default defineType({
     }),
     defineField({
       name: 'sideContent',
-      type: 'array',
+      type: 'projectSectionColBlock',
       title: 'Side Content',
-      of: [{ type: 'projectSectionColBlock' }],
-      validation: (Rule) => {
-        return Rule.max(2);
-      },
-    }),
-    defineField({
-      name: 'showSideFirst',
-      title: 'Show Side Content First',
-      type: 'boolean',
-      initialValue: false,
-    }),
-    defineField({
-      name: 'theme',
-      title: 'Theme',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Blue', value: 'blue' },
-          { title: 'Black', value: 'black' },
-          { title: 'White', value: 'white' },
-        ],
-      },
-      initialValue: 'black',
     }),
   ],
+  preview: {
+    select: {
+      title: 'name',
+    },
+    prepare: ({ title }) => ({
+      title,
+      subtitle: '2 Cols Section',
+      media: RiLayoutColumnLine,
+    }),
+  },
 });

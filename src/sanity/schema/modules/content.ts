@@ -8,13 +8,6 @@ export default defineType({
   icon: RiQuoteText,
   fields: [
     defineField({
-      title: 'Title',
-      name: 'title',
-      type: 'string',
-      description:
-        'This is the title of the module, it will not be displayed on the page.',
-    }),
-    defineField({
       title: 'Body',
       name: 'body',
       type: 'contentBlock',
@@ -22,12 +15,13 @@ export default defineType({
   ],
   preview: {
     select: {
-      title: 'title',
+      body: 'body',
     },
-    prepare({ title }) {
+    prepare({ body }) {
+      console.log(body);
       return {
         media: RiQuoteText,
-        title: title || 'Content Module',
+        title: 'Text',
       };
     },
   },

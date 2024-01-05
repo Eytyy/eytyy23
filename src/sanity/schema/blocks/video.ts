@@ -8,20 +8,16 @@ export default defineType({
   icon: FaVideo,
   fields: [
     defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    }),
+    defineField({
       name: 'file',
       title: 'File',
       type: 'file',
     }),
-    defineField({
-      name: 'caption',
-      title: 'Caption',
-      type: 'string',
-    }),
-    defineField({
-      name: 'alt',
-      title: 'Alt',
-      type: 'string',
-    }),
+
     defineField({
       name: 'autoPlay',
       title: 'Auto Play',
@@ -32,7 +28,32 @@ export default defineType({
       title: 'Loop',
       type: 'boolean',
     }),
-
+    defineField({
+      name: 'cover',
+      title: 'Cover',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: 'addBorder',
+      title: 'Add Border',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'size',
+      title: 'Size',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'original', value: 'original' },
+          { title: 'full', value: 'full' },
+          { title: 'medium', value: 'medium' },
+          { title: 'small', value: 'small' },
+        ],
+      },
+      initialValue: 'original',
+    }),
     defineField({
       name: 'format',
       title: 'Format',
@@ -48,12 +69,11 @@ export default defineType({
   ],
   preview: {
     select: {
-      caption: 'caption',
-      alt: 'alt',
+      title: 'title',
     },
-    prepare({ caption, alt }) {
+    prepare({ title }) {
       return {
-        title: caption ? caption : alt,
+        title,
         media: FaVideo,
       };
     },

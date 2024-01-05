@@ -1,18 +1,15 @@
+import { TbFriends } from 'react-icons/tb';
 import { defineType, defineField } from 'sanity';
 
 export default defineType({
   title: 'Collaborator',
   name: 'collaborator',
   type: 'document',
+  icon: TbFriends,
   fields: [
     defineField({
-      name: 'name',
-      title: 'Name',
-      type: 'string',
-    }),
-    defineField({
-      name: 'role',
-      title: 'Role',
+      name: 'title',
+      title: 'Title',
       type: 'string',
     }),
     defineField({

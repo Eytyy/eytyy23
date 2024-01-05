@@ -7,7 +7,6 @@ export default defineType({
   groups: [
     { title: 'Site', name: 'details', default: true },
     { title: 'Landing Pages', name: 'landing' },
-    { title: 'Advanced', name: 'advanced' },
   ],
   fields: [
     defineField({
@@ -52,13 +51,7 @@ export default defineType({
         'The name of your site, usually your company/brand name',
       group: 'details',
     }),
-    defineField({
-      title: 'Klaviyo Site ID (Public API Key)',
-      description: 'For product waitlists and newsletter forms',
-      name: 'klaviyoAccountID',
-      type: 'string',
-      group: 'advanced',
-    }),
+
     defineField({
       title: 'Site Main Visual',
       description: 'For pop-up menus and such',
@@ -70,30 +63,6 @@ export default defineType({
         { type: 'sketchBlock' },
       ],
       group: 'details',
-    }),
-    defineField({
-      title: 'Main Menu',
-      name: 'mainMenu',
-      type: 'reference',
-      to: [{ type: 'menu' }],
-      group: 'details',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      title: 'Secondary Menu',
-      name: 'secondaryMenu',
-      type: 'reference',
-      to: [{ type: 'menu' }],
-      group: 'details',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      title: 'Footer Menu',
-      name: 'footerMenu',
-      type: 'reference',
-      to: [{ type: 'menu' }],
-      group: 'details',
-      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {

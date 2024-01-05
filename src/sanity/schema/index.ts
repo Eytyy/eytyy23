@@ -1,4 +1,11 @@
-import { menu, page, project, projectType, tag } from './documents';
+import {
+  collaborator,
+  discipline,
+  page,
+  project,
+  sector,
+  tag,
+} from './documents';
 import blogPost from './documents/blog-post';
 import sketch from './documents/sketch';
 import { generalSettings, seoSettings } from './settings';
@@ -17,7 +24,6 @@ import {
   contentModule,
   mediaModule,
   postsModule,
-  projectsModule,
   seoModule,
   sketchCollectionModule,
   tagsModule,
@@ -26,17 +32,19 @@ import {
 import {
   navGroup,
   navLink,
-  navMenu,
   navPage,
   navStatic,
   navType,
   pageSection,
   person,
-  collaborator,
+  projectInfo,
+  projectMainSection,
   projectSection,
+  projectSectionFull,
 } from './objects';
 import work from './documents/singletons/work';
 import projectSectionColBlock from './blocks/project-section-col-block';
+import projectType from './documents/project-type';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -51,18 +59,18 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // objects
     pageSection,
     projectSection,
+    projectSectionFull,
+    projectMainSection,
     person,
     navLink,
     navPage,
     navStatic,
     navType,
     navGroup,
-    navMenu,
-    collaborator,
+    projectInfo,
 
     // modules
     contentModule,
-    projectsModule,
     postsModule,
     seoModule,
     mediaModule,
@@ -73,11 +81,13 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     // docs
     project,
     projectType,
-    menu,
     page,
     sketch,
     blogPost,
     tag,
+    discipline,
+    sector,
+    collaborator,
 
     // singletons
     work,

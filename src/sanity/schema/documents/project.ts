@@ -1,4 +1,3 @@
-import { FaVideo } from 'react-icons/fa';
 import { defineType, defineField } from 'sanity';
 
 export default defineType({
@@ -7,6 +6,7 @@ export default defineType({
   type: 'document',
   groups: [
     { name: 'main', title: 'Main', default: true },
+    { name: 'details', title: 'Details' },
     { name: 'seo', title: 'SEO' },
   ],
   fields: [
@@ -25,9 +25,14 @@ export default defineType({
           { value: 'detailed', title: 'Detailed' },
           { value: 'link', title: 'Link' },
         ],
-        layout: 'radio',
       },
       initialValue: 'link',
+      group: 'main',
+    }),
+    defineField({
+      name: 'year',
+      title: 'Year',
+      type: 'date',
       group: 'main',
     }),
     defineField({
@@ -37,28 +42,57 @@ export default defineType({
       group: 'main',
     }),
     defineField({
-      name: 'preview',
+      name: 'summary',
+      title: 'Summary',
+      type: 'contentBlock',
+      group: 'main',
+    }),
+    defineField({
+      name: 'mainMedia',
+      title: 'Main Media',
       type: 'mediaModule',
       group: 'main',
-      hidden: ({ parent }) => parent.format === 'link',
+    }),
+    defineField({
+      name: 'sector',
+      title: 'Sector',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'sector' }] }],
+      group: 'details',
+    }),
+    defineField({
+      name: 'discipline',
+      title: 'Discipline',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'discipline' }] }],
+      group: 'details',
+    }),
+    defineField({
+      name: 'client',
+      title: 'Client',
+      type: 'string',
+      group: 'details',
+    }),
+    defineField({
+      name: 'collaborators',
+      title: 'Collaborators',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'collaborator' }] }],
+      group: 'details',
     }),
     defineField({
       name: 'sections',
       type: 'array',
-      title: 'Sections',
-      of: [{ type: 'projectSection' }],
-      group: 'main',
-      hidden: ({ parent }) => parent.format === 'link',
-    }),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-      group: 'main',
+      title: 'Content',
+      of: [
+        { type: 'projectMainSection' },
+        { type: 'projectSectionFull' },
+        { type: 'projectSection' },
+        { type: 'mediaModule' },
+        { type: 'imageBlock' },
+        { type: 'videoBlock' },
+      ],
+      group: 'details',
       hidden: ({ parent }) => parent.format === 'link',
     }),
     defineField({
@@ -72,8 +106,19 @@ export default defineType({
           { title: 'White', value: 'white' },
         ],
       },
-      group: 'main',
+      group: 'details',
       initialValue: 'black',
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+      group: 'details',
+      hidden: ({ parent }) => parent.format === 'link',
     }),
     defineField({
       name: 'seo',

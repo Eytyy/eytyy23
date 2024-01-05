@@ -11,11 +11,7 @@ export default defineType({
       type: 'array',
       title: 'Media',
       name: 'media',
-      of: [
-        { type: 'imageBlock' },
-        { type: 'videoBlock' },
-        { type: 'contentModule' },
-      ],
+      of: [{ type: 'imageBlock' }, { type: 'videoBlock' }],
     }),
     defineField({
       type: 'string',
@@ -26,7 +22,6 @@ export default defineType({
         list: [
           { title: 'Grid', value: 'grid' },
           { title: 'Slider', value: 'slider' },
-          { title: 'Sequence', value: 'sequence' },
         ],
       },
       initialValue: 'slider',

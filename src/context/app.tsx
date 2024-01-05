@@ -1,10 +1,10 @@
 import { SiteProps } from '@/types';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const AppContext = React.createContext<{
-  settings: SiteProps['settings'];
-  isMenuOpen: boolean;
-  toggleMenu: (visible: boolean) => void;
+  menus: SiteProps['menus'];
+  footerVisible: boolean;
+  setFooterVisible: (visible: boolean) => void;
 } | null>(null);
 
 export const useApp = () => {
@@ -15,44 +15,20 @@ export const useApp = () => {
   return context;
 };
 
-type State = {
-  isMenuOpen: boolean;
-};
-
-export const AppProvider = ({
-  children,
-  site,
-}: {
+type Props = {
   children: React.ReactNode;
   site: SiteProps;
-}) => {
-  const [state, setState] = React.useState<State>({
-    isMenuOpen: false,
-  });
+};
 
-  useEffect(() => {
-    if (state.isMenuOpen) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-  }, [state.isMenuOpen]);
-
-  const toggleMenu = React.useCallback(
-    (visible: boolean) =>
-      setState((state) => ({
-        ...state,
-        isMenuOpen: visible,
-      })),
-    []
-  );
+export const AppProvider = ({ children, site }: Props) => {
+  const [footerVisible, setFooterVisible] = React.useState(false);
 
   return (
     <AppContext.Provider
       value={{
-        settings: site?.settings || {},
-        isMenuOpen: state.isMenuOpen,
-        toggleMenu,
+        menus: site?.menus,
+        footerVisible,
+        setFooterVisible,
       }}
     >
       {children}

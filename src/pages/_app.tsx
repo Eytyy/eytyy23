@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import { Inter } from '@next/font/google';
+import { Inter } from 'next/font/google';
 
 import '@/styles/globals.css';
 import '@/styles/app.css';
@@ -32,21 +32,13 @@ export default function App({
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <ThemeProvider
-      themes={themes_names}
-      defaultTheme="black"
-      enableSystem={false}
-      disableTransitionOnChange
-    >
-      {' '}
-      <PlausibleProvider domain="eytyy.com">
-        <AppProvider site={pageProps.site}>
-          <div className={`${inter.variable} font-sans`}>
-            <div id="portal"></div>
-            {getLayout(<Component {...pageProps} />)}
-          </div>
-        </AppProvider>
-      </PlausibleProvider>
-    </ThemeProvider>
+    <PlausibleProvider domain="eytyy.com">
+      <AppProvider site={pageProps.site}>
+        <div className={`${inter.variable} font-sans`}>
+          <div id="portal"></div>
+          {getLayout(<Component {...pageProps} />)}
+        </div>
+      </AppProvider>
+    </PlausibleProvider>
   );
 }

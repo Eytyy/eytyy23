@@ -1,5 +1,5 @@
+import { cn } from '@/lib/utils';
 import { type VideoBlockProps as VideoBlockProps } from '@/types';
-import clsx from 'clsx';
 import React from 'react';
 
 export default function VideoBlock({
@@ -24,27 +24,29 @@ export default function VideoBlock({
   }, [autoPlay, inView]);
 
   return (
-    <div
-      className={clsx(
-        background
-          ? 'absolute top-1/2 left-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2'
-          : 'relative overflow-hidden'
-      )}
-    >
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video
-        ref={ref}
-        src={url}
-        className={clsx(
+    <>
+      <div
+        className={cn(
           background
-            ? 'h-auto min-h-full w-auto min-w-full max-w-none'
-            : 'h-auto w-full'
+            ? 'absolute top-1/2 left-1/2 h-full w-full -translate-x-1/2 -translate-y-1/2'
+            : 'relative overflow-hidden'
         )}
-        autoPlay={autoPlay && inView}
-        muted={autoPlay}
-        loop={autoPlay}
-        playsInline
-      />
-    </div>
+      >
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+        <video
+          ref={ref}
+          src={url}
+          className={cn(
+            background
+              ? 'h-auto min-h-full w-auto min-w-full max-w-none'
+              : 'h-auto w-full'
+          )}
+          autoPlay={autoPlay && inView}
+          muted={autoPlay}
+          loop={autoPlay}
+          playsInline
+        />
+      </div>
+    </>
   );
 }

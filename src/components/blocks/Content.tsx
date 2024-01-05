@@ -1,28 +1,31 @@
 import Link from 'next/link';
 
-import { PortableText } from '@portabletext/react';
+import {
+  PortableText,
+  PortableTextComponents,
+} from '@portabletext/react';
 
 import { getInternalLink } from '@/lib/helpers';
 import ImageBlock from './Image';
 import CodeBlock from './Code';
-import clsx from 'clsx';
+import { cn } from '@/lib/utils';
+import { H1, H2, BigText } from '@/components/Typography';
 
 type Props = {
   body: any;
   className?: string;
 };
 
-type Portable = {
+const myPortableTextComponents: PortableTextComponents = {
+  block: {
+    h2: ({ children }) => <H2>{children}</H2>,
+    big: ({ children }) => <BigText>{children}</BigText>,
+    h2h1: ({ children }) => <H1 as="h2">{children}</H1>,
+  },
   marks: {
-    [key: string]: (props: any) => JSX.Element;
-  };
-  types: {
-    [key: string]: (props: any) => JSX.Element;
-  };
-};
-
-const myPortableTextComponents: Portable = {
-  marks: {
+    strong: ({ children }) => (
+      <span className="font-semibold">{children}</span>
+    ),
     link: ({ children, value, ...props }) => {
       return (
         <Link
@@ -81,9 +84,8 @@ const myPortableTextComponents: Portable = {
 
 export default function ContentBlock({ body, className }: Props) {
   return (
-    <div className={clsx('content', className)}>
+    <div className={cn(className)}>
       <PortableText
-        // @ts-ignore
         value={body}
         components={myPortableTextComponents}
       />

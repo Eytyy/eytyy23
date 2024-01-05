@@ -43,7 +43,6 @@ export default function Layout({ children, page, site }: Props) {
 
   if (!page) return null;
 
-  const { mainMenu, footerMenu, secondaryMenu } = site.settings;
   return (
     <>
       <Head>
@@ -59,22 +58,10 @@ export default function Layout({ children, page, site }: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <EpicGrid className="h-screen bg-pageBG text-pageText">
-        <EpicGridTopLeft>
-          <MainMenu menu={mainMenu} />
-        </EpicGridTopLeft>
-        <EpicGridBottomLeft className="h-full grid-rows-2 lg:grid">
-          <OtherNav menu={secondaryMenu} />
-        </EpicGridBottomLeft>
         <EpicGridMain>{children}</EpicGridMain>
         <EpicGridTopRight className="flex h-full flex-col items-end justify-between">
           <Logos />
-          <div className="lg:hidden">
-            <OtherNav top menu={secondaryMenu} />
-          </div>
         </EpicGridTopRight>
-        <EpicGridBottomRight>
-          <FooterMenu menu={footerMenu} />
-        </EpicGridBottomRight>
       </EpicGrid>
     </>
   );
