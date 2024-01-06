@@ -28,6 +28,17 @@ export default defineType({
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'collaborator' }] }],
     }),
+    defineField({
+      name: 'technologies',
+      title: 'Technologies',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'technology' }] }],
+    }),
+    defineField({
+      name: 'link',
+      title: 'Link',
+      type: 'navLink',
+    }),
   ],
   preview: {
     prepare: () => ({

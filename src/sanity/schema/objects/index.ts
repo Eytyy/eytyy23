@@ -11,3 +11,4 @@ export { default as projectSection } from './project-section';
 export { default as projectSectionFull } from './project-section-full';
 export { default as projectMainSection } from './project-main-section';
 export { default as projectInfo } from './project-info';
+export { default as projectTechSection } from './project-tech-section';

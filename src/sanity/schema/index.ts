@@ -5,6 +5,7 @@ import {
   project,
   sector,
   tag,
+  technology
 } from './documents';
 import blogPost from './documents/blog-post';
 import sketch from './documents/sketch';
@@ -41,6 +42,7 @@ import {
   projectMainSection,
   projectSection,
   projectSectionFull,
+  projectTechSection,
 } from './objects';
 import work from './documents/singletons/work';
 import projectSectionColBlock from './blocks/project-section-col-block';
@@ -68,6 +70,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     navType,
     navGroup,
     projectInfo,
+    projectTechSection,
 
     // modules
     contentModule,
@@ -88,6 +91,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     discipline,
     sector,
     collaborator,
+    technology,
 
     // singletons
     work,

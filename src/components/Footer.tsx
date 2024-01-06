@@ -87,7 +87,7 @@ export function MenuItem({ item }: { item: any }) {
       onAnimationComplete={() => setComplete(true)}
     >
       <CustomLink {...item} className="flex">
-        <HiArrowNarrowDown className="text-[max(3.125rem,8vw)] opacity-0" />
+        <HiArrowNarrowUp className="text-[max(3.125rem,8vw)] 2xl:text-[max(3.125rem,7vw)] opacity-0" />
         <AnimatedTitle
           title={item.title}
           animate={inView && complete}

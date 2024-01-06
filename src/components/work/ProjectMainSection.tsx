@@ -18,7 +18,7 @@ export default function ProjectMainSection(
         />
       </div>
       <div className="col-span-3">
-        {props.media && <MediaModule {...props.media} />}
+        {props.media.media && <MediaModule {...props.media} />}
       </div>
     </section>
   );

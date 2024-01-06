@@ -5,3 +5,4 @@ export { default as sector } from './sector';
 export { default as tag } from './tag';
 export { default as collaborator } from './collaborator';
 export { default as discipline } from './discipline';
+export { default as technology } from './technology';

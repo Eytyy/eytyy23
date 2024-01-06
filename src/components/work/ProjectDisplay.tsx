@@ -24,10 +24,15 @@ export type ProjectProps = {
   slug: string;
   theme: 'white' | 'black' | 'blue';
   info: {
+    link: {
+      title: string;
+      url: string;
+    },
     client: string;
     discipline: { _id: string; title: string }[];
     sector: { _id: string; title: string }[];
     collaborators: { _id: string; title: string; link: string }[];
+    technologies: { _id: string; title: string }[];
   };
 };
 
@@ -72,7 +77,7 @@ function ProjectSectionWrapper(
       return <ProjectMainSection {...props} />;
     default:
       return (
-        <div className="relative px-16 pl-44">
+        <div className="relative px-16 2xl:px-24 max-w-[1920px] mx-auto">
           <ProjectBlock {...props} />
         </div>
       );

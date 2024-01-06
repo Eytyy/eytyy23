@@ -105,6 +105,14 @@ export type ProjectMainSectionProps = {
   title: string;
   media: MediaModuleType;
   projectInfo: {
+    link: {
+      title: string;
+      url: string;
+    }
+    technologies: {
+      _id: string;
+      title: string;
+    }[];
     sector: {
       _id: string;
       title: string;
@@ -123,7 +131,9 @@ export type ProjectMainSectionProps = {
   content: any[];
 };
 
+
 export type ProjectBlockType =
+
   | FullProjectSectionProps
   | TwoColsProjectSectionProps
   | ProjectMainSectionProps

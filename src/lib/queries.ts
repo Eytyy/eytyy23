@@ -232,6 +232,14 @@ export const projectQuery = groq`*[_type == 'project' && slug.current == $slug][
     _type == "projectMainSection" => {
       projectInfo {
         client,
+        link {
+          title,
+          url
+        },
+        technologies[]-> {
+          _id,
+          title,
+        },
         discipline[]-> {
           _id,
           title

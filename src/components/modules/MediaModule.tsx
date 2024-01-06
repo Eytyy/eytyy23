@@ -23,8 +23,7 @@ export default function MediaModule({
   media,
   ...props
 }: MediaModuleType) {
-  console.log(props);
-  const isSlider = media.length > 1;
+  const isSlider = media && media.length > 1;
   if (isSlider) {
     if (props.format === 'grid') {
       return <GridGallery {...props} media={media} />;
@@ -32,8 +31,7 @@ export default function MediaModule({
     return (
       <Slider
         content={media}
-        config={{
-          format: 'landscape',
+        config={{ format: 'landscape',
           objectFit: 'cover',
         }}
       />
