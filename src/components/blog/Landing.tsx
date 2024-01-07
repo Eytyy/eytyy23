@@ -8,12 +8,12 @@ import {
   useFiltersContext,
 } from '@/context/filters';
 
-import {
-  BasicGrid,
-  BasicGridLeft,
-  BasicGridMain,
-  BasicGridRight,
-} from '../UI';
+// import {
+//   BasicGrid,
+//   BasicGridLeft,
+//   BasicGridMain,
+//   BasicGridRight,
+// } from '../UI';
 import MainBlock from '@/components/blocks/Main';
 import Logos from '../Logos';
 import Filters, { FilterGroup } from './Filters';
@@ -54,7 +54,7 @@ export default function BlogLanding(props: Props) {
           toggleFilters={() => setShowFilters(!showFilters)}
           isFiltersOpen={showFilters}
         />
-        <BasicGrid
+        {/* <BasicGrid
           as="section"
           className="min-h-screen gap-y-10 pt-0 lg:pt-0"
         >
@@ -79,7 +79,7 @@ export default function BlogLanding(props: Props) {
               ))}
             </motion.div>
           </BasicGridMain>
-        </BasicGrid>
+        </BasicGrid> */}
       </FiltersContextProvider>
     </div>
   );
@@ -94,38 +94,38 @@ function BlogHeader({
 }) {
   const { clearFilters, activeFilters } = useFiltersContext();
   const tags = activeFilters?.tags;
-
-  return (
-    <BasicGrid
-      as="header"
-      className={clsx(
-        'sticky top-0 z-50 w-full bg-pageBG px-10 py-10 lg:px-16 lg:py-14'
-      )}
-    >
-      <BasicGridMain className={clsx('lg:text-left')}>
-        <button
-          className="flex items-center gap-1 font-bold"
-          onClick={() => toggleFilters()}
-        >
-          <motion.div animate={{ rotate: isFiltersOpen ? 180 : 0 }}>
-            <HiArrowNarrowDown className="text-2xl" />
-          </motion.div>
-          {tags && tags.length > 0 ? (
-            <div className="flex gap-2">
-              {tags.map((tag) => (
-                <span key={`selected-${tag}`} className="font-bold">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          ) : (
-            'All'
-          )}
-        </button>
-      </BasicGridMain>
-      <BasicGridRight>
-        <Logos />
-      </BasicGridRight>
-    </BasicGrid>
-  );
+  return null
+  // return (
+  //   <BasicGrid
+  //     as="header"
+  //     className={clsx(
+  //       'sticky top-0 z-50 w-full bg-pageBG px-10 py-10 lg:px-16 lg:py-14'
+  //     )}
+  //   >
+  //     <BasicGridMain className={clsx('lg:text-left')}>
+  //       <button
+  //         className="flex items-center gap-1 font-bold"
+  //         onClick={() => toggleFilters()}
+  //       >
+  //         <motion.div animate={{ rotate: isFiltersOpen ? 180 : 0 }}>
+  //           <HiArrowNarrowDown className="text-2xl" />
+  //         </motion.div>
+  //         {tags && tags.length > 0 ? (
+  //           <div className="flex gap-2">
+  //             {tags.map((tag) => (
+  //               <span key={`selected-${tag}`} className="font-bold">
+  //                 #{tag}
+  //               </span>
+  //             ))}
+  //           </div>
+  //         ) : (
+  //           'All'
+  //         )}
+  //       </button>
+  //     </BasicGridMain>
+  //     <BasicGridRight>
+  //       <Logos />
+  //     </BasicGridRight>
+  //   </BasicGrid>
+  // );
 }

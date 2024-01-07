@@ -14,5 +14,5 @@ export default function PreviewProject({ page, site, token }: Props) {
   const project = usePreview(token, projectQuery, {
     slug: page.slug,
   });
-  return <ProjectDisplay page={project} />;
+  return <ProjectDisplay page={project} site={site} />;
 }

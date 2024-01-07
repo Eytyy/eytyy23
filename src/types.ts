@@ -1,4 +1,5 @@
 import { BlogPostsModule } from './components/blog/Cards';
+import { BlogMenu } from './components/front/Frontdisplay';
 import { MediaModuleType } from './components/modules/MediaModule';
 import { MenuType } from './components/navigation/types';
 
@@ -46,8 +47,7 @@ export type SiteProps = {
   };
   menus: {
     work: MenuType;
-    blog: MenuType;
-    skecthes: MenuType;
+    blog: BlogMenu;
   };
 };
 

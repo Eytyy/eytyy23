@@ -34,7 +34,7 @@ export type Props = {
   title: string;
 };
 
-const SketchBlock = React.memo(function SketchBlock({
+const Sketch = React.memo(function Sketch({
   slug,
   width,
   height,
@@ -67,4 +67,4 @@ const SketchBlock = React.memo(function SketchBlock({
   }
 });
 
-export default SketchBlock;
+export default Sketch;

@@ -9,7 +9,7 @@ type Props = MenuType['items'][number] & {
 };
 export default function CustomLink(props: Props) {
   const { _type, title, className, children } = props;
-  if (_type === 'navPage') {
+  if (_type === 'navPage' || _type == 'navBlog') {
     if (!props.slug) {
       return <div className={clsx(className)}>{title}</div>;
     }

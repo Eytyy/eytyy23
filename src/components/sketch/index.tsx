@@ -9,7 +9,7 @@ export type SketchProps = {
   _id: string;
   slug: string;
   title: string;
-  theme: string;
+  theme: 'blue' | 'black' | 'white'
   image: ImageProps;
 };
 
@@ -44,7 +44,7 @@ export default function Sketch(sketch: SketchProps) {
   return (
     <section
       ref={measuredRef}
-      className="h-screen bg-black text-white"
+      className="h-full w-full relative"
     >
       {size.width * size.height > 0 &&
         renderSketch(sketch.slug, size)}

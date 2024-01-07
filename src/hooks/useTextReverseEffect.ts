@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const useTextReverseEffect = (
   text: string,
@@ -11,19 +11,24 @@ export const useTextReverseEffect = (
 
   const [index, setIndex] = useState(0);
   const [glyphs, setGlyphs] = useState(text_reverse);
-
+  const to = React.useRef<NodeJS.Timeout>();
   // animate replacing glyphs with letters
   useEffect(() => {
     if (mounted && animate) {
-      const interval = setInterval(() => {
+      to.current = setInterval(() => {
         const newGlyphs = [...glyphs];
         newGlyphs[index] = text[index];
         setGlyphs(newGlyphs);
         setIndex((i) => i + 1);
       }, 30);
-      return () => clearInterval(interval);
     }
     setMounted(true);
+    if (index === text.length) {
+      clearInterval(to.current);
+    }
+    return () => {
+      if (to.current) clearInterval(to.current);
+    }
   }, [glyphs, index, mounted, text, animate]);
 
   return mounted ? glyphs.join('') : text;

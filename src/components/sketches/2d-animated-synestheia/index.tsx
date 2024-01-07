@@ -12,6 +12,8 @@ import React, {
 import { lerp } from 'canvas-sketch-util/math';
 // @ts-ignore
 import random from 'canvas-sketch-util/random';
+import Wrapper from '@/components/ui/Wrapper';
+import { FaWaveSquare } from 'react-icons/fa';
 
 const createGrid = (count: number) => {
   const points = [];
@@ -55,13 +57,8 @@ type State = {
   height: PramasProps;
 };
 
-export default function AnimatedSynesthesia({
-  width: ww,
-  height: wh,
-}: Props) {
-  const [context, setContext] =
-    useState<CanvasRenderingContext2D | null>(null);
-  const [state, setState] = useState<State>({
+const initializeState = () => {
+  const state: State = {
     count: {
       value: random.rangeFloor(10, 130),
       min: 2,
@@ -69,7 +66,7 @@ export default function AnimatedSynesthesia({
       label: 'points',
     },
     duration: {
-      value: random.rangeFloor(4, 30),
+      value: random.rangeFloor(4, 10),
       min: 1,
       max: 30,
       label: 'duration',
@@ -81,18 +78,29 @@ export default function AnimatedSynesthesia({
       label: 'frequency',
     },
     width: {
-      value: random.rangeFloor(10, 100),
+      value: 30,
       min: 10,
       max: 100,
-      label: 'width',
+      label: 'x',
     },
     height: {
-      value: random.rangeFloor(10, 100),
+      value: 35,
       min: 10,
       max: 100,
-      label: 'height',
+      label: 'y',
     },
-  });
+  };
+  return state;
+}
+
+
+export default function AnimatedSynesthesia({
+  width: ww,
+  height: wh,
+}: Props) {
+  const [context, setContext] =
+    useState<CanvasRenderingContext2D | null>(null);
+  const [state, setState] = useState<State>(initializeState);
 
   const raF = useRef<number | null>(null);
 
@@ -206,7 +214,7 @@ export default function AnimatedSynesthesia({
   }, [context, sketch, width, height]);
 
   return (
-    <div>
+    <>
       <Controls>
         {Object.entries(state).map(([key, value]) => (
           <Slider
@@ -225,14 +233,16 @@ export default function AnimatedSynesthesia({
         height={wh}
         ref={(n) => n && setContext(n.getContext('2d'))}
       />
-    </div>
+    </>
   );
 }
 
 function Controls({ children }: PropsWithChildren) {
   return (
-    <div className="absolute right-10 top-10 space-y-2">
-      {children}
+    <div className="fixed left-0 right-0 bottom-16">
+      <Wrapper className='flex gap-10 flex-wrap justify-end'>
+         {children}
+      </Wrapper>
     </div>
   );
 }
@@ -251,13 +261,15 @@ function Slider({
   max: number;
   value: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) {
+  }) {
+  if (['count', 'duration'].includes(name)) return null;
+
   return (
-    <div className="space-y-1">
-      <label className="font-bold" htmlFor={name}>
-        {label}
-      </label>
-      <div className='className="flex gap-1" items-center'>
+    <div className="flex gap-4">
+      {label === 'frequency' && <FaWaveSquare className='text-2xl' />}
+      {label === 'x' && <div className='w-6 flex justify-center text-xl font-bold'>W</div>}
+      {label === 'y' && <div className='w-6 flex justify-center text-xl font-bold'>H</div>}
+      <div className='flex gap-1 items-center'>
         <input
           id={name}
           name={name}

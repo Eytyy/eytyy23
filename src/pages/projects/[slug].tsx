@@ -31,12 +31,12 @@ export default function Project(props: Props) {
   const { page, preview, token, site } = props;
   if (preview) {
     return (
-      <PreviewSuspense fallback={<ProjectDisplay page={page} />}>
+      <PreviewSuspense fallback={<ProjectDisplay page={page} site={site} />}>
         <PreviewProject token={token} page={page} site={site} />
       </PreviewSuspense>
     );
   }
-  return <ProjectDisplay key={page._id} page={page} />;
+  return <ProjectDisplay key={page._id} page={page} site={site} />;
 }
 
 export async function getStaticPaths() {

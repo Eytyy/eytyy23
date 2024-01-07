@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import SketchCollectionModule from '@/components/modules/SketchCollection';
 import MediaModule from '@/components/modules/MediaModule';
 import { BlogPostCards } from '@/components/blog';
-import { ContentBlock, MediaBlock } from '.';
+import { ContentBlock, MediaBlock, SketchBlock,  } from '.';
 
 import type { MainBlocks } from '@/types';
 
@@ -25,11 +24,11 @@ export default function MainBlock({ block }: Props) {
       return (
         <ContentBlock body={block.body} className="max-w-[90ch]" />
       );
-    case 'sketchCollectionModule':
+    case 'sketchBlock':
       if (!showChild) {
         return null;
       }
-      return <SketchCollectionModule {...block} />;
+      return <SketchBlock {...block.sketch} />;
     case 'mediaModule':
       return <MediaModule {...block} />;
     case 'imageBlock':

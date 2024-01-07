@@ -166,13 +166,13 @@ export const siteQuery = `{
     "blog": {
       'title': 'Blog',
       'items': *[_type == 'blogPost'] | order(_createdAt desc) {
-        _id, title, "slug": '/blog/'+slug.current,
+        _id, title, "slug": '/blog/'+slug.current,  "_type": "navPage",
       }
     },
     "sketches": {
       'title': 'Sketches',
       'items': *[_type == 'sketch'] | order(_createdAt desc){
-        _id, title, "slug": '/sketch/'+slug.current,
+        _id, title, "slug": '/sketch/'+slug.current,  "_type": "navPage",
       }
     }
   }
@@ -194,7 +194,28 @@ export const errorPageQuery = `
 
 export const indexQuery = groq`
   *[_type == "page" && _id == *[_type=="generalSettings"][0].home->_id ][0] {
-    ${pageFields}
+    "page": {
+      ${pageFields}
+    },
+    "work": {
+      'title': 'Selected Work',
+      'items': *[_type == 'project'] | order(year desc){
+        _id, title, "_type": "navPage",
+        format == 'detailed' => {
+          "slug": '/projects/'+slug.current,
+        },
+        format == 'link' => {
+          "_type": "navLink",
+          "url": link
+        }
+      }
+    },
+    "blog": {
+      'title': 'Latest Posts',
+      'items': *[_type == 'blogPost'][0..2] | order(_createdAt desc) {
+        _id, title, "slug": '/blog/'+slug.current,  "_type": "navBlog", _createdAt, summary
+      }
+    },
   }
 `;
 

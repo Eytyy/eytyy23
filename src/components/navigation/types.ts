@@ -5,6 +5,16 @@ export type NavPageType = {
   slug: string;
 };
 
+export type NavBlogType = {
+  _id: string;
+  _type: 'navBlog';
+  title: string;
+  slug: string;
+  summary: any[]
+  _createdAt: string
+};
+
+
 export type NavLinkType = {
   _id: string;
   _type: 'navLink';
@@ -14,5 +24,5 @@ export type NavLinkType = {
 
 export type MenuType = {
   title: string;
-  items: (NavPageType | NavLinkType)[];
+  items: (NavPageType | NavLinkType | NavBlogType)[];
 };

@@ -1,17 +1,15 @@
 import { GetStaticProps } from 'next';
 import { lazy } from 'react';
 import { PreviewSuspense } from 'next-sanity/preview';
-import PageDisplay from '@/components/PageDisplay';
 const PreviewIndexPage = lazy(
   () => import('@/components/previews/PreviewIndexPage')
 );
 import { getIndex, getSiteSettings } from '@/lib/sanity.client';
 import { SiteProps, PageProps } from '@/types';
-import Layout from '@/components/Layout';
-import HomeLayout from '@/components/layouts/HomeLayout';
+import FrontDisplay, { FrontProps } from '@/components/front/Frontdisplay';
 
 interface Props {
-  page: PageProps;
+  page: FrontProps;
   site: SiteProps;
   preview: boolean;
   token: string | null;
@@ -32,7 +30,7 @@ export default function FrontPage(props: Props) {
     return (
       <PreviewSuspense
         fallback={
-          <PageDisplay loading preview page={page} site={site} />
+          <FrontDisplay loading preview page={page} site={site} />
         }
       >
         <PreviewIndexPage token={token} />
@@ -40,7 +38,7 @@ export default function FrontPage(props: Props) {
     );
   }
 
-  return <PageDisplay page={page} site={site} />;
+  return <FrontDisplay page={page} site={site} />;
 }
 
 export const getStaticProps: GetStaticProps<
@@ -66,5 +64,5 @@ export const getStaticProps: GetStaticProps<
 };
 
 FrontPage.getLayout = function getLayout(page: React.ReactElement) {
-  return <HomeLayout {...page.props}>{page}</HomeLayout>;
+  return <>{page}</>;
 };

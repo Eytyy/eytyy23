@@ -23,8 +23,9 @@ import {
 import { type SiteProps, type PageProps } from '@/types';
 import { BlogPost } from '@/components/blog/Post';
 import { SketchProps } from '@/components/sketch';
-import { ProjectProps } from '@/components/work/ProjectContainer';
 import { FilterGroup } from '@/components/blog/Filters';
+import { ProjectProps } from '@/components/work/ProjectDisplay';
+import { FrontProps } from '@/components/front/Frontdisplay';
 
 export const client = createClient({
   projectId,
@@ -33,7 +34,7 @@ export const client = createClient({
   useCdn,
 });
 
-export async function getIndex(): Promise<PageProps> {
+export async function getIndex(): Promise<FrontProps> {
   return await client.fetch(indexQuery);
 }
 
