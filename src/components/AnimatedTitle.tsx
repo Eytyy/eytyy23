@@ -7,13 +7,15 @@ type Props = {
   title: string;
   animate?: boolean;
   className?: string;
+  as?: 'h1' | 'h2' | 'h3' | 'div' | 'span';
 };
 
 export default function AnimatedTitle({
   title,
   animate,
   className,
+  as = 'h1',
 }: Props) {
   const text = useTextReverseEffect(title, animate);
-  return <H1 className={cn('mb-0', className)}>{text}</H1>;
+  return <H1 as={as} className={cn('mb-0', className)}>{text}</H1>;
 }

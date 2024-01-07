@@ -15,6 +15,7 @@ import useHeader from '@/components/navigation/useHeader';
 import { SiteProps } from '@/types';
 import useMenu from '@/components/navigation/useMenu';
 import { NavItem } from '@/components/navigation/NavItem';
+import { FaStarOfLife } from 'react-icons/fa';
 
 type Props = {
   title: string;
@@ -26,7 +27,10 @@ export default function Header({ title, menus }: Props) {
   const { menuItems, activeMenu, updateActiveMenu } = useMenu({ menus })
   const { isMenuOpen, visible, footerVisible, y, ref, toggleMenu } = useHeader()
   const showHeader = visible && !footerVisible;
-
+  const onClick = () => {
+    if (menuItems.length === 0) return
+    toggleMenu(!isMenuOpen)
+  }
   return (
     <motion.header
       ref={ref}
@@ -41,8 +45,8 @@ export default function Header({ title, menus }: Props) {
           <div className="flex items-start justify-between">
             <div className="flex items-end">
               <motion.div animate={{ rotate: isMenuOpen ? 180 : 0 }}>
-                <button onClick={() => toggleMenu(!isMenuOpen)}>
-                  <ArrowDown />
+                <button onClick={onClick}>
+                  { menuItems.length > 0 ? <ArrowDown /> : <FaStarOfLife className="animate-spin shrink-0 text-[max(3.125rem,8vw)]  2xl:text-[max(3.125rem,7vw)]" />}
                 </button>
               </motion.div>
               <div className='space-y-2'>
@@ -50,7 +54,7 @@ export default function Header({ title, menus }: Props) {
                   updateActiveMenu(slug)
                   if(!isMenuOpen) toggleMenu(true)
                 }} activeMenu={activeMenu} />
-                <button onClick={() => toggleMenu(!isMenuOpen)}>
+                <button onClick={onClick}>
                   <AnimatedTitle key={`${activeMenu}-title`} title={title} className={cn(isMenuOpen && 'line-through')} />
                 </button>
               </div>

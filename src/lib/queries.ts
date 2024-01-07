@@ -150,6 +150,35 @@ export const siteQuery = `{
     "share_description": shareDesc,
   },
   "menus": {
+    "contact": {
+      "title": "Contact",
+      "items": [
+         {
+          "title": "e.tayyem@gmail.com",
+          "_type": "navLink",
+          "url": "mailto:e.tayyem@gmail.com",
+          "_id": "email"
+        },
+        {
+          "_type": "navLink",
+          "url": "https://github.com/Eytyy",
+          "_id": "github",
+          "title": "github",
+        },
+        {
+          "_type": "navLink",
+          "url": "https://www.instagram.com/Eytyy",
+          "_id": "instagram",
+          "title": "instagram",
+        },
+        {
+          "_type": "navLink",
+          "url": "https://www.linkedin.com/in/eytyy/",
+          "_id": "linkedin",
+          "title": "linkedin",
+        },
+      ]
+    },
     "work": {
       'title': 'Work',
       'items': *[_type == 'project'] | order(year desc){

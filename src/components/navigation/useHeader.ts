@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import {  useEffect, useState } from 'react';
 import useMeasure from 'react-use-measure';
 
 import {
@@ -13,7 +12,6 @@ import { useApp } from '@/context/app';
 
 
 export default function useHeader() {
-  const { events } = useRouter();
   const { footerVisible, isMenuOpen, toggleMenu } = useApp();
   const [visible, setVisible] = useState(true);
   const [ref, { height }] = useMeasure();
@@ -34,22 +32,6 @@ export default function useHeader() {
       `${height}px`
     );
   }, [height]);
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-  }, [isMenuOpen]);
-
-  useEffect(() => {
-    const handleRouteChange = () => toggleMenu(false);
-    events.on('routeChangeStart', handleRouteChange);
-    return () => {
-      events.off('routeChangeStart', handleRouteChange);
-    };
-  }, [events, toggleMenu]);
 
   return {
     ref,

@@ -18,7 +18,7 @@ import { SiteProps } from '@/types';
 import BlogLink from '../navigation/BlogLink';
 
 type Props = {
-  theme?: 'white' | 'black' | 'blue';
+  theme: 'white' | 'black' | 'blue';
   front?: boolean;
   menus: SiteProps['menus'];
 };
@@ -29,16 +29,17 @@ function getMenuTitle(menu: string) {
       return 'Selected Work';
     case 'blog':
       return 'Latest Posts';
+    case 'contact':
+      return 'aqsdlkas;d';
     default:
       return 'Menu';
   }
 }
 
-
-export default function FrontHeader({  theme = 'white', front, menus}: Props) {
+export default function FrontHeader({  theme , front, menus}: Props) {
   const { menuItems, activeMenu, updateActiveMenu } = useMenu({menus})
   const { isMenuOpen, ref, toggleMenu } = useHeader()
-  const title = isMenuOpen ? getMenuTitle(activeMenu) : 'Menu'
+  const title = isMenuOpen && activeMenu ? getMenuTitle(activeMenu) : 'Menu'
 
   return (
     <motion.div ref={ref} className='fixed top-0 left-0 z-50 w-full'>

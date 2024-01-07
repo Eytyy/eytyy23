@@ -7,7 +7,7 @@ export function H1({
   as = 'h1',
 }: PropsWithChildren<{
   className?: string;
-  as?: 'h1' | 'h2' | 'h3';
+  as?: 'h1' | 'h2' | 'h3' | 'div' | 'span';
 }>) {
   const Tag = as;
   return (

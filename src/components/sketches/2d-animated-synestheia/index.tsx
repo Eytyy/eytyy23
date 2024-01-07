@@ -1,6 +1,5 @@
 // Shaders Basics
 import React, {
-  ChangeEvent,
   PropsWithChildren,
   useCallback,
   useEffect,
@@ -14,6 +13,7 @@ import { lerp } from 'canvas-sketch-util/math';
 import random from 'canvas-sketch-util/random';
 import Wrapper from '@/components/ui/Wrapper';
 import { FaWaveSquare } from 'react-icons/fa';
+import { PiCirclesThreeFill } from 'react-icons/pi';
 
 const createGrid = (count: number) => {
   const points = [];
@@ -240,7 +240,7 @@ export default function AnimatedSynesthesia({
 function Controls({ children }: PropsWithChildren) {
   return (
     <div className="fixed left-0 right-0 bottom-16">
-      <Wrapper className='flex gap-10 flex-wrap justify-end'>
+      <Wrapper className='flex gap-10 flex-wrap justify-between'>
          {children}
       </Wrapper>
     </div>
@@ -262,13 +262,14 @@ function Slider({
   value: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   }) {
-  if (['count', 'duration'].includes(name)) return null;
-
+  if (['duration'].includes(name)) return null;
   return (
     <div className="flex gap-4">
       {label === 'frequency' && <FaWaveSquare className='text-2xl' />}
+      {label === 'points' && <PiCirclesThreeFill className='text-2xl' />}
       {label === 'x' && <div className='w-6 flex justify-center text-xl font-bold'>W</div>}
       {label === 'y' && <div className='w-6 flex justify-center text-xl font-bold'>H</div>}
+
       <div className='flex gap-1 items-center'>
         <input
           id={name}

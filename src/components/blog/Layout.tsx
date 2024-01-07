@@ -4,12 +4,12 @@ import Head from 'next/head';
 import { FiltersContextProvider } from '@/context/filters';
 import { SiteProps } from '@/types';
 
-import {
-  EpicGrid,
-  EpicGridMain,
-  EpicGridTopLeft,
-  EpicGridTopRight,
-} from '../UI';
+// import {
+//   EpicGrid,
+//   EpicGridMain,
+//   EpicGridTopLeft,
+//   EpicGridTopRight,
+// } from '../UI';
 import Logos from '../Logos';
 
 type Props = {
@@ -34,7 +34,7 @@ export default function BlogLayout({ children, page, site }: Props) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <FiltersContextProvider>
+      {/* <FiltersContextProvider>
         <EpicGrid className="min-h-screen bg-black text-white">
           <EpicGridTopRight className="sticky top-16">
             <Logos />
@@ -46,7 +46,7 @@ export default function BlogLayout({ children, page, site }: Props) {
             {children}
           </EpicGridMain>
         </EpicGrid>
-      </FiltersContextProvider>
+      </FiltersContextProvider> */}
     </>
   );
 }

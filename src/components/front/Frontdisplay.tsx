@@ -21,6 +21,7 @@ export type FrontProps = {
   page: PageProps;
   work: MenuType
   blog: BlogMenu
+  contact: MenuType
 }
 
 type Props = {
@@ -42,7 +43,7 @@ export const useThemeStore = create<ThemeState>((set) => ({
 }))
 
 export default function FrontDisplay(props: Props) {
-  const { preview, loading, page } = props;
+  const { preview, loading, page, site } = props;
   const theme = useThemeStore(state => state.theme)
   const {isMenuOpen} = useApp()
   useResizeAppHeight();
@@ -53,10 +54,7 @@ export default function FrontDisplay(props: Props) {
     <>
       <Container theme={theme}>
         <FrontHeader
-          menus={{
-            work: page.work,
-            blog: page.blog,
-          }}
+          menus={site.menus}
           theme={theme}
           front={true}
         />

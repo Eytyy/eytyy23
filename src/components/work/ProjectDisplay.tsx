@@ -12,6 +12,7 @@ import { BigText } from '../Typography';
 import Header from '@/components/ui/Header';
 import Footer from '@/components/ui/Footer';
 import ProjectMainSection from './ProjectMainSection';
+import Wrapper from '../ui/Wrapper';
 
 export type ProjectProps = {
   _id: string;
@@ -44,16 +45,16 @@ export default function ProjectDisplay({ page, site }: Props) {
   return (
     <>
       <div className="bg-pageBG text-pageText transition-all duration-500 ease-linear">
-        <Header title={page.title} menus={site.menus}  />
+        <Header title={page.title} menus={site.menus} />
         <div className="mt-8 space-y-14 pt-[var(--header-height)] md:mt-10 lg:space-y-32">
-          <div className="mx-auto max-w-[1920px] space-y-8 px-10 md:space-y-16 lg:px-16 2xl:px-24">
+          <Wrapper className="space-y-8 md:space-y-16">
             {page.mainMedia && <MediaModule {...page.mainMedia} />}
             {page.summary && (
               <BigText>
                 <ContentBlock body={page.summary} />
               </BigText>
             )}
-          </div>
+          </Wrapper>
           {page.sections.map((section) => (
             <ProjectSectionWrapper key={section._key} {...section} />
           ))}
@@ -76,9 +77,9 @@ function ProjectSectionWrapper(
       return <ProjectMainSection {...props} />;
     default:
       return (
-        <div className="relative px-16 2xl:px-24 max-w-[1920px] mx-auto">
+        <Wrapper className="relative">
           <ProjectBlock {...props} />
-        </div>
+        </Wrapper>
       );
   }
 }

@@ -48,6 +48,7 @@ export type SiteProps = {
   menus: {
     work: MenuType;
     blog: BlogMenu;
+    contact: MenuType;
   };
 };
 

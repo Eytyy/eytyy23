@@ -4,12 +4,13 @@ import MainBlock from '@/components/blocks/Main';
 
 import type { TwoColsProjectSectionProps } from '@/types';
 import { ContentBlock } from '../blocks';
+import Wrapper from '../ui/Wrapper';
 
 export default function ProjectSectionWithSide(
   props: TwoColsProjectSectionProps
 ) {
   return (
-    <section className="relative mx-auto max-w-[1920px] space-y-8 px-10 text-3xl font-light leading-snug lg:space-y-14 lg:px-16 2xl:px-24">
+    <Wrapper className="relative space-y-8 text-3xl font-light leading-snug lg:space-y-14">
       <div className="ml-20 md:ml-auto md:w-1/2">
         <ContentBlock
           body={props.sideContent}
@@ -21,6 +22,6 @@ export default function ProjectSectionWithSide(
           <MainBlock block={block} key={block._key} />
         ))}
       </div>
-    </section>
+    </Wrapper>
   );
 }
