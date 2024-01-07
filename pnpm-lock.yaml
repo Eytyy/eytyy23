@@ -103,6 +103,9 @@ dependencies:
   react-icons:
     specifier: ^4.10.1
     version: 4.12.0(react@18.2.0)
+  react-refractor:
+    specifier: ^2.1.7
+    version: 2.1.7(react@18.2.0)
   react-use-measure:
     specifier: ^2.1.1
     version: 2.1.1(react-dom@18.2.0)(react@18.2.0)

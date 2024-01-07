@@ -33,10 +33,10 @@ export default function App({
   return (
     <PlausibleProvider domain="eytyy.com">
       <Head>
-        <title>eytyy</title>
+        <title>Eyas Tayyem</title>
         <meta
           name="description"
-          content="Eyas Tayyem freelance creative coder, researcher, strategist and consultant."
+          content="Freelance creative coder and consultant."
         />
         <meta
           name="viewport"

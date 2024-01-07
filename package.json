@@ -43,6 +43,7 @@
     "react-email": "^1.10.0",
     "react-hook-form": "^7.48.2",
     "react-icons": "^4.10.1",
+    "react-refractor": "^2.1.7",
     "react-use-measure": "^2.1.1",
     "react@latest": "link:portabletext/react@latest",
     "refractor": "^4.8.1",
