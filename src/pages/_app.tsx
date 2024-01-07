@@ -6,10 +6,9 @@ import '@/styles/app.css';
 
 import { ReactElement, ReactNode } from 'react';
 import { NextPage } from 'next';
-import { ThemeProvider } from 'next-themes';
-import { themes_names } from '@/hooks/useThemeSwitch';
 import { AppProvider } from '@/context/app';
 import PlausibleProvider from 'next-plausible';
+import Head from 'next/head';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -33,6 +32,18 @@ export default function App({
 
   return (
     <PlausibleProvider domain="eytyy.com">
+      <Head>
+        <title>eytyy</title>
+        <meta
+          name="description"
+          content="Eyas Tayyem freelance creative coder, researcher, strategist and consultant."
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <AppProvider site={pageProps.site}>
         <div className={`${inter.variable} font-sans`}>
           <div id="portal"></div>
