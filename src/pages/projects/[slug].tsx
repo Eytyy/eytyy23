@@ -1,4 +1,3 @@
-import PreviewProject from '@/components/previews/PreviewProject';
 import ProjectDisplay, {
   type ProjectProps,
 } from '@/components/work/ProjectDisplay';
@@ -9,33 +8,20 @@ import {
 } from '@/lib/sanity.client';
 import { SiteProps } from '@/types';
 import { GetStaticProps } from 'next';
-import { PreviewSuspense } from 'next-sanity/preview';
 import React from 'react';
 
 type Props = {
   page: ProjectProps;
   site: SiteProps;
-  preview: boolean;
-  token: string | null;
 };
 
 type Query = {
   [key: string]: string;
 };
 
-type Previewdata = {
-  token?: string;
-};
-
 export default function Project(props: Props) {
-  const { page, preview, token, site } = props;
-  if (preview) {
-    return (
-      <PreviewSuspense fallback={<ProjectDisplay page={page} site={site} />}>
-        <PreviewProject token={token} page={page} site={site} />
-      </PreviewSuspense>
-    );
-  }
+  const { page, site } = props;
+
   return <ProjectDisplay key={page._id} page={page} site={site} />;
 }
 
@@ -49,10 +35,9 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps<
   Props,
-  Query,
-  Previewdata
+  Query
 > = async (ctx) => {
-  const { preview = false, previewData = {}, params = {} } = ctx;
+  const { params = {} } = ctx;
   const [page, site] = await Promise.all([
     getProjectBySlug(params.slug),
     getSiteSettings(),
@@ -61,8 +46,6 @@ export const getStaticProps: GetStaticProps<
     props: {
       page,
       site,
-      preview,
-      token: previewData.token ?? null,
     },
   };
 };

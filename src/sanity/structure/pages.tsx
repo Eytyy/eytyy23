@@ -7,7 +7,6 @@ import {
 import { Link, IntentLink } from 'sanity/router';
 import { IoHomeOutline, IoWarningOutline } from 'react-icons/io5';
 import { MdWorkspaces } from 'react-icons/md';
-import PreviewPane from '../components/PreviewPane';
 
 type Props = {
   title: string;
@@ -72,12 +71,6 @@ const currentHome = (
         .documentId(data.home._id)
         .views([
           S.view.form(),
-          S.view
-            .component(({ document }) => (
-              <PreviewPane document={document} />
-            ))
-            .id(data.home._id)
-            .title('Preview'),
         ]);
     });
 };
@@ -109,12 +102,6 @@ const currentProjects = (
         .documentId(data.work._id)
         .views([
           S.view.form(),
-          S.view
-            .component(({ document }) => (
-              <PreviewPane document={document} />
-            ))
-            .id(data.work._id)
-            .title('Preview'),
         ]);
     });
 };
@@ -146,12 +133,6 @@ const currentBlog = (
         .documentId(data.blog._id)
         .views([
           S.view.form(),
-          S.view
-            .component(({ document }) => (
-              <PreviewPane document={document} />
-            ))
-            .id(data.blog._id)
-            .title('Preview'),
         ]);
     });
 };
@@ -206,12 +187,6 @@ const otherPages = (S: StructureBuilder) =>
             .schemaType('page')
             .views([
               S.view.form(),
-              S.view
-                .component(({ document }) => (
-                  <PreviewPane document={document} />
-                ))
-                .id(documentId)
-                .title('Preview'),
             ])
         )
     );

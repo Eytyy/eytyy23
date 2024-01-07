@@ -1,7 +1,6 @@
 import { StructureBuilder } from 'sanity/desk';
 import { BsType } from 'react-icons/bs';
 import { CgPen, CgTag } from 'react-icons/cg';
-import PreviewPane from '../components/PreviewPane';
 
 export const posts = (S: StructureBuilder) =>
   S.listItem()
@@ -16,12 +15,6 @@ export const posts = (S: StructureBuilder) =>
             .schemaType('blogPost')
             .views([
               S.view.form(),
-              S.view
-                .component(({ document }) => (
-                  <PreviewPane document={document} />
-                ))
-                .id(documentId)
-                .title('Preview'),
             ])
         )
     );

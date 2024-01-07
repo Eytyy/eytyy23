@@ -1,6 +1,4 @@
-import { lazy } from 'react';
 import { GetStaticProps } from 'next';
-import { PreviewSuspense } from 'next-sanity/preview';
 
 import {
   getAllPageSlugs,
@@ -10,39 +8,19 @@ import {
 
 import { PageProps, SiteProps } from '@/types';
 import PageDisplay from '@/components/PageDisplay';
-const PreviewPage = lazy(
-  () => import('@/components/previews/PreviewPage')
-);
 
 interface Props {
   page: PageProps;
   site: SiteProps;
-  preview: boolean;
-  token: string | null;
 }
 
 interface Query {
   [key: string]: string;
 }
 
-interface PreviewData {
-  token?: string;
-}
-
 export default function Page(props: Props) {
-  const { site, page, preview, token } = props;
+  const { site, page } = props;
 
-  if (preview) {
-    return (
-      <PreviewSuspense
-        fallback={
-          <PageDisplay page={page} site={site} loading preview />
-        }
-      >
-        <PreviewPage token={token} page={page} />
-      </PreviewSuspense>
-    );
-  }
 
   return <PageDisplay page={page} site={site} />;
 }
@@ -58,10 +36,9 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps<
   Props,
-  Query,
-  PreviewData
+  Query
 > = async (ctx) => {
-  const { preview = false, previewData = {}, params = {} } = ctx;
+  const { params = {} } = ctx;
 
   const [site, page] = await Promise.all([
     getSiteSettings(),
@@ -72,8 +49,6 @@ export const getStaticProps: GetStaticProps<
     props: {
       page,
       site,
-      preview,
-      token: previewData.token ?? null,
     },
   };
 };

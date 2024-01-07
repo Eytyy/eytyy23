@@ -1,8 +1,4 @@
-// @ts-nocheck
-
 import { GetStaticProps } from 'next';
-import { PreviewSuspense } from 'next-sanity/preview';
-import { lazy } from 'react';
 import {
   getAllBlogPostsSlugs,
   getBlogPostBySlug,
@@ -14,36 +10,18 @@ import BlogPostDisplay, {
 } from '@/components/blog/Post';
 import { SiteProps } from '@/types';
 import BlogLayout from '@/components/blog/Layout';
-const PreviewBlogPost = lazy(
-  () => import('@/components/previews/PreviewBlogPost')
-);
 
 type Props = {
   page: BlogPost;
   site: SiteProps;
-  preview: boolean;
-  token: string | null;
 };
 
 type Query = {
   [key: string]: string;
 };
 
-type Previewdata = {
-  token?: string;
-};
-
 export default function BlogPost(props: Props) {
-  const { page, preview, token } = props;
-  if (preview) {
-    return (
-      <PreviewSuspense
-        fallback={<BlogPostDisplay page={page} loading preview />}
-      >
-        <PreviewBlogPost token={token} page={page} />
-      </PreviewSuspense>
-    );
-  }
+  const { page } = props;
   return <BlogPostDisplay page={page} />;
 }
 
@@ -57,10 +35,9 @@ export async function getStaticPaths() {
 
 export const getStaticProps: GetStaticProps<
   Props,
-  Query,
-  Previewdata
+  Query
 > = async (ctx) => {
-  const { preview = false, previewData = {}, params = {} } = ctx;
+  const { params = {} } = ctx;
   const [page, site] = await Promise.all([
     getBlogPostBySlug(params.slug),
     getSiteSettings(),
@@ -69,8 +46,6 @@ export const getStaticProps: GetStaticProps<
     props: {
       page,
       site,
-      preview,
-      token: previewData.token ?? null,
     },
   };
 };
