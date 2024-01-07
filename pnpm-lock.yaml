@@ -4,6 +4,9 @@ dependencies:
   '@hookform/resolvers':
     specifier: ^3.3.4
     version: 3.3.4(react-hook-form@7.49.2)
+  '@next/env':
+    specifier: ^14.0.4
+    version: 14.0.4
   '@portabletext/react':
     specifier: ^3.0.11
     version: 3.0.11(react@18.2.0)

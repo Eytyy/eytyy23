@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@next/env": "^14.0.4",
     "@portabletext/react": "^3.0.11",
     "@sanity/code-input": "^4.1.0",
     "@sanity/vision": "^3.7.0",
