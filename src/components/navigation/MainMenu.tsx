@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function MainMenu({ onClick, activeMenu, front }: {
   onClick?: (id: string) => void;
@@ -7,24 +8,37 @@ export default function MainMenu({ onClick, activeMenu, front }: {
   front?: boolean;
 }) {
   const mainMenu = front ? homepage_links : inner_links;
+  const { asPath } = useRouter();
+
+  const handleSamePageLinkClick = () => {
+    if (!window) return;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   return (
     <div className="flex gap-8 lg:gap-16">
       {
-        mainMenu.map((item) => item.type === 'link' ?
+        mainMenu.map((item) => item.type === 'link' ? (
           <Link
+            onClick={(e) => {
+              if (asPath.startsWith(item.href!)) {
+                e.preventDefault();
+                handleSamePageLinkClick();
+              }
+            }}
             key={item.id}
             href={item.href!}
             className={cn("text-lg md:text-2xl", activeMenu === item.id && "line-through")}
           >
             {item.title}
-          </Link> : (
-            <button
-              key={item.id}
-              onClick={() => onClick && onClick(item.value!)}
-              className={cn("text-lg md:text-2xl", activeMenu === item.id && "line-through")}
-            >
-              {item.title}
-            </button>
+          </Link>
+        ) : (
+          <button
+            key={item.id}
+            onClick={() => onClick && onClick(item.value!)}
+            className={cn("text-lg md:text-2xl", activeMenu === item.id && "line-through")}
+          >
+            {item.title}
+          </button>
         ))
       }
 

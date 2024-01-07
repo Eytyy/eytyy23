@@ -41,13 +41,17 @@ export default function Footer({ title, menus }: Props) {
     <footer className="min-h-[var(--app-height)] w-full" ref={ref}>
       <Wrapper>
         <div className="sticky top-0 z-10 flex items-start justify-between bg-[#fff] pt-10 lg:pt-16">
-          <button onClick={scrollToTop} className="flex items-end">
-            <HiArrowNarrowUp className="text-[max(3.125rem,8vw)] 2xl:text-[max(3.125rem,7vw)]" />
-            <div className="flex flex-col gap-4">
+          <div className="flex items-end">
+            <button onClick={scrollToTop} className="flex items-end">
+              <HiArrowNarrowUp className="text-[max(3.125rem,8vw)] 2xl:text-[max(3.125rem,7vw)]" />
+            </button>
+            <div className="space-y-2">
               <MainMenu />
-              <AnimatedTitle title={title} className="line-through" />
+              <button onClick={scrollToTop} className="flex items-end">
+                <AnimatedTitle title={title} className="line-through" />
+              </button>
             </div>
-          </button>
+          </div>
           <Logos />
         </div>
         {menuItems.map((item) => (
