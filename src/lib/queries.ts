@@ -207,7 +207,7 @@ export const siteQuery = `{
   }
 }`;
 
-export const allProjectsSlugQuery = `*[ _type == "project" && defined(slug) ].slug.current`;
+export const allProjectsSlugQuery = `*[ _type == "project" && defined(slug) && format == 'detailed'].slug.current`;
 
 export const allPagesSlugQuery = `*[ _type == "page" && defined(slug) ].slug.current`;
 
