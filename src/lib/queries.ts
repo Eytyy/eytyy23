@@ -167,7 +167,7 @@ export const siteQuery = `{
         },
         {
           "_type": "navLink",
-          "url": "https://www.instagram.com/Eytyy",
+          "url": "https://www.instagram.com/ey_tyy",
           "_id": "instagram",
           "title": "instagram",
         },
